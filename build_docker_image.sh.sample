@@ -1,0 +1,12 @@
+#!/bin/bash
+DOCKER_REGISTRY=""
+model_names= ( "mobilenet_v1" "mobilenet_v2" "inception_v3" "yolo_v5" "bert_imdb" )
+APIS=( "gRPC" "REST" )
+
+for model_name in "${model_names[@]}"
+do
+  for API in "${APIS[@]}"
+  do
+    docker build -t $DOCKER_REGISTRY/$model_name-$API:latest -f ./dockerfiles/$model_name/Dockerfile.$API --no-cache
+  done
+done
