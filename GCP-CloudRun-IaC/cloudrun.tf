@@ -1,6 +1,6 @@
 variable "APIS" {
   type = list(string)
-  default = ["gRPC", "REST"]
+  default = ["grpc", "rest"]
 }
 
 resource "google_cloud_run_service" "cloudrun_mobilenet_v1" {
@@ -13,7 +13,7 @@ resource "google_cloud_run_service" "cloudrun_mobilenet_v1" {
       containers {
         image ="${var.docker_registry}/mobilenet_v1-${var.APIS[count.index]}"
         ports {
-          name = var.APIS[count.index] == "gRPC" ? "h2c" : "http1"
+          name = var.APIS[count.index] == "grpc" ? "h2c" : "http1"
           container_port = 8500
           protocol = "tcp"
         }
