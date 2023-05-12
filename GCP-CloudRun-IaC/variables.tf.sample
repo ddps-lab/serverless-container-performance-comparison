@@ -15,7 +15,7 @@ variable "docker_registry" {
 
 variable "mobilenet_cpu_number" {
   type = number
-  defualt = 1
+  default = 1
 }
 
 variable "mobilnet_ram_mb" {
@@ -25,7 +25,7 @@ variable "mobilnet_ram_mb" {
 
 variable "inception_cpu_number" {
   type = number
-  defualt = 1
+  default = 1
 }
 
 variable "inception_ram_mb" {
@@ -35,7 +35,7 @@ variable "inception_ram_mb" {
 
 variable "yolo_cpu_number" {
   type = number
-  defualt = 1
+  default = 1
 }
 
 variable "yolo_ram_mb" {
@@ -45,7 +45,7 @@ variable "yolo_ram_mb" {
 
 variable "bert_cpu_number" {
   type = number
-  defualt = 1
+  default = 1
 }
 
 variable "bert_ram_mb" {
