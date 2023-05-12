@@ -7,7 +7,7 @@ for model_name in "${model_names[@]}"
 do
   for API in "${APIS[@]}"
   do
-    docker build -t $DOCKER_REGISTRY/$model_name-$API:latest -f ./dockerfiles/$model_name/Dockerfile.$API --no-cache .
+    docker build -t $DOCKER_REGISTRY/$model_name-$API:latest -f ./dockerfiles/$model_name/Dockerfile.$API .
   done
 done
 

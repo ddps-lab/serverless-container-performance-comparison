@@ -12,6 +12,7 @@ unzip -q inception_v3.zip && rm inception_v3.zip
 #object detection TF/FP32 model (yolo v5)
 curl -O https://edge-inference.s3.us-west-2.amazonaws.com/CNN/model/yolo_v5/yolo_v5.zip
 unzip -q yolo_v5.zip && rm yolo_v5.zip
+mv yolov5 yolo_v5
 
 #bert imdb model
 curl -O https://edge-inference.s3.us-west-2.amazonaws.com/NLP/bert_imdb.zip
