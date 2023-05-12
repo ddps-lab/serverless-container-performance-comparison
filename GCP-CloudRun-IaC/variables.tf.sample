@@ -1,0 +1,54 @@
+variable "region" {
+  type = string
+  default = "change here!"
+}
+
+variable "prefix" {
+  type = string
+  default = "change here!"
+}
+
+variable "docker_registry" {
+  type = string
+  default = "change here!"
+}
+
+variable "mobilenet_cpu_number" {
+  type = number
+  defualt = 1
+}
+
+variable "mobilnet_ram_mb" {
+  type = number
+  default = 4096
+}
+
+variable "inception_cpu_number" {
+  type = number
+  defualt = 1
+}
+
+variable "inception_ram_mb" {
+  type = number
+  default = 4096
+}
+
+variable "yolo_cpu_number" {
+  type = number
+  defualt = 1
+}
+
+variable "yolo_ram_mb" {
+  type = number
+  default = 4096
+}
+
+variable "bert_cpu_number" {
+  type = number
+  defualt = 1
+}
+
+variable "bert_ram_mb" {
+  type = number
+  default = 4096
+}
