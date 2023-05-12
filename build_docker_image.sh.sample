@@ -10,3 +10,11 @@ do
     docker build -t $DOCKER_REGISTRY/$model_name-$API:latest -f ./dockerfiles/$model_name/Dockerfile.$API --no-cache .
   done
 done
+
+for model_name in "${model_names[@]}"
+do
+  for API in "${APIS[@]}"
+  do
+    docker push $DOCKER_REGISTRY/$model_name-$API:latest
+  done
+done
