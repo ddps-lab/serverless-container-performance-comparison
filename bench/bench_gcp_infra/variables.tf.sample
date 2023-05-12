@@ -1,0 +1,9 @@
+variable "region" {
+  type = string
+  default = "change here!"
+}
+
+variable "prefix" {
+  type = string
+  default = "change here!"
+}

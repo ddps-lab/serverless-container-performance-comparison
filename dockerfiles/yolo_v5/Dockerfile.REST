@@ -1,0 +1,8 @@
+FROM tensorflow/serving
+
+COPY ./models/yolo_v5 /models/yolo_v5/1/
+
+EXPOSE 8500
+
+CMD ["--rest_api_port=8500","--model_name=yolo_v5","--model_base_path=/models/yolo_v5","--rest_api_num_threads=1000"]
+

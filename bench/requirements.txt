@@ -1,0 +1,15 @@
+### Python 3.11.3
+#for grpc request
+tensorflow==2.13.0rc0
+tensorflow-serving-api==2.12.1
+
+#for image preprocessing
+#1) mobilenet / inception
+numpy>=1.24.3
+Pillow>=9.5.0
+#2) yolo
+opencv-python>=4.7.0.72
+
+#for use google spread sheet
+gspread>=5.7.2
+oauth2client>=4.1.3

@@ -1,0 +1,1 @@
+- module_gspread를 이용하기 위해서는 module 디렉터리에 Google Spread Sheet 인증 정보를 소유하고 있는 "sheet_credential.json"파일이 있어야 합니다.
