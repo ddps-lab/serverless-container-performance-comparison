@@ -1,4 +1,4 @@
 provider "google" {
-  project = "cloudrun-inference"
+  project = var.project
   region  = var.region
 }
