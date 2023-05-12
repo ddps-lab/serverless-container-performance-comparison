@@ -38,7 +38,7 @@ resource "google_compute_instance" "bench_instance" {
   apt update
   apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
 libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
-xz-utils tk-dev
+xz-utils tk-dev liblzma-dev
 
   echo 'export PYENV_ROOT="/pyenv"' >> /etc/bash.bashrc
   echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> /etc/bash.bashrc
@@ -46,8 +46,9 @@ xz-utils tk-dev
 
   git clone https://github.com/pyenv/pyenv.git /pyenv
   chmod 777 -R /pyenv
-
   source /etc/bash.bashrc
+
+  pyenv install 3.11.3
 
   git clone https://github.com/ddps-lab/serverless-container-performance-comparison.git /serverless-container-performance-comparison
   chmod 777 -R /serverless-container-performance-comparison
