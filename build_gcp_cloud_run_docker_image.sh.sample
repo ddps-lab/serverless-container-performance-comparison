@@ -7,7 +7,7 @@ for model_name in "${model_names[@]}"
 do
   for API in "${APIS[@]}"
   do
-    sudo DOCKER_BUILDKIT=1 docker build -t $DOCKER_REGISTRY/gcp-cloud-run-$model_name-$API:latest -f ./gcp_cloud_run_dockerfiles/$model_name/Dockerfile.$API .
+    sudo docker build -t $DOCKER_REGISTRY/gcp-cloud-run-$model_name-$API:latest -f ./gcp_cloud_run_dockerfiles/$model_name/Dockerfile.$API .
   done
 done
 
