@@ -1,3 +1,8 @@
+variable "project" {
+  type    = string
+  default = "change here!"
+}
+
 variable "region" {
   type = string
   default = "change here!"

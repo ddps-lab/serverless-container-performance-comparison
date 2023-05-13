@@ -1,7 +1,3 @@
 # How to build docker images
-```bash
-tag_name=""
-model_name=""
-API=""
-docker build -t $tag_name:latest -f ./dockerfiles/$model_name/Dockerfile.$API
-```
+- Download models
+- using build_docker_images.sh.sample
