@@ -16,8 +16,6 @@
 
 ### Dataset files
 /dataset/imagenet
-/dataset/coco_2017
-/dataset/coco
 
 ### Credentials
 /bench/module/sheet_credential.json
