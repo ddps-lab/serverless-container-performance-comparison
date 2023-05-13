@@ -18,3 +18,7 @@ rm -rf yolov5
 #bert imdb model
 curl -O https://edge-inference.s3.us-west-2.amazonaws.com/NLP/bert_imdb.zip
 unzip -q bert_imdb.zip && rm bert_imdb.zip
+
+#distilbert sst2 model
+curl -O https://edge-inference.s3.us-west-2.amazonaws.com/NLP/distilbert_sst2.zip
+unzip -q distilbert_sst2.zip && rm distilbert_sst2.zip

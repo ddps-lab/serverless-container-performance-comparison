@@ -27,7 +27,7 @@ resource "google_cloud_run_service" "cloudrun_service" {
           initial_delay_seconds = 10
           timeout_seconds       = 1
           period_seconds        = 5
-          failure_threshold     = 1
+          failure_threshold     = 3
           tcp_socket {
             port = var.APIS[count.index] == "grpc" ? 8500 : 8501
           }

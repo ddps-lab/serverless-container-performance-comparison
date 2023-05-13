@@ -1,5 +1,5 @@
 #preprocessing library
-from mobilenet_v1 import preprocessing
+from distilbert_sst2 import preprocessing
 import numpy as np
 
 #REST 요청 관련 library
@@ -10,10 +10,12 @@ import json
 import concurrent.futures
 
 def run_bench(num_tasks, server_address):
-    model_name = "yolo_v5"
-    image_file_path = "../../dataset/imagenet/imagenet_1000_raw/n01843383_1.JPEG"
+    model_name = "bert_imdb"
     
-    data = json.dumps({"instances": preprocessing.run_preprocessing(image_file_path).tolist()})
+    text = "This is a sample sentence to test the BERT model."
+    bert_input_ids, bert_input_mask = preprocessing.run_preprocessing(text)
+
+    data = json.dumps({"inputs": { "bert_input_masks": bert_input_mask, "bert_input_ids": bert_input_ids}})
 
     # REST 요청 병렬 처리
     with concurrent.futures.ThreadPoolExecutor(max_workers=num_tasks) as executor:

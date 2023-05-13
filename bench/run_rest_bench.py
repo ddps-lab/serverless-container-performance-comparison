@@ -1,8 +1,16 @@
+from datetime import datetime
 import variables
 from module import put_data_into_sheet
 import importlib
-rest_bench = importlib.import_module(f"{variables.model_name}.rest_bench")
+rest_bench = ""
 
-result = rest_bench.run_bench(variables.num_tasks, variables.rest_server_address)
+def main(model_name, num_tasks, server_address, spreadsheet_id, worksheet_name):
+  global rest_bench
+  rest_bench = importlib.import_module(f"{model_name}.rest_bench")
+  result = rest_bench.run_bench(num_tasks, server_address)
+  put_data_into_sheet.put_data(spreadsheet_id, worksheet_name, result, num_tasks)
 
-put_data_into_sheet.put_data(variables.rest_spreadsheet_id, result, variables.num_tasks)
+if (__name__ == "_main__"):
+  now = datetime.now()
+  worksheet_name = now.strftime("%y-%m-%d-%H:%M:%S")
+  main(variables.model_name, variables.num_tasks, variables.rest_server_address, variables.rest_spreadsheet_id, worksheet_name)
