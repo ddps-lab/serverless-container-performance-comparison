@@ -13,7 +13,7 @@ resource "google_cloud_run_service" "cloudrun_service" {
         image = "${var.docker_registry}/${var.model_name}-${var.APIS[count.index]}"
         ports {
           name           = var.APIS[count.index] == "grpc" ? "h2c" : "http1"
-          container_port = 8500
+          container_port = var.APIS[count.index] == "grpc" ? 8500 : 8501
           protocol       = "TCP"
         }
         resources {
@@ -29,7 +29,7 @@ resource "google_cloud_run_service" "cloudrun_service" {
           period_seconds        = 5
           failure_threshold     = 1
           tcp_socket {
-            port = 8500
+            port = var.APIS[count.index] == "grpc" ? 8500 : 8501
           }
         }
       }

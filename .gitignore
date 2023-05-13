@@ -1,3 +1,6 @@
+### VSCode
+.vscode
+
 ### Docker build sh
 /build_docker_image.sh
 
