@@ -9,5 +9,5 @@ def predict(server_address, model_name, data):
     response = requests.post(url, data=data, headers=headers)
     response_time = time.time()
     elapsed_time = response_time - request_time
-    result = json.loads(response.text)
+    result = response.text
     return result, elapsed_time
