@@ -5,14 +5,14 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import time
 model_load_start_time = time.time()
 import tensorflow as tf
-model = tf.keras.models.load_model('./mobilenet_v1')
+model = tf.keras.models.load_model('./mobilenet_v2')
 model_load_end_time = time.time()
 
 def lambda_handler(event,context):
     json_body = json.loads(event['body'])
-    input_1 = json_body['inputs']['input_1']
+    input_2 = json_body['inputs']['input_2']
     start_time = time.time()
-    result = model.predict(np.array(input_1))
+    result = model.predict(np.array(input_2))
     end_time = time.time()
     return {
         'statusCode': 200,
