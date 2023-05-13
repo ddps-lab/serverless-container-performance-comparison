@@ -5,7 +5,7 @@ model_names=( "mobilenet_v1" "mobilenet_v2" "inception_v3" "yolo_v5" "bert_imdb"
 
 for model_name in "${model_names[@]}"
 do
-  docker build -t $DOCKER_REGISTRY/aws-lambda-$model_name:latest -f ./aws_lambda_dockerfiles/$model_name/Dockerfile .
+  DOCKER_BUILDKIT=1 docker build -t $DOCKER_REGISTRY/aws-lambda-$model_name:latest -f ./aws_lambda_dockerfiles/$model_name/Dockerfile .
 done
 
 for model_name in "${model_names[@]}"
