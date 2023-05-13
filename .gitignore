@@ -2,7 +2,9 @@
 .vscode
 
 ### Docker build sh
-/build_docker_image.sh
+/build_cloud_run_docker_image.sh
+/build_aws_lambda_docker_image.sh
+/build_gcp_functions_docker_image.sh
 
 ### Model files
 /models/mobilenet_v1

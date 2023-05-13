@@ -10,7 +10,7 @@ resource "google_cloud_run_service" "cloudrun_service" {
   template {
     spec {
       containers {
-        image = "${var.docker_registry}/${var.model_name}-${var.APIS[count.index]}"
+        image = "${var.docker_registry}/cloud-run-${var.model_name}-${var.APIS[count.index]}"
         ports {
           name           = var.APIS[count.index] == "grpc" ? "h2c" : "http1"
           container_port = var.APIS[count.index] == "grpc" ? 8500 : 8501

@@ -7,7 +7,7 @@ for model_name in "${model_names[@]}"
 do
   for API in "${APIS[@]}"
   do
-    docker build -t $DOCKER_REGISTRY/$model_name-$API:latest -f ./dockerfiles/$model_name/Dockerfile.$API .
+    docker build -t $DOCKER_REGISTRY/cloud-run-$model_name-$API:latest -f ./cloud_run_dockerfiles/$model_name/Dockerfile.$API .
   done
 done
 
@@ -15,6 +15,6 @@ for model_name in "${model_names[@]}"
 do
   for API in "${APIS[@]}"
   do
-    docker push $DOCKER_REGISTRY/$model_name-$API:latest
+    docker push $DOCKER_REGISTRY/cloud-run-$model_name-$API:latest
   done
 done
