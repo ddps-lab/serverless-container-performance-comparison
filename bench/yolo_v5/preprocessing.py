@@ -1,8 +1,9 @@
 #image 전처리 library
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
 import numpy as np
 from PIL import Image
-import os
 import cv2
 
 def get_file_path(filename):
