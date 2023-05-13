@@ -15,6 +15,7 @@ def lambda_handler(event, context):
     start_time = time.time()
     result = model.predict([bert_input_ids, bert_input_mask])
     end_time = time.time()
+    print(result[0])
     return {
         'statusCode': 200,
         'loading_time': model_load_end_time - model_load_start_time,
