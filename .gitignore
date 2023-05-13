@@ -22,6 +22,7 @@
 /bench/variables.py
 /bench/bench_gcp_infra/variables.tf
 /GCP-CloudRun-IaC/variables.tf
+/bench/cloudrun_variables.py
 
 ### Terraform .gitignore
 # Local .terraform directories
