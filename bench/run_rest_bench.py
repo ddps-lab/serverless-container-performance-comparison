@@ -10,7 +10,7 @@ def main(model_name, num_tasks, server_address, spreadsheet_id, worksheet_name):
   result = rest_bench.run_bench(num_tasks, server_address)
   put_data_into_sheet.put_data(spreadsheet_id, worksheet_name, result, num_tasks)
 
-if (__name__ == "_main__"):
+if (__name__ == "__main__"):
   now = datetime.now()
   worksheet_name = now.strftime("%y-%m-%d-%H:%M:%S")
   main(variables.model_name, variables.num_tasks, variables.rest_server_address, variables.rest_spreadsheet_id, worksheet_name)
