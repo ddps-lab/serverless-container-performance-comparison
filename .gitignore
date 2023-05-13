@@ -23,6 +23,7 @@
 ### Variables
 /bench/variables.py
 /bench/cloudrun_variables.py
+/bench/lambda_variables.py
 /bench/bench_gcp_infra/variables.tf
 /bench/bench_aws_infra/variables.tf
 /AWS-Lambda-IaC/variables.tf
