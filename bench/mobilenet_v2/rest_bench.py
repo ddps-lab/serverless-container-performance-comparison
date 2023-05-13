@@ -11,7 +11,7 @@ import concurrent.futures
 
 def run_bench(num_tasks, server_address):
     model_name = "mobilenet_v2"
-    image_file_path = "../../../dataset/imagenet/imagenet_1000_raw/n01843383_1.JPEG"
+    image_file_path = "../../dataset/imagenet/imagenet_1000_raw/n01843383_1.JPEG"
     
     data = json.dumps({"instances": preprocessing.run_preprocessing(image_file_path).tolist()})
 
