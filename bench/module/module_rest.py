@@ -1,6 +1,5 @@
 import requests
 import time
-import json
 
 def predict(server_address, model_name, data):
     headers = {"content-type": "application/json"}
