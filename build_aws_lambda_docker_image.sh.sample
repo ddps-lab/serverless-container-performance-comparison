@@ -3,10 +3,10 @@
 DOCKER_REGISTRY=""
 model_names=( "mobilenet_v1" "mobilenet_v2" "inception_v3" "yolo_v5" "bert_imdb" "distilbert_sst2" )
 
-sudo DOCKER_BUILDKIT=1 docker build -t aws_lambda_docker_base -f ./aws_lambda_dockerfiles/Dockerfile . --no-cache --build-arg DOCKERIGNORE_FILE=./aws_lambda_dockerfile/.dockerignore
+sudo DOCKER_BUILDKIT=1 docker build --no-cache -t aws_lambda_docker_base -f ./aws_lambda_dockerfiles/Dockerfile . --build-arg DOCKERIGNORE_FILE=./aws_lambda_dockerfile/.dockerignore
 for model_name in "${model_names[@]}"
 do
-  sudo DOCKER_BUILDKIT=1 docker build -t $DOCKER_REGISTRY/aws-lambda-$model_name:latest -f ./aws_lambda_dockerfiles/$model_name/Dockerfile . --no-cache --build-arg DOCKERIGNORE_FILE=./aws_lambda_dockerfile/$model_name/.dockerignore
+  sudo DOCKER_BUILDKIT=1 docker build  --no-cache -t $DOCKER_REGISTRY/aws-lambda-$model_name:latest -f ./aws_lambda_dockerfiles/$model_name/Dockerfile . --build-arg DOCKERIGNORE_FILE=./aws_lambda_dockerfile/$model_name/.dockerignore
 done
 
 for model_name in "${model_names[@]}"
