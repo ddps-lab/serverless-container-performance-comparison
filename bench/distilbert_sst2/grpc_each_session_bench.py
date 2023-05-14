@@ -18,7 +18,7 @@ def run_bench(num_tasks, server_address, use_https):
     model_name = "distilbert_sst2"
 
     text = "This is a sample sentence to test the BERT model."
-    bert_input_ids, bert_input_mask = preprocessing.run_preprocessing(text)
+    bert_input_ids, bert_input_masks = preprocessing.run_preprocessing(text)
 
     # gRPC 요청 생성
     request = predict_pb2.PredictRequest()
@@ -26,7 +26,7 @@ def run_bench(num_tasks, server_address, use_https):
     request.model_spec.signature_name = 'serving_default'
 
     request.inputs['bert_input_ids'].CopyFrom(tf.make_tensor_proto(bert_input_ids, shape=[1, 128]))
-    request.inputs['bert_input_masks'].CopyFrom(tf.make_tensor_proto(bert_input_mask, shape=[1, 128]))
+    request.inputs['bert_input_masks'].CopyFrom(tf.make_tensor_proto(bert_input_masks, shape=[1, 128]))
 
 
     # gRPC 요청 병렬 처리
