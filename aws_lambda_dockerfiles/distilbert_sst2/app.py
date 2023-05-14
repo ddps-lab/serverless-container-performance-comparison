@@ -11,9 +11,9 @@ model_load_end_time = time.time()
 def lambda_handler(event, context):
     json_body = json.loads(event['body'])
     bert_input_ids = np.array(json_body['inputs']['bert_input_ids'])
-    bert_input_mask = np.array(json_body['inputs']['bert_input_mask'])
+    bert_input_masks = np.array(json_body['inputs']['bert_input_masks'])
     start_time = time.time()
-    result = model.predict([bert_input_ids, bert_input_mask])
+    result = model.predict([bert_input_ids, bert_input_masks])
     end_time = time.time()
     print(result[0])
     return {

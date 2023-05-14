@@ -11,10 +11,10 @@ model_load_end_time = time.time()
 def lambda_handler(event, context):
     json_body = json.loads(event['body'])
     input_ids = np.array(json_body['inputs']['input_ids'])
-    input_mask = np.array(json_body['inputs']['input_mask'])
+    input_masks = np.array(json_body['inputs']['input_masks'])
     segment_ids = np.array(json_body['inputs']['segment_ids'])
     start_time = time.time()
-    result = model.predict([input_ids, segment_ids, input_mask])
+    result = model.predict([input_ids, segment_ids, input_masks])
     end_time = time.time()
     print(result[0])
     return {
