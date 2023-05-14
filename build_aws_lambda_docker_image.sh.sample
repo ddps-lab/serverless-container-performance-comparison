@@ -5,7 +5,8 @@ model_names=( "mobilenet_v1" "mobilenet_v2" "inception_v3" "yolo_v5" "bert_imdb"
 
 for model_name in "${model_names[@]}"
 do
-  sudo docker build -t $DOCKER_REGISTRY/aws-lambda-$model_name:latest -f ./aws_lambda_dockerfiles/$model_name/Dockerfile . --no-cache
+  sudo DOCKER_BUILDKIT=1 docker build -t $DOCKER_REGISTRY/aws-lambda-$model_name:latest -f \ 
+  ./aws_lambda_dockerfiles/$model_name/Dockerfile . --no-cache --build-arg DOCKERIGNORE_FILE=./aws_lambda_dockerfile/$model_name/.dockerignore
 done
 
 for model_name in "${model_names[@]}"
