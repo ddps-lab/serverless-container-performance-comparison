@@ -7,6 +7,7 @@ sudo DOCKER_BUILDKIT=1 docker build --no-cache -t aws_lambda_docker_base -f ./aw
 for model_name in "${model_names[@]}"
 do
   sudo DOCKER_BUILDKIT=1 docker build  --no-cache -t $DOCKER_REGISTRY/aws-lambda-$model_name:latest -f ./aws_lambda_dockerfiles/$model_name/Dockerfile . --build-arg DOCKERIGNORE_FILE=./aws_lambda_dockerfile/$model_name/.dockerignore
+  sudo docker builder prune -f
 done
 
 for model_name in "${model_names[@]}"
