@@ -9,9 +9,9 @@ model = tf.keras.models.load_model('./yolo_v5')
 model_load_end_time = time.time()
 
 def lambda_handler(event,context):
+    start_time = time.time()
     json_body = json.loads(event['body'])
     x = json_body['inputs']['x']
-    start_time = time.time()
     result = model.predict(np.array(x))
     end_time = time.time()
     print(result[0])

@@ -9,9 +9,9 @@ model = tf.keras.models.load_model('./mobilenet_v2')
 model_load_end_time = time.time()
 
 def lambda_handler(event,context):
+    start_time = time.time()
     json_body = json.loads(event['body'])
     input_2 = json_body['inputs']['input_2']
-    start_time = time.time()
     result = model.predict(np.array(input_2))
     end_time = time.time()
     print(result[0])
