@@ -15,7 +15,7 @@ def run_bench(num_tasks, server_address):
     text = "This is a sample sentence to test the BERT model."
     input_ids, input_masks, segment_ids = preprocessing.run_preprocessing(text)
 
-    data = json.dumps({"inputs": { "segment_ids": segment_ids, "input_masks": input_masks, "input_ids": input_ids}})
+    data = json.dumps({"inputs": { "segment_ids": segment_ids, "input_masks": input_masks, "input_ids": input_ids.tolist()}})
 
     # REST 요청 병렬 처리
     with concurrent.futures.ThreadPoolExecutor(max_workers=num_tasks) as executor:
