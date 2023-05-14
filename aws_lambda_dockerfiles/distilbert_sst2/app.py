@@ -13,7 +13,7 @@ def lambda_handler(event, context):
     bert_input_ids = np.array(json_body['inputs']['bert_input_ids'])
     bert_input_masks = np.array(json_body['inputs']['bert_input_masks'])
     start_time = time.time()
-    result = model.predict([bert_input_ids, bert_input_masks])
+    result = model.predict([bert_input_masks, bert_input_ids])
     end_time = time.time()
     print(result[0])
     return {

@@ -14,7 +14,7 @@ def lambda_handler(event, context):
     input_masks = np.array(json_body['inputs']['input_masks'])
     segment_ids = np.array(json_body['inputs']['segment_ids'])
     start_time = time.time()
-    result = model.predict([input_ids, segment_ids, input_masks])
+    result = model.predict([input_masks, input_ids, segment_ids])
     end_time = time.time()
     print(result[0])
     return {
