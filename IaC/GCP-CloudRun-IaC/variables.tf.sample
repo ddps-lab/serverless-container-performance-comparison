@@ -17,6 +17,7 @@ variable "docker_registry" {
   type = string
   default = "change here!"
 }
+
 variable "enabled_models" {
   type = list(string)
   default = [ "mobilenet_v1", "mobilenet_v2", "inception_v3", "yolo_v5", "bert_imdb", "distilbert_sst2" ]
