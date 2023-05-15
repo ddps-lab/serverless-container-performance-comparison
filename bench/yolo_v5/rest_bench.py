@@ -11,7 +11,7 @@ import concurrent.futures
 
 def run_bench(num_tasks, server_address):
     model_name = "yolo_v5"
-    image_file_path = "../../dataset/imagenet/imagenet_1000_raw/n01843383_1.JPEG"
+    image_file_path = "../../dataset/coco_2017/coco/images/val2017/000000000139.jpg"
     
     data = json.dumps({"inputs": {"x": preprocessing.run_preprocessing(image_file_path).tolist()}})
 
