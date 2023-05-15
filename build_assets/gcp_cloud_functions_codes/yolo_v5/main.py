@@ -14,7 +14,7 @@ def predict(request):
         start_time = time.time()
         json_body = request.get_json(silent=True)
         x = json_body['inputs']['x']
-        result = model.predict(np.array(x))
+        result = model(np.array(x))
         end_time = time.time()
         print(result[0])
         return {

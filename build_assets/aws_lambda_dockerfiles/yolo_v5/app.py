@@ -12,7 +12,7 @@ def lambda_handler(event,context):
     start_time = time.time()
     json_body = json.loads(event['body'])
     x = json_body['inputs']['x']
-    result = model.predict(np.array(x))
+    result = model(np.array(x))
     end_time = time.time()
     print(result[0])
     return {
