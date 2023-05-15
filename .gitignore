@@ -2,27 +2,33 @@
 .vscode
 
 ### Docker build sh
-/build_docker_image.sh
+/build_gcp_cloud_run_docker_image.sh
+/build_gcp_cloud_functions_docker_image.sh
+/build_aws_lambda_docker_image.sh
 
 ### Model files
 /models/mobilenet_v1
 /models/mobilenet_v2
 /models/inception_v3
+/models/yolo_v5
 /models/bert_imdb
+/models/distilbert_sst2
 
 ### Dataset files
 /dataset/imagenet
-/dataset/coco_2017
-/dataset/coco
 
 ### Credentials
 /bench/module/sheet_credential.json
 
 ### Variables
 /bench/variables.py
-/bench/bench_gcp_infra/variables.tf
-/GCP-CloudRun-IaC/variables.tf
 /bench/cloudrun_variables.py
+/bench/lambda_variables.py
+/bench/bench_gcp_infra/variables.tf
+/bench/bench_aws_infra/variables.tf
+/IaC/AWS-Lambda-IaC/variables.tf
+/IaC/GCP-CloudRun-IaC/variables.tf
+/IaC/GCP-CloudFunctions-IaC/variables.tf
 
 ### Terraform .gitignore
 # Local .terraform directories

@@ -1,0 +1,19 @@
+variable "region" {
+  type = string
+  default = "change here!"
+}
+
+variable "awscli_profile" {
+  type = string
+  default = "change here!"
+}
+
+variable "prefix" {
+  type = string
+  default = "change here!"
+}
+
+variable "keypair" {
+  type = string
+  default = "change here!"
+}

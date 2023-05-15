@@ -17,7 +17,7 @@ def run_bench(num_tasks, server_address, use_https):
     model_name = "bert_imdb"
 
     text = "This is a sample sentence to test the BERT model."
-    input_ids, input_mask, segment_ids = preprocessing.run_preprocessing(text)
+    input_ids, input_masks, segment_ids = preprocessing.run_preprocessing(text)
 
     stub = module_grpc.create_grpc_stub(server_address, use_https)
 
@@ -27,7 +27,7 @@ def run_bench(num_tasks, server_address, use_https):
     request.model_spec.signature_name = 'serving_default'
 
     request.inputs['input_ids'].CopyFrom(tf.make_tensor_proto(input_ids, shape=[1, len(input_ids[0])]))
-    request.inputs['input_masks'].CopyFrom(tf.make_tensor_proto(input_mask, shape=[1, len(input_mask[0])]))
+    request.inputs['input_masks'].CopyFrom(tf.make_tensor_proto(input_masks, shape=[1, len(input_masks[0])]))
     request.inputs['segment_ids'].CopyFrom(tf.make_tensor_proto(segment_ids, shape=[1, len(segment_ids[0])]))
 
 

@@ -13,7 +13,7 @@ def run_bench(num_tasks, server_address):
     model_name = "yolo_v5"
     image_file_path = "../../dataset/imagenet/imagenet_1000_raw/n01843383_1.JPEG"
     
-    data = json.dumps({"instances": preprocessing.run_preprocessing(image_file_path).tolist()})
+    data = json.dumps({"inputs": {"x": preprocessing.run_preprocessing(image_file_path).tolist()}})
 
     # REST 요청 병렬 처리
     with concurrent.futures.ThreadPoolExecutor(max_workers=num_tasks) as executor:
