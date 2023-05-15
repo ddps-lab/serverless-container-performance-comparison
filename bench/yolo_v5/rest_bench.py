@@ -1,5 +1,5 @@
 #preprocessing library
-from mobilenet_v1 import preprocessing
+from yolo_v5 import preprocessing
 import numpy as np
 
 #REST 요청 관련 library
