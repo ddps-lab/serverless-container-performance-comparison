@@ -9,7 +9,8 @@ def start_bench(model_names, num_tasks, lambda_address_default, spreadsheet_id):
                           num_task,
                           f"https://{model_name.replace('_','-')}.{lambda_address_default}/",
                           spreadsheet_id,
-                          f"{model_name}-{num_task}")
+                          f"{model_name}-{num_task}",
+                          using_lambda=1)
       time.sleep(5)
 
 start_bench(lambda_variables.model_names,

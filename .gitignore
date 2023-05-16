@@ -28,6 +28,9 @@
 ### Credentials
 /bench/module/sheet_credential.json
 
+### tmp file
+tmp_file
+
 ### Variables
 /bench/variables.py
 /bench/cloudrun_variables.py

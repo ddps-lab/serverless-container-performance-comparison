@@ -1,3 +1,6 @@
+resource "aws_s3_bucket" "bucket" {
+  bucket = "${var.prefix}-scpc-bucket"
+}
 
 resource "aws_iam_role" "lambda-role" {
   name = "${var.prefix}-aws-lambda-${var.model_name}-role"
@@ -16,9 +19,14 @@ resource "aws_iam_role" "lambda-role" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "lambda_policy" {
+resource "aws_iam_role_policy_attachment" "lambda_basic_policy" {
   role       = aws_iam_role.lambda-role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_S3_policy" {
+  role       = aws_iam_role.lambda-role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
 
 resource "aws_lambda_function" "lambda" {
