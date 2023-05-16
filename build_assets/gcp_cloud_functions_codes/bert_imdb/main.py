@@ -24,7 +24,7 @@ def predict(request):
             'body': json.dumps({
                 'loading_time': model_load_end_time - model_load_start_time,
                 'inference_time': end_time - start_time,
-                'body': result
+                'body': result.tolist()
             })
         }
         return response
