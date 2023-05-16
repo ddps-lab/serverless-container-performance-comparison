@@ -12,8 +12,8 @@ model_load_end_time = time.time()
 def lambda_handler(event,context):
     start_time = time.time()
     json_body = json.loads(event['body'])
-    s3_bucket_name = json_body['s3_bucket_name']
-    s3_object_name = json_body['s3_object_name']
+    s3_bucket_name = json_body['inputs']['s3_bucket_name']
+    s3_object_name = json_body['inputs']['s3_object_name']
     s3 = boto3.resource('s3')
     s3.Bucket(s3_bucket_name).download_file(s3_object_name, "./preprocessed_data.npy")
     result = model(np.load("./preprocessed_data.npy"))
