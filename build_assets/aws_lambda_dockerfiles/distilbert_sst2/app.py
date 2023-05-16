@@ -15,9 +15,12 @@ def lambda_handler(event, context):
     bert_input_masks = np.array(json_body['inputs']['bert_input_masks'])
     result = model.predict([bert_input_masks, bert_input_ids])
     end_time = time.time()
-    print(result[0])
-    return {
+    response = {
         'statusCode': 200,
-        'loading_time': model_load_end_time - model_load_start_time,
-        'body': end_time - start_time
+        'body': json.dumps({
+            'loading_time': model_load_end_time - model_load_start_time,
+            'inference_time': end_time - start_time,
+            'body': result
+        })
     }
+    return response

@@ -1,4 +1,5 @@
 import functions_framework
+import json
 import numpy as np
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -16,12 +17,15 @@ def predict(request):
         input_2 = json_body['inputs']['input_2']
         result = model.predict(np.array(input_2))
         end_time = time.time()
-        print(result[0])
-        return {
+        response = {
             'statusCode': 200,
-            'loading_time': model_load_end_time - model_load_start_time,
-            'body': end_time - start_time
+            'body': json.dumps({
+                'loading_time': model_load_end_time - model_load_start_time,
+                'inference_time': end_time - start_time,
+                'body': result
+            })
         }
+        return response
     else:
         return {
             'statusCode': 403,
