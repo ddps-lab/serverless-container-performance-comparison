@@ -15,10 +15,10 @@ def lambda_handler(event,context):
     s3_bucket_name = json_body['inputs']['s3_bucket_name']
     s3_object_name = json_body['inputs']['s3_object_name']
     s3 = boto3.resource('s3')
-    s3.Bucket(s3_bucket_name).download_file(s3_object_name, "./preprocessed_data.npy")
-    result = model(np.load("./preprocessed_data.npy"))
-    np.save('predict_data', result)
-    s3.Bucket(s3_bucket_name).upload_file("./predict_data.npy", "predict_data.npy")
+    s3.Bucket(s3_bucket_name).download_file(s3_object_name, "/tmp/preprocessed_data.npy")
+    result = model(np.load("/tmp/preprocessed_data.npy"))
+    np.save('/tmp/predict_data', result)
+    s3.Bucket(s3_bucket_name).upload_file("/tmp/predict_data.npy", "predict_data.npy")
     end_time = time.time()
     response = {
         'statusCode': 200,
