@@ -1,13 +1,13 @@
 #!/bin/bash
 DOCKER_REGISTRY=""
-model_names=( "mobilenet_v1" "mobilenet_v2" "inception_v3" "yolo_v5" "bert_imdb" "distilbert_sst2" )
+model_names=( "mobilenet_v1" "mobilenet_v2" "inception_v3" "yolo_v5" "bert_imdb" )
 APIS=( "grpc" "rest" )
 
 for model_name in "${model_names[@]}"
 do
   for API in "${APIS[@]}"
   do
-    sudo DOCKER_BUILDKIT=1 docker build -t $DOCKER_REGISTRY/gcp-cloud-run-$model_name-$API:latest -f ./build_assets/gcp_cloud_run_dockerfiles/$model_name/Dockerfile.$API . --build-arg DOCKERIGNORE_FILE=./build_assets/gcp_cloud_run_dockerfile/$model_name/.dockerignore
+    sudo DOCKER_BUILDKIT=1 docker build -t $DOCKER_REGISTRY/gcp-cloud-run-$model_name-$API:latest -f ./build_assets/gcp_cloud_run_dockerfiles/$model_name/Dockerfile.$API . --build-arg DOCKERIGNORE_FILE=./build_assets/gcp_cloud_run_dockerfiles/$model_name/.dockerignore
     sudo docker builder prune -f
   done
 done
