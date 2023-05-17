@@ -1,5 +1,6 @@
 #!/bin/bash
 #ex) 1 Docker Repository
+#ex) kmubigdata/azure-function-performance-comparison
 DOCKER_REPOSITORY=""
 model_names=( "mobilenet_v1" "mobilenet_v2" "inception_v3" "yolo_v5" "bert_imdb" )
 
