@@ -13,3 +13,49 @@ brew install --cask google-cloud-sdk
 cd ./bench
 pip3 install -r requirements.txt
 ```
+
+## Set crendentials for each vendor
+```bash
+aws configure
+gcloud auth login
+az login
+```
+
+## model and dataset download
+```bash
+cd ./model
+chmod +x ./model_download.sh
+./model_download.sh
+cd ../dataset
+pip3 install -r requirements.txt
+chmod +x ./dataset_download.sh
+./dataset_download.sh
+```
+
+## Create bench infrastructure on each vendor
+```bash
+$vendor=""
+cd ./bench/bench_$vendor_infra
+# Please modify variables.tf (from variables.tf.sample)
+terraform init
+terraform apply
+```
+
+## Create Serverless Resource
+```bash
+$vendor=""
+$service=''
+cd ./IaC/$vendor-$service-IaC
+# Please modify variables.tf (from variables.tf.sample)
+terraform init
+terraform apply
+```
+
+## Start bench (on bench instance)
+```bash
+git clone https://github.com/ddps-lab/serverless-container-performance-comparison.git
+cd ./serverless-container-performance-comparison
+pip3 install -r requirements.txt
+# Please modify each variables.tf (from each variables.tf.sample)
+python3 run_$service[_$api].py
+```
