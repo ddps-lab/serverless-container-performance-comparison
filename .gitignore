@@ -1,9 +1,9 @@
 ### VSCode
 .vscode
 
-### Docker build sh
+### build sh
 /build_gcp_cloud_run_docker_image.sh
-/build_gcp_cloud_functions_docker_image.sh
+/create_gcp_cloud_functions_code_zip.sh
 /build_aws_lambda_docker_image.sh
 
 ### Model files
@@ -14,11 +14,22 @@
 /models/bert_imdb
 /models/distilbert_sst2
 
+### Cloud Functions zip file
+/mobilenet_v1.zip
+/mobilenet_v2.zip
+/inception_v3.zip
+/yolo_v5.zip
+/bert_imdb.zip
+/distilbert_sst2.zip
+
 ### Dataset files
 /dataset/imagenet
 
 ### Credentials
 /bench/module/sheet_credential.json
+
+### tmp file
+tmp_file
 
 ### Variables
 /bench/variables.py

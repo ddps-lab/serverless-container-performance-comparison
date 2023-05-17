@@ -16,9 +16,12 @@ def lambda_handler(event, context):
     segment_ids = np.array(json_body['inputs']['segment_ids'])
     result = model.predict([input_masks, input_ids, segment_ids])
     end_time = time.time()
-    print(result[0])
-    return {
+    response = {
         'statusCode': 200,
-        'loading_time': model_load_end_time - model_load_start_time,
-        'body': end_time - start_time
+        'body': json.dumps({
+            'loading_time': model_load_end_time - model_load_start_time,
+            'inference_time': end_time - start_time,
+            'body': result.tolist()
+        })
     }
+    return response

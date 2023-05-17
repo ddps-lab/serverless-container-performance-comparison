@@ -17,7 +17,7 @@ import concurrent.futures
 def run_bench(num_tasks, server_address, use_https):
     model_name = "yolo_v5"
 
-    image_file_path = "../../dataset/imagenet/imagenet_1000_raw/n01843383_1.JPEG"
+    image_file_path = "../../dataset/coco_2017/coco/images/val2017/000000000139.jpg"
     data = tf.make_tensor_proto(preprocessing.run_preprocessing(image_file_path))
 
     stub = module_grpc.create_grpc_stub(server_address, use_https)
