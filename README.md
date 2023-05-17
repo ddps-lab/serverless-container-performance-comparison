@@ -1,7 +1,3 @@
-# How to build docker images
-- Download models
-- using build_docker_images.sh.sample
-
 ## Install tools for macOS
 ```bash
 brew install terraform awscli
@@ -30,6 +26,13 @@ cd ../dataset
 pip3 install -r requirements.txt
 chmod +x ./dataset_download.sh
 ./dataset_download.sh
+```
+
+## Build Container Image or Code
+```bash
+# Please modify build script (DOCKER_REGISTRY or DOCKER_REPOSITORY or BUCKET_NAME)
+chmod +x ./<build/create script>
+./<build/create script>
 ```
 
 ## Create bench infrastructure on each vendor
