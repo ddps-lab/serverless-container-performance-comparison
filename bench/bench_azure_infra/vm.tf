@@ -28,7 +28,7 @@ resource "azurerm_network_interface" "bench-vm-nic" {
   name                = "${var.prefix}-scpc-bench-vm-nic"
   location            = data.azurerm_resource_group.bench-resource-group.location
   resource_group_name = data.azurerm_resource_group.bench-resource-group.name
-
+  enable_accelerated_networking = true
   ip_configuration {
     primary                       = true
     name                          = "${var.prefix}-scpc-bench-vm-nic-ipv4"
