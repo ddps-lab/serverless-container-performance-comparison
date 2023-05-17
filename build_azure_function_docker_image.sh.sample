@@ -1,17 +1,16 @@
 #!/bin/bash
-#ex) 1 Docker Repository
-#ex) kmubigdata/azure-function-performance-comparison
-DOCKER_REPOSITORY=""
+#ex) xxxxxxxx.azurecr.io
+DOCKER_REGISTRY=""
 model_names=( "mobilenet_v1" "mobilenet_v2" "inception_v3" "yolo_v5" "bert_imdb" )
 
 sudo DOCKER_BUILDKIT=1 docker build -t azure_function_docker_base -f ./build_assets/azure_function_dockerfiles/Dockerfile . --build-arg DOCKERIGNORE_FILE=./build_assets/azure_function_dockerfiles/.dockerignore
 for model_name in "${model_names[@]}"
 do
-  sudo DOCKER_BUILDKIT=1 docker build -t $DOCKER_REPOSITORY:$model_name -f ./build_assets/azure_function_dockerfiles/$model_name/Dockerfile . --build-arg DOCKERIGNORE_FILE=./build_assets/azure_function_dockerfiles/$model_name/.dockerignore
+  sudo DOCKER_BUILDKIT=1 docker build -t $DOCKER_REGISTRY/azure-function-$model_name:latest -f ./build_assets/azure_function_dockerfiles/$model_name/Dockerfile . --build-arg DOCKERIGNORE_FILE=./build_assets/azure_function_dockerfiles/$model_name/.dockerignore
   sudo docker builder prune -f
 done
 
 for model_name in "${model_names[@]}"
 do
-  sudo docker push $DOCKER_REPOSITORY:$model_name
+  sudo docker push $DOCKER_REGISTRY/azure-function-$model_name:latest
 done
