@@ -1,5 +1,6 @@
 #!/bin/bash
 #ex) xxxxxxxx.azurecr.io
+#### you need login to acr (sudo az acr login)
 DOCKER_REGISTRY=""
 model_names=( "mobilenet_v1" "mobilenet_v2" "inception_v3" "yolo_v5" "bert_imdb" )
 
