@@ -14,6 +14,7 @@ model = tf.keras.models.load_model(model_folder)
 model_load_end_time = time.time()
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info('Python HTTP trigger function processed a request.')
     start_time = time.time()
     json_body = req.get_json()
     input_1 = json_body['inputs']['input_1']
