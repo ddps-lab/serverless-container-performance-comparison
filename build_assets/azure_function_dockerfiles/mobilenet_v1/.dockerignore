@@ -1,6 +1,6 @@
 ./dataset
 ./models/distilbert_sst2
-./models/inception_V3
+./models/inception_v3
 ./models/bert_imdb
 ./models/mobilenet_v2
 ./models/yolo_v5

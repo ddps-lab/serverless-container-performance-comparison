@@ -40,6 +40,7 @@ tmp_file
 /bench/bench_azure_infra/variables.tf
 /bench/bench_gcp_infra/variables.tf
 /IaC/AWS-Lambda-IaC/variables.tf
+/IaC/Azure-Function-IaC/variables.tf
 /IaC/GCP-CloudRun-IaC/variables.tf
 /IaC/GCP-CloudFunctions-IaC/variables.tf
 

@@ -1,0 +1,80 @@
+variable "location" {
+  type    = string
+  default = "change here!"
+}
+
+variable "prefix" {
+  type    = string
+  default = "change here!"
+}
+
+variable "resource_group_name" {
+  type    = string
+  default = "change here!"
+}
+
+variable "acr_registry_name" {
+  type    = string
+  default = "change here!"
+}
+
+
+variable "enabled_models" {
+  type    = list(string)
+  default = [ "mobilenet_v1", "mobilenet_v2", "inception_v3", "yolo_v5", "bert_imdb"]
+}
+
+variable "model_resources" {
+  type = object({
+    mobilenet_v1 = object({
+      tier = string
+      size = string
+    })
+    mobilenet_v2 = object({
+      tier = string
+      size = string
+    })
+    inception_v3 = object({
+      tier = string
+      size = string
+    })
+    yolo_v5 = object({
+      tier = string
+      size = string
+    })
+    bert_imdb = object({
+      tier = string
+      size = string
+    })
+    distilbert_sst2 = object({
+      tier = string
+      size = string
+    })
+  })
+  default = {
+    mobilenet_v1 = {
+      tier = "PremiumV3"
+      size = "P0v3"
+    }
+    mobilenet_v2 = {
+      tier = "PremiumV3"
+      size = "P0v3"
+    }
+    inception_v3 = {
+      tier = "PremiumV3"
+      size = "P0v3"
+    }
+    yolo_v5 = {
+      tier = "PremiumV3"
+      size = "P0v3"
+    }
+    bert_imdb = {
+      tier = "PremiumV3"
+      size = "P0v3"
+    }
+    distilbert_sst2 = {
+      tier = "PremiumV3"
+      size = "P0v3"
+    }
+  }
+}
