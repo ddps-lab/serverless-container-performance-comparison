@@ -2,11 +2,6 @@ provider "azurerm" {
   features {}
 }
 
-# resource "azurerm_resource_group" "bench-resource-group" {
-#   name = "${var.prefix}-scpc-bench-resourcees"
-#   location = var.location
-# }
-
 data "azurerm_resource_group" "bench-resource-group" {
   name = var.resource_group_name
 }
