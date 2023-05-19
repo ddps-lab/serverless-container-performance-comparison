@@ -27,7 +27,7 @@ resource "azurerm_storage_account" "storage-account" {
 # }
 
 resource "azurerm_linux_function_app" "azure_function" {
-  name                       = "${var.prefix}-${replace(var.model_name, "_", "-")}"
+  name                       = "${replace(var.model_name, "_", "-")}-${var.prefix}"
   location                   = var.resource_group.location
   resource_group_name        = var.resource_group.name
   service_plan_id            = azurerm_service_plan.plan.id

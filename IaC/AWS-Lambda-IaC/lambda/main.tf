@@ -86,7 +86,7 @@ resource "aws_apigatewayv2_integration" "lambda-api-execution" {
 resource "aws_apigatewayv2_route" "api_gw_route" {
   api_id = aws_apigatewayv2_api.lambda-api.id
 
-  route_key = "POST /v1/models/${var.model_name}:predict"
+  route_key = "POST /"
   target    = "integrations/${aws_apigatewayv2_integration.lambda-api-execution.id}"
 }
 

@@ -1,12 +1,12 @@
 import requests
 import time
 
-def predict(server_address, model_name, data):
+def predict(server_address, data):
     headers = {"content-type": "application/json"}
-    url = server_address + "v1/models/" + model_name + ":predict"
+    url = server_address
     request_time = time.time()
     response = requests.post(url, data=data, headers=headers)
     response_time = time.time()
     elapsed_time = response_time - request_time
-    result = response.text
+    result = response.json()
     return result, elapsed_time

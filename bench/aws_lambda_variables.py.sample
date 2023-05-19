@@ -1,0 +1,14 @@
+# AWS Lambda 모델 서버의 주소, 모델 이름 설정
+# AWS Lambda (API Gateway) address default
+# ex) inference.com
+# 추론 시, https://<model_name>.inference.com/ 과 같은 형식으로 진행된다.
+aws_lambda_default_address = ''
+# yolo_v5 추론 시 사용할 S3 Bucket name
+bucket_name = ''
+# bench 결과를 저장할 google spread sheet id
+# spreadsheet안 worksheet는 아래와 같이 저장됩니다. ex) $model_name-$count
+spreadsheet_id = ''
+# 추론을 테스트할 모델 이름들
+model_names = ["mobilenet_v1","mobilenet_v2","inception_v3","yolo_v5","bert_imdb","distilbert_sst2"]
+# 테스트 추론 횟수들 지정 (병렬로 한번에 처리됩니다.)
+num_tasks = [1,10,30]

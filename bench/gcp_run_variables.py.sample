@@ -1,6 +1,6 @@
-# CloudRun 모델 서버의 주소 및 포트 번호, 모델 이름 설정
-# CloudRun address default ex) xxxxxxxxxx.du.a.run.app
-cloud_run_address_default = ''
+# Cloud Run 모델 서버의 주소 및 포트 번호, 모델 이름 설정
+# Cloud Run address default ex) xxxxxxxxxx.du.a.run.app
+gcp_run_default_address = ''
 # gRPC에서 https 사용시 1로 설정, http 사용시 0으로 설정
 grpc_use_https = 1
 # bench 결과를 저장할 google spread sheet id

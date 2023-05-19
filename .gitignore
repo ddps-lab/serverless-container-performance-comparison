@@ -34,8 +34,10 @@ tmp_file
 
 ### Variables
 /bench/variables.py
-/bench/cloudrun_variables.py
-/bench/lambda_variables.py
+/bench/aws_lambda_variables.py
+/bench/azure_function_variables.py
+/bench/gcp_run_variables.py
+/bench/gcp_functions_variables.py
 /bench/bench_aws_infra/variables.tf
 /bench/bench_azure_infra/variables.tf
 /bench/bench_gcp_infra/variables.tf
