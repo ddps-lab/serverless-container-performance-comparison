@@ -1,4 +1,4 @@
-FROM tensorflow/serving:2.11.1
+FROM tensorflow/serving:2.12.1
 
 COPY ./models/mobilenet_v1 /models/mobilenet_v1/1/
 

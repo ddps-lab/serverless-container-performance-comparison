@@ -1,4 +1,4 @@
-FROM tensorflow/serving:2.11.1
+FROM tensorflow/serving:2.12.1
 
 COPY ./models/yolo_v5 /models/yolo_v5/1/
 
