@@ -1,6 +1,6 @@
 #!/bin/bash
 bucket_name=""
-model_names=( "mobilenet_v1" "mobilenet_v2" "inception_v3" "yolo_v5" "bert_imdb" )
+model_names=( "mobilenet_v1" "mobilenet_v2" "inception_v3" "yolo_v5" )
 
 for model_name in "${model_names[@]}"
 do
