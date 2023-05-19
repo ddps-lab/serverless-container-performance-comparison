@@ -1,0 +1,17 @@
+#!/bin/bash
+#ex) xxxxxxxx.azurecr.io
+#### you need login to acr (sudo az acr login)
+DOCKER_REGISTRY=""
+model_names=( "mobilenet_v1" "mobilenet_v2" "inception_v3" "yolo_v5" "bert_imdb" )
+
+sudo DOCKER_BUILDKIT=1 docker build -t azure_function_docker_base -f ./build_assets/azure_function_dockerfiles/Dockerfile . --build-arg DOCKERIGNORE_FILE=./build_assets/azure_function_dockerfiles/.dockerignore
+for model_name in "${model_names[@]}"
+do
+  sudo DOCKER_BUILDKIT=1 docker build -t $DOCKER_REGISTRY/azure-function-$model_name:latest -f ./build_assets/azure_function_dockerfiles/$model_name/Dockerfile . --build-arg DOCKERIGNORE_FILE=./build_assets/azure_function_dockerfiles/$model_name/.dockerignore
+  sudo docker builder prune -f
+done
+
+for model_name in "${model_names[@]}"
+do
+  sudo docker push $DOCKER_REGISTRY/azure-function-$model_name:latest
+done

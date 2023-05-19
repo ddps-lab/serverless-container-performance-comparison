@@ -1,27 +1,23 @@
-variable "region" {
-  type = string
-  default = "change here!"
-}
-
-variable "awscli_profile" {
-  type = string
+variable "location" {
+  type    = string
   default = "change here!"
 }
 
 variable "prefix" {
-  type = string
-  default = "change here!"
-}
-
-variable "route53_domain" {
-  type = string
-  default = "change here!"
-}
-
-variable "docker_registry" {
   type    = string
   default = "change here!"
 }
+
+variable "resource_group_name" {
+  type    = string
+  default = "change here!"
+}
+
+variable "acr_registry_name" {
+  type    = string
+  default = "change here!"
+}
+
 
 variable "enabled_models" {
   type    = list(string)
@@ -31,42 +27,54 @@ variable "enabled_models" {
 variable "model_resources" {
   type = object({
     mobilenet_v1 = object({
-      ram_mib       = number
+      tier = string
+      size = string
     })
     mobilenet_v2 = object({
-      ram_mib       = number
+      tier = string
+      size = string
     })
     inception_v3 = object({
-      ram_mib       = number
+      tier = string
+      size = string
     })
     yolo_v5 = object({
-      ram_mib       = number
+      tier = string
+      size = string
     })
     bert_imdb = object({
-      ram_mib       = number
+      tier = string
+      size = string
     })
     distilbert_sst2 = object({
-      ram_mib       = number
+      tier = string
+      size = string
     })
   })
   default = {
     mobilenet_v1 = {
-      ram_mib       = 4096
+      tier = "PremiumV3"
+      size = "P0v3"
     }
     mobilenet_v2 = {
-      ram_mib       = 4096
+      tier = "PremiumV3"
+      size = "P0v3"
     }
     inception_v3 = {
-      ram_mib       = 4096
+      tier = "PremiumV3"
+      size = "P0v3"
     }
     yolo_v5 = {
-      ram_mib       = 4096
+      tier = "PremiumV3"
+      size = "P0v3"
     }
     bert_imdb = {
-      ram_mib       = 4096
+      tier = "PremiumV3"
+      size = "P0v3"
     }
     distilbert_sst2 = {
-      ram_mib       = 4096
+      tier = "PremiumV3"
+      size = "P0v3"
     }
   }
 }

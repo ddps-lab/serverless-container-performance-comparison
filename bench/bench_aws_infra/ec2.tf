@@ -62,10 +62,10 @@ xz-utils tk-dev liblzma-dev unzip curl docker.io
   echo 'eval "$(pyenv init -)"' >> /etc/bash.bashrc
 
   git clone https://github.com/pyenv/pyenv.git /pyenv
-  chmod 777 -R /pyenv
   source /etc/bash.bashrc
 
-  pyenv install 3.11.3
+  pyenv install 3.10.11
+  chmod 777 -R /pyenv
   EOF
   root_block_device {
     volume_size           = 64    # 볼륨 크기를 지정합니다.

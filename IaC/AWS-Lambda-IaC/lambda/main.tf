@@ -1,5 +1,6 @@
 resource "aws_s3_bucket" "bucket" {
   bucket = "${var.prefix}-scpc-bucket"
+  force_destroy = true
 }
 
 resource "aws_iam_role" "lambda-role" {

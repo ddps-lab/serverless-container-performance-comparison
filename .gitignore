@@ -2,9 +2,10 @@
 .vscode
 
 ### build sh
+/build_aws_lambda_docker_image.sh
+/build_azure_function_docker_image.sh
 /build_gcp_cloud_run_docker_image.sh
 /create_gcp_cloud_functions_code_zip.sh
-/build_aws_lambda_docker_image.sh
 
 ### Model files
 /models/mobilenet_v1
@@ -35,9 +36,11 @@ tmp_file
 /bench/variables.py
 /bench/cloudrun_variables.py
 /bench/lambda_variables.py
-/bench/bench_gcp_infra/variables.tf
 /bench/bench_aws_infra/variables.tf
+/bench/bench_azure_infra/variables.tf
+/bench/bench_gcp_infra/variables.tf
 /IaC/AWS-Lambda-IaC/variables.tf
+/IaC/Azure-Function-IaC/variables.tf
 /IaC/GCP-CloudRun-IaC/variables.tf
 /IaC/GCP-CloudFunctions-IaC/variables.tf
 

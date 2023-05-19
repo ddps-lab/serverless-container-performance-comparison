@@ -45,12 +45,9 @@ xz-utils tk-dev liblzma-dev unzip curl docker.io
   echo 'eval "$(pyenv init -)"' >> /etc/bash.bashrc
 
   git clone https://github.com/pyenv/pyenv.git /pyenv
-  chmod 777 -R /pyenv
   source /etc/bash.bashrc
 
-  pyenv install 3.11.3
-
-  git clone https://github.com/ddps-lab/serverless-container-performance-comparison.git /serverless-container-performance-comparison
-  chmod 777 -R /serverless-container-performance-comparison
+  pyenv install 3.10.11
+  chmod 777 -R /pyenv
   EOF
 }
