@@ -4,8 +4,8 @@
 ### build sh
 /build_aws_lambda_docker_image.sh
 /build_azure_function_docker_image.sh
-/build_gcp_cloud_run_docker_image.sh
-/create_gcp_cloud_functions_code_zip.sh
+/build_gcp_run_docker_image.sh
+/create_gcp_functions_code_zip.sh
 
 ### Model files
 /models/mobilenet_v1
@@ -33,7 +33,6 @@
 tmp_file
 
 ### Variables
-/bench/variables.py
 /bench/aws_lambda_variables.py
 /bench/azure_function_variables.py
 /bench/gcp_run_variables.py
