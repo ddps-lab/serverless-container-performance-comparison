@@ -8,7 +8,7 @@ resource "google_cloudfunctions_function" "cloudfunctions_function" {
   available_memory_mb = var.ram_mib
   min_instances = var.min_instances
   max_instances = var.max_instances
-  timeout = 60
+  timeout = 120
   trigger_http = true
   https_trigger_security_level = "SECURE_ALWAYS"
 
