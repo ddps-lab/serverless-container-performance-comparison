@@ -7,7 +7,7 @@ def start_bench(model_names, num_tasks, gcp_functions_default_address, spreadshe
     for k, num_task in enumerate(num_tasks):
       run_faas_bench.main(model_name,
                           num_task,
-                          f"https://{gcp_functions_default_address}.cloudfunctions.net/cloud-function-{model_name.replace('_','-')}",
+                          f"https://{gcp_functions_default_address}.cloudfunctions.net/function-{model_name.replace('_','-')}",
                           spreadsheet_id,
                           f"{model_name}-{num_task}",
                           service_name="gcp_functions")

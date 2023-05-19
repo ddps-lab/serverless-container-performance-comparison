@@ -1,7 +1,7 @@
 # GCP Function 모델 서버의 주소 및 포트 번호, 모델 이름 설정
 # GCP Function address default (exclude model name and cloudfunctions.net)
 # ex) asia-northeast3-projectname
-# 추론 시, <region>-<projectname>.cloudfunctions.net/<modelname> 과 같은 형식으로 진행된다.
+# 추론 시, <region>-<projectname>.cloudfunctions.net/function-<modelname> 과 같은 형식으로 진행된다.
 gcp_functions_default_address = ''
 # bench 결과를 저장할 google spread sheet id
 # spreadsheet안 worksheet는 아래와 같이 저장됩니다. ex) $model_name-$count

@@ -8,6 +8,6 @@ do
   zip -r $model_name.zip $model_name
   cd ..
   mv ./models/$model_name.zip .
-  zip -j $model_name.zip ./build_assets/gcp_cloud_functions_codes/requirements.txt ./build_assets/gcp_cloud_functions_codes/$model_name/main.py
+  zip -j $model_name.zip ./build_assets/gcp_functions_codes/requirements.txt ./build_assets/gcp_functions_codes/$model_name/main.py
   gsutil cp $model_name.zip gs://$bucket_name
 done
