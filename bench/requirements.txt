@@ -1,11 +1,13 @@
-### Python 3.11.3
+### Python 3.10.11
 #for grpc request
-tensorflow==2.13.0rc0
-tensorflow-serving-api==2.12.1
+tensorflow==2.11.1
+tensorflow-serving-api==2.11.1
+protobuf==3.19.6
+
 
 #for image preprocessing
 #1) mobilenet / inception
-numpy>=1.24.3
+numpy==1.23.5
 Pillow>=9.5.0
 #2) yolo
 opencv-python>=4.7.0.72
