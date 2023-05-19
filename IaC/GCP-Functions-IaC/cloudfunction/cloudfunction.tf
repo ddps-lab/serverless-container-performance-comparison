@@ -1,7 +1,7 @@
 resource "google_cloudfunctions_function" "cloudfunctions_function" {
   name     = "function-${replace(var.model_name, "_", "-")}"
   region = var.region
-  runtime = "python311"
+  runtime = "python310"
   source_archive_bucket = var.bucket_name
   source_archive_object = "${var.model_name}.zip"
   entry_point = "predict"
