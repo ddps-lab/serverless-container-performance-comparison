@@ -2,7 +2,7 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
-from keras.preprocessing.sequence import pad_sequences
+from keras.utils import pad_sequences
 
 def run_preprocessing(text):
     tokenizer = tf.keras.preprocessing.text.Tokenizer()
