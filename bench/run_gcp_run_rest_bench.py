@@ -7,7 +7,7 @@ def start_bench(model_names, num_tasks, gcp_run_default_address, spreadsheet_id)
     for k, num_task in enumerate(num_tasks):
       run_rest_bench.main(model_name,
                           num_task,
-                          f"https://{model_name.replace('_','-')}-rest-{gcp_run_default_address}/v1/models/{model_name}:predict/",
+                          f"https://{model_name.replace('_','-')}-rest-{gcp_run_default_address}/",
                           spreadsheet_id,
                           f"{model_name}-rest-{num_task}")
       time.sleep(5)
