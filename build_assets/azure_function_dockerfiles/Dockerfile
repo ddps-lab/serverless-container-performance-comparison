@@ -8,4 +8,4 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 COPY ./build_assets/azure_function_dockerfiles/host.json /home/site/wwwroot/
 COPY ./build_assets/azure_function_dockerfiles/requirements.txt /
 
-RUN pip install -r /requirements.txt
+RUN pip --no-cahce-dir install -r /requirements.txt

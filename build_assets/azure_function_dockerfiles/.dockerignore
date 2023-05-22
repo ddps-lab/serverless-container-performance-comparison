@@ -1,2 +1,5 @@
-/models
-/dataset
+*
+!/build_assets/azure_function_dockerfiles/Dockerfile
+!/build_assets/azure_function_dockerfiles/requirements.txt
+!/build_assets/azure_function_dockerfiles/host.json
+!/build_assets/azure_function_dockerfiles/function.json
