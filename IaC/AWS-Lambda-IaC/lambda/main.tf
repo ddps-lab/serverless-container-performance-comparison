@@ -1,8 +1,3 @@
-resource "aws_s3_bucket" "bucket" {
-  bucket = "${var.prefix}-scpc-bucket"
-  force_destroy = true
-}
-
 resource "aws_iam_role" "lambda-role" {
   name = "${var.prefix}-aws-lambda-${var.model_name}-role"
 
@@ -36,7 +31,7 @@ resource "aws_lambda_function" "lambda" {
   architectures = ["x86_64"]
   image_uri     = "${var.docker_registry}/aws-lambda-${var.model_name}:latest"
   memory_size   = var.ram_mib
-  timeout       = 60
+  timeout       = 120
   role          = aws_iam_role.lambda-role.arn
 }
 
