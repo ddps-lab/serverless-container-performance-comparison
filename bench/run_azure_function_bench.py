@@ -7,7 +7,7 @@ def start_bench(model_names, num_tasks, azure_function_default_address, spreadsh
     for k, num_task in enumerate(num_tasks):
       run_faas_bench.main(model_name,
                           num_task,
-                          f"https://{model_name.replace('_','-')}{azure_function_default_address}/",
+                          f"https://{model_name.replace('_','-')}{azure_function_default_address}/api/predict",
                           spreadsheet_id,
                           f"{model_name}-{num_task}",
                           service_name="azure_function",)
