@@ -1,6 +1,2 @@
-./dataset
-./models/distilbert_sst2
-./models/bert_imdb
-./models/mobilenet_v1
-./models/mobilenet_v2
-./models/yolo_v5
+*
+!/models/inception_v3
