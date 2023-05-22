@@ -4,8 +4,8 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import time
 model_load_start_time = time.time()
-import tensorflow as tf
-model = tf.keras.models.load_model('./distilbert_sst2')
+from tensorflow.keras.models import load_model
+model = load_model('./distilbert_sst2')
 model_load_end_time = time.time()
 
 def lambda_handler(event, context):
