@@ -43,7 +43,7 @@ def run_bench(num_tasks, server_address, service_name='', bucket_name='', blob_c
         container_client = blob_service_client.get_container_client(blob_container_name)
         upload_start_time = time.time()
         with open("./preprocessed_data.npy", "rb") as data:
-            container_client.upload_blob(name="preprocessed_data.npy", data=data)
+            container_client.upload_blob(name="preprocessed_data.npy", data=data, overwrite=True)
         upload_time = time.time() - upload_start_time
         data = json.dumps({"inputs": {"blob_container_name": blob_container_name, "blob_name": "preprocessed_data.npy"}})
         # REST 요청 병렬 처리

@@ -30,7 +30,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     result = model(np.array(np.load("/tmp/preprocessed_data.npy")))
     np.save("/tmp/predict_data", result)
     with open("/tmp/predict_data.npy", "rb") as data:
-        container_client.upload_blob(name="predict_data.npy", data=data)
+        container_client.upload_blob(name="predict_data.npy", data=data, overwrite=True)
     end_time = time.time()
     response_data = json.dumps({
             'loading_time': model_load_end_time - model_load_start_time,
