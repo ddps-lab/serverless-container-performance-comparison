@@ -1,4 +1,4 @@
-FROM tensorflow/serving:2.12.1
+FROM tensorflow/serving:2.11.1
 
 COPY ./models/bert_imdb /models/bert_imdb/1/
 
