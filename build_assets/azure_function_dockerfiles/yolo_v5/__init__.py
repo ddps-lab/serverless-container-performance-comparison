@@ -23,7 +23,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     blob_name = json_body['inputs']['blob_name']
     blob_service_client = BlobServiceClient.from_connection_string(os.environ.get("BlobStorageConnectionString"))
     container_client = blob_service_client.get_container_client(blob_container_name)
-    with open("/tmp/preprocessed_data.npy") as file:
+    with open("/tmp/preprocessed_data.npy", "wb") as file:
         blob_client = container_client.get_blob_client(blob_name)
         blob_data = blob_client.download_blob()
         blob_data.readinto(file)
