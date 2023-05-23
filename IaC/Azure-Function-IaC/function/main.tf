@@ -37,7 +37,6 @@ resource "azurerm_linux_function_app" "azure_function" {
   app_settings = {
     WEBSITES_ENABLE_APP_SERVICE_STORAGE = false
     BlobStorageConnectionString = var.BlobStorageConnectionString
-    BlobStorageContainerName = var.BlobStorageContainerName
   }
 
   site_config {

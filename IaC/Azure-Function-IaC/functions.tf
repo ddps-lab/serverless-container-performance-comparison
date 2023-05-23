@@ -9,5 +9,4 @@ module "function" {
   app_service_tier = var.model_resources[var.enabled_models[count.index]].tier
   app_service_size = var.model_resources[var.enabled_models[count.index]].size
   BlobStorageConnectionString = azurerm_storage_account.storage-account.primary_connection_string
-  BlobStorageContainerName = azurerm_storage_container.storage-container.name
 }

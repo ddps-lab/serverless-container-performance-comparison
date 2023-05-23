@@ -6,4 +6,3 @@ variable app_service_tier {}
 variable app_service_size {}
 variable "index_num" {}
 variable "BlobStorageConnectionString" {}
-variable "BlobStorageContainerName" {}
