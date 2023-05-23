@@ -19,10 +19,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
     start_time = time.time()
     json_body = req.get_json()
-    blob_service_client = BlobServiceClient.from_connection_string(os.environ.get("BlobStorageConnectionString"))
-    container_client = blob_service_client.get_container_client(blob_container_name)
     blob_container_name = json_body['inputs']['blob_container_name']
     blob_name = json_body['inputs']['blob_name']
+    blob_service_client = BlobServiceClient.from_connection_string(os.environ.get("BlobStorageConnectionString"))
+    container_client = blob_service_client.get_container_client(blob_container_name)
     with open("/tmp/preprocessed_data.npy") as file:
         blob_client = container_client.get_blob_client(blob_name)
         blob_data = blob_client.download_blob()
