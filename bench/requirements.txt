@@ -15,5 +15,8 @@ opencv-python>=4.7.0.72
 gspread>=5.7.2
 oauth2client>=4.1.3
 
-#for use s3 bucket
+#for use aws s3 bucket
 boto3>=1.26.134
+
+#for use azure blob container
+azure-storage-blob

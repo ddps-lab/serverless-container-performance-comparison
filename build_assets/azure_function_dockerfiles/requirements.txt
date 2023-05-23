@@ -1,4 +1,5 @@
 #Python 3.10.11
 azure-functions
+azure-storage-blob
 tensorflow-cpu==2.11.1
 protobuf==3.19.6
