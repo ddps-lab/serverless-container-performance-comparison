@@ -19,9 +19,11 @@ def run_bench(num_tasks, server_address):
     with concurrent.futures.ThreadPoolExecutor(max_workers=num_tasks) as executor:
         futures = [executor.submit(lambda: module_faas.predict(server_address, data)) for _ in range(num_tasks)]
 
-    inference_times_include_network_latency = []
+    inference_times = []
+    network_latency_times = []
     for future in concurrent.futures.as_completed(futures):
         result, thread_elapsed_time = future.result()
-        inference_times_include_network_latency.append(thread_elapsed_time)
+        inference_times.append(result['inference_time'])
+        network_latency_times.append(thread_elapsed_time)
 
-    return inference_times_include_network_latency
+    return inference_times, network_latency_times
