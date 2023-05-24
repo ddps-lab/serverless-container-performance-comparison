@@ -4,12 +4,12 @@ from module import module_cw_logs
 from module import run_faas_bench
 import time
 
-def start_bench(model_names, num_tasks, aws_lambda_default_address, spreadsheet_id, bucket_name, log_group_name, log_stream_prefix):
+def start_bench(model_names, num_tasks, aws_lambda_default_address, spreadsheet_id, bucket_name, log_group_name):
   for i, model_name in enumerate(model_names):
     for k, num_task in enumerate(num_tasks):
       current_timestamp = time.strftime("%Y-%m-%d-%H_%M_%S", time.localtime())
-      inference_time_log_stream_name = f"{current_timestamp}-{log_stream_prefix}-{model_name}-{num_task}-inference_time"
-      network_latency_time_log_stream_name = f"{current_timestamp}-{log_stream_prefix}-{model_name}-{num_task}-network_latency_time"
+      inference_time_log_stream_name = f"{current_timestamp}-{model_name}-{num_task}-inference_time"
+      network_latency_time_log_stream_name = f"{current_timestamp}-{model_name}-{num_task}-network_latency_time"
       module_cw_logs.create_log_stream(log_group_name, inference_time_log_stream_name)
       module_cw_logs.create_log_stream(log_group_name, network_latency_time_log_stream_name)
       run_faas_bench.main(model_name,
