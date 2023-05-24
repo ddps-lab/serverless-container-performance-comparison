@@ -8,10 +8,8 @@ def start_bench(model_names, num_tasks, aws_lambda_default_address, spreadsheet_
   for i, model_name in enumerate(model_names):
     for k, num_task in enumerate(num_tasks):
       current_timestamp = time.strftime("%Y-%m-%d-%H_%M_%S", time.localtime())
-      inference_time_log_stream_name = f"{current_timestamp}-{model_name}-{num_task}-inference_time"
-      network_latency_time_log_stream_name = f"{current_timestamp}-{model_name}-{num_task}-network_latency_time"
-      module_cw_logs.create_log_stream(log_group_name, inference_time_log_stream_name)
-      module_cw_logs.create_log_stream(log_group_name, network_latency_time_log_stream_name)
+      log_stream_name = f"{current_timestamp}-{model_name}-{num_task}tasks-log-stream"
+      module_cw_logs.create_log_stream(log_group_name, log_stream_name)
       run_faas_bench.main(model_name,
                           num_task,
                           f"https://{model_name.replace('_','-')}.{aws_lambda_default_address}/",
@@ -20,8 +18,7 @@ def start_bench(model_names, num_tasks, aws_lambda_default_address, spreadsheet_
                           service_name="aws_lambda",
                           bucket_name=bucket_name,
                           log_group_name=log_group_name,
-                          inference_time_log_stream_name=inference_time_log_stream_name,
-                          network_latency_time_log_stream_name=network_latency_time_log_stream_name)
+                          log_stream_name=log_stream_name)
       time.sleep(5)
 
 start_bench(aws_lambda_variables.model_names,
