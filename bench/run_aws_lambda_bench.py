@@ -8,7 +8,7 @@ def start_bench(model_names, num_tasks, aws_lambda_default_address, spreadsheet_
   for i, model_name in enumerate(model_names):
     for k, num_task in enumerate(num_tasks):
       current_timestamp = time.strftime("%Y-%m-%d-%H_%M_%S", time.localtime())
-      log_stream_name = f"{current_timestamp}-{model_name}-{num_task}tasks-log-stream"
+      log_stream_name = f"{current_timestamp}-{model_name}-{num_task}tasks"
       module_cw_logs.create_log_stream(log_group_name, log_stream_name)
       run_faas_bench.main(model_name,
                           num_task,
