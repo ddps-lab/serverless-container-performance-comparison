@@ -31,6 +31,11 @@ resource "aws_iam_role_policy_attachment" "bench-instance-role-attach-ecr-full-a
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
 }
 
+resource "aws_iam_role_policy_attachment" "bench-instance-role-attach-cloudwatch-logs-full-access" {
+  role       = aws_iam_role.bench-instance-role.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+}
+
 resource "aws_iam_instance_profile" "bench-instance-role-instance-profile" {
   name = "${var.prefix}-bench-instance-role-instnace-profile"
   role = aws_iam_role.bench-instance-role.name
