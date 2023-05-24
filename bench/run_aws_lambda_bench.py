@@ -29,5 +29,4 @@ start_bench(aws_lambda_variables.model_names,
      aws_lambda_variables.aws_lambda_default_address,
      aws_lambda_variables.spreadsheet_id,
      aws_lambda_variables.bucket_name,
-     logs_variables.log_group_name,
-     logs_variables.log_stream_prefix)
+     logs_variables.log_group_name)
