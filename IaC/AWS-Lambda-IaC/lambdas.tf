@@ -1,3 +1,8 @@
+resource "aws_s3_bucket" "bucket" {
+  bucket = "${var.prefix}-scpc-bucket"
+  force_destroy = true
+}
+
 module "lambda" {
   count           = length(var.enabled_models)
   source          = "./lambda"

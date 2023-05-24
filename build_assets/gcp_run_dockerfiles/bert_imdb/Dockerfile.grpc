@@ -1,0 +1,8 @@
+FROM tensorflow/serving:2.11.1
+
+COPY ./models/bert_imdb /models/bert_imdb/1/
+
+EXPOSE 8500
+
+CMD ["--port=8500","--model_name=bert_imdb","--model_base_path=/models/bert_imdb","--grpc_channel_arguments=grpc.max_send_message_length=50*1024*1024", "--grpc_channel_arguments=grpc.max_receive_length=50*1024*1024", "--grpc_max_threads=1000"]
+

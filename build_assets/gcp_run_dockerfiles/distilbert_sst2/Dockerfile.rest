@@ -1,0 +1,8 @@
+FROM tensorflow/serving:2.11.1
+
+COPY ./models/distilbert_sst2 /models/distilbert_sst2/1/
+
+EXPOSE 8501
+
+CMD ["--rest_api_port=8501","--model_name=distilbert_sst2","--model_base_path=/models/distilbert_sst2","--rest_api_num_threads=1000"]
+

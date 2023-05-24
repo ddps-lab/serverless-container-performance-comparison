@@ -1,8 +1,0 @@
-FROM tensorflow/serving
-
-COPY ./models/inception_v3 /models/inception_v3/1/
-
-EXPOSE 8500
-
-CMD ["--port=8500","--model_name=inception_v3","--model_base_path=/models/inception_v3","--grpc_channel_arguments=grpc.max_send_message_length=50*1024*1024", "--grpc_channel_arguments=grpc.max_receive_length=50*1024*1024", "--grpc_max_threads=1000"]
-
