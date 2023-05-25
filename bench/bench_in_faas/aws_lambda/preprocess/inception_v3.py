@@ -18,6 +18,6 @@ def run_preprocessing(image_file_path):
     return img_array
 
 def create_request_data(bucket_name=''):
-    image_file_path = "../../../dataset/imagenet/imagenet_1000_raw/n01843383_1.JPEG"
+    image_file_path = "../../../../dataset/imagenet/imagenet_1000_raw/n01843383_1.JPEG"
     data = json.dumps({"inputs": { "input_3": run_preprocessing(image_file_path).tolist()}})
     return data, 0

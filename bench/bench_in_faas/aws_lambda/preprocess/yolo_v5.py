@@ -19,7 +19,7 @@ def run_preprocessing(image_file_path):
     return img
 
 def create_request_data(bucket_name=''):
-    image_file_path = "../../../dataset/coco_2017/coco/images/val2017/000000000139.jpg"
+    image_file_path = "../../../../dataset/coco_2017/coco/images/val2017/000000000139.jpg"
     
     np.save('preprocessed_data', run_preprocessing(image_file_path))
     s3 = boto3.resource('s3')
