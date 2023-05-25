@@ -31,7 +31,8 @@ def lambda_handler(event,context):
     log_group_name = json_body['inputs']['log_group_name']
     log_stream_name = json_body['inputs']['log_stream_name']
     server_address = json_body['inputs']['server_address']
-    request_data = json_body['inputs']['request_data']
+    data = json_body['inputs']['request_data']
+    request_data = data[0]
     result, network_latency_time = predict(server_address, request_data)
     create_log_event(log_group_name, log_stream_name, result['inference_time'], network_latency_time)
     response = {
