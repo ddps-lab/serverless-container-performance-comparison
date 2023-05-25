@@ -28,7 +28,7 @@
 /dataset/imagenet
 
 ### Credentials
-/bench/module/sheet_credential.json
+/bench/bench_in_instance/module/sheet_credential.json
 
 ### tmp file
 tmp_file
@@ -43,6 +43,7 @@ tmp_file
 /bench/bench_in_instance/bench_aws_infra/variables.tf
 /bench/bench_in_instance/bench_azure_infra/variables.tf
 /bench/bench_in_instance/bench_gcp_infra/variables.tf
+/bench/bench_in_faas/aws_lambda/IaC/variables.tf
 /IaC/AWS-Lambda-IaC/variables.tf
 /IaC/Azure-Function-IaC/variables.tf
 /IaC/GCP-Run-IaC/variables.tf
