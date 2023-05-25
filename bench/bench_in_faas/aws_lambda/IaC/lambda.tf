@@ -30,7 +30,7 @@ resource "aws_lambda_function" "lambda" {
   package_type  = "Image"
   architectures = ["x86_64"]
   image_uri     = "${var.docker_registry}/${var.docker_image_tag}"
-  memory_size   = var.ram_mib
+  memory_size   = 4096
   timeout       = 120
   role          = aws_iam_role.lambda-role.arn
 }
@@ -121,7 +121,7 @@ resource "aws_route53_record" "validation_record" {
   records         = [each.value.record]
   ttl             = 60
   type            = each.value.type
-  zone_id         = var.route53_zoneid
+  zone_id         = data.aws_route53_zone.route53_zone.id
 }
 
 resource "aws_acm_certificate_validation" "certificate_validation" {
@@ -144,7 +144,7 @@ resource "aws_apigatewayv2_domain_name" "api_domain_name" {
 resource "aws_route53_record" "route53_record" {
   name    = aws_apigatewayv2_domain_name.api_domain_name.domain_name
   type    = "A"
-  zone_id = var.route53_zoneid
+  zone_id = data.aws_route53_zone.route53_zone.id
 
   alias {
     name                   = aws_apigatewayv2_domain_name.api_domain_name.domain_name_configuration[0].target_domain_name
