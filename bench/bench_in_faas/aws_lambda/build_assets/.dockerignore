@@ -1,4 +1,4 @@
 *
-!/bench/bench_in_faas/aws_lambda/build_assets/app.py
-!/bench/bench_in_faas/aws_lambda/build_assets/requirements.txt
-!/bench/bench_in_faas/aws_lambda/build_assets/Dockerfile
+!./app.py
+!./requirements.txt
+!//Dockerfile
