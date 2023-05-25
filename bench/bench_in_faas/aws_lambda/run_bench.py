@@ -14,7 +14,7 @@ def create_log_stream(log_group_name, log_stream_name):
 
 def request_predict(server_address, data):
     headers = {"content-type": "application/json"}
-    url = server_address
+    url = f"https://{server_address}/"
     response = requests.post(url, data=data, headers=headers)
     result = response.text
     return result
