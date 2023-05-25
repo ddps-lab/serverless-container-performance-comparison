@@ -1,5 +1,5 @@
 #preprocessing library
-from mobilenet_v1 import preprocessing
+from inception_v3 import preprocessing
 import numpy as np
 
 #REST 요청 관련 library
@@ -10,10 +10,10 @@ import json
 import concurrent.futures
 
 def run_bench(num_tasks, server_address):
-    model_name = "mobilenet_v1"
-    image_file_path = "../../dataset/imagenet/imagenet_1000_raw/n01843383_1.JPEG"
+    model_name = "inception_v3"
+    image_file_path = "../../../dataset/imagenet/imagenet_1000_raw/n01843383_1.JPEG"
     
-    data = json.dumps({"inputs": { "input_1": preprocessing.run_preprocessing(image_file_path).tolist()}})
+    data = json.dumps({"inputs": { "input_3" :preprocessing.run_preprocessing(image_file_path).tolist()}})
 
     # REST 요청 병렬 처리
     with concurrent.futures.ThreadPoolExecutor(max_workers=num_tasks) as executor:

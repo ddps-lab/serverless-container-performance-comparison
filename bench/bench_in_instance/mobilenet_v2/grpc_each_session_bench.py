@@ -1,5 +1,5 @@
 #import grpc module
-from module import module_grpc
+from module import module_grpc_each_session
 from tensorflow_serving.apis import predict_pb2
 
 #tf log setting
@@ -17,10 +17,8 @@ import concurrent.futures
 def run_bench(num_tasks, server_address, use_https):
     model_name = "mobilenet_v2"
 
-    image_file_path = "../../dataset/imagenet/imagenet_1000_raw/n01843383_1.JPEG"
+    image_file_path = "../../../dataset/imagenet/imagenet_1000_raw/n01843383_1.JPEG"
     data = tf.make_tensor_proto(preprocessing.run_preprocessing(image_file_path))
-
-    stub = module_grpc.create_grpc_stub(server_address, use_https)
 
     # gRPC 요청 생성
     request = predict_pb2.PredictRequest()
@@ -30,7 +28,7 @@ def run_bench(num_tasks, server_address, use_https):
 
     # gRPC 요청 병렬 처리
     with concurrent.futures.ThreadPoolExecutor(max_workers=num_tasks) as executor:
-        futures = [executor.submit(lambda: module_grpc.predict(stub, request)) for _ in range(num_tasks)]
+        futures = [executor.submit(lambda: module_grpc_each_session.predict(server_address, use_https, request)) for _ in range(num_tasks)]
 
     inference_times_include_network_latency = []
     # 결과 출력

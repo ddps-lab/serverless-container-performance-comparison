@@ -15,7 +15,7 @@ import time
 import concurrent.futures
 
 def run_bench(num_tasks, server_address, service_name='', bucket_name='', blob_connection_string='', blob_container_name=''):
-    image_file_path = "../../dataset/coco_2017/coco/images/val2017/000000000139.jpg"
+    image_file_path = "../../../dataset/coco_2017/coco/images/val2017/000000000139.jpg"
     
     if (service_name == "aws_lambda"):
         np.save('preprocessed_data', preprocessing.run_preprocessing(image_file_path))

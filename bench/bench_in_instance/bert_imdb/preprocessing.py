@@ -12,5 +12,3 @@ def run_preprocessing(text):
     input_masks = [[1] * len(input_ids[0])]
     segment_ids = [[0] * len(input_ids[0])]
     return input_ids, input_masks, segment_ids 
-
-run_preprocessing("Test asdf asdf")

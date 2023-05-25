@@ -9,22 +9,22 @@ import tensorflow as tf
 import numpy as np
 
 #preprocessing library
-from yolo_v5 import preprocessing
+from mobilenet_v1 import preprocessing
 
 #병렬처리 library
 import concurrent.futures
 
 def run_bench(num_tasks, server_address, use_https):
-    model_name = "yolo_v5"
+    model_name = "mobilenet_v1"
 
-    image_file_path = "../../dataset/imagenet/imagenet_1000_raw/n01843383_1.JPEG"
+    image_file_path = "../../../dataset/imagenet/imagenet_1000_raw/n01843383_1.JPEG"
     data = tf.make_tensor_proto(preprocessing.run_preprocessing(image_file_path))
 
     # gRPC 요청 생성
     request = predict_pb2.PredictRequest()
     request.model_spec.name = model_name
     request.model_spec.signature_name = 'serving_default'
-    request.inputs['x'].CopyFrom(data)
+    request.inputs['input_1'].CopyFrom(data)
 
     # gRPC 요청 병렬 처리
     with concurrent.futures.ThreadPoolExecutor(max_workers=num_tasks) as executor:
