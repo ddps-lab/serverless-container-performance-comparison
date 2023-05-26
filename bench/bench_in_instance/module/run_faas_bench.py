@@ -3,7 +3,7 @@ from module import module_cw_logs
 import importlib
 faas_bench = ""
 
-def main(model_name, num_tasks, server_address, spreadsheet_id, worksheet_name, service_name, bucket_name='', blob_connection_string='', blob_container_name='', log_group_name='', log_stream_name=''):
+def main(model_name, num_tasks, server_address, spreadsheet_id, worksheet_name, service_name, bucket_name="", blob_connection_string='', blob_container_name='', log_group_name='', log_stream_name=''):
   global faas_bench
   faas_bench = importlib.import_module(f"{model_name}.faas_bench")
   if (model_name == "yolo_v5" and service_name == "aws_lambda"):

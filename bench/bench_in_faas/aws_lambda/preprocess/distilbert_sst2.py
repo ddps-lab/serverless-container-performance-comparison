@@ -14,7 +14,7 @@ def run_preprocessing(text):
 
     return bert_input_ids, bert_input_masks
 
-def create_request_data(bucket_name=''):
+def create_request_data(bucket_name=""):
     text = "This is a sample sentence to test the BERT model."
     bert_input_ids, bert_input_masks = run_preprocessing(text)
     data = json.dumps({"inputs": { "bert_input_masks": bert_input_masks, "bert_input_ids": bert_input_ids.tolist()}})

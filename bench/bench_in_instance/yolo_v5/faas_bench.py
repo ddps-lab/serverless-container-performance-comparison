@@ -14,7 +14,7 @@ import time
 #병렬처리 library
 import concurrent.futures
 
-def run_bench(num_tasks, server_address, service_name='', bucket_name='', blob_connection_string='', blob_container_name=''):
+def run_bench(num_tasks, server_address, service_name='', bucket_name="", blob_connection_string='', blob_container_name=''):
     image_file_path = "../../../dataset/coco_2017/coco/images/val2017/000000000139.jpg"
     
     if (service_name == "aws_lambda"):

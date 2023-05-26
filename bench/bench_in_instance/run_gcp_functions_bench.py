@@ -2,7 +2,7 @@ import gcp_functions_variables
 from module import run_faas_bench
 import time
 
-def start_bench(model_names, num_tasks, gcp_functions_default_address, spreadsheet_id, bucket_name=''):
+def start_bench(model_names, num_tasks, gcp_functions_default_address, spreadsheet_id, bucket_name=""):
   for i, model_name in enumerate(model_names):
     for k, num_task in enumerate(num_tasks):
       run_faas_bench.main(model_name,

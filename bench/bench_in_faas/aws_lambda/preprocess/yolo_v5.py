@@ -18,7 +18,7 @@ def run_preprocessing(image_file_path):
     img = np.expand_dims(img, axis=0)
     return img
 
-def create_request_data(bucket_name=''):
+def create_request_data(bucket_name=""):
     image_file_path = "../../../../dataset/coco_2017/coco/images/val2017/000000000139.jpg"
     
     np.save('preprocessed_data', run_preprocessing(image_file_path))
