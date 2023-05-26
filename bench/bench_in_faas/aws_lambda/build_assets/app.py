@@ -31,11 +31,10 @@ def lambda_handler(event,context):
     log_group_name = json_body['inputs']['log_group_name']
     log_stream_name = json_body['inputs']['log_stream_name']
     server_address = json_body['inputs']['server_address']
-    data = json_body['inputs']['request_data']
+    request_data = json_body['inputs']['request_data']
     bucket_name = json_body['inputs']['bucket_name']
     upload_time = int(json_body['inputs']['upload_time'])
     download_time = 0
-    request_data = data[0]
     result, network_latency_time = predict(server_address, request_data)
     if (model_name == "yolo_v5"):
         s3_resource = boto3.resource('s3')
