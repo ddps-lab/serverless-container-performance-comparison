@@ -40,7 +40,7 @@ def lambda_handler(event,context):
     if (model_name == "yolo_v5"):
         s3_resource = boto3.resource('s3')
         download_start_time = time.time()
-        s3_resource.Bucket(bucket_name).download_file("predict_data.npy", "/tmp_file")
+        s3_resource.Bucket(bucket_name).download_file("predict_data.npy", "/tmp/tmp_file")
         download_time = time.time() - download_start_time
     create_log_event(log_group_name, log_stream_name, result['inference_time'], upload_time+network_latency_time+download_time)
     response = {
