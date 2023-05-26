@@ -3,8 +3,6 @@ import requests
 import boto3
 import time
 
-logs_client = boto3.client('logs')
-
 def predict(server_address, data):
     headers = {"content-type": "application/json"}
     url = server_address
@@ -16,6 +14,7 @@ def predict(server_address, data):
     return result, network_latency_time
 
 def create_log_event(log_group_name, log_stream_name, inference_time, network_latency_time):
+    logs_client = boto3.client('logs')
     log_data = {
         'inference_time': inference_time,
         'network_latency_time': network_latency_time
@@ -28,13 +27,22 @@ def create_log_event(log_group_name, log_stream_name, inference_time, network_la
 
 def lambda_handler(event,context):
     json_body = json.loads(event['body'])
+    model_name = json_body['inputs']['model_name']
     log_group_name = json_body['inputs']['log_group_name']
     log_stream_name = json_body['inputs']['log_stream_name']
     server_address = json_body['inputs']['server_address']
     data = json_body['inputs']['request_data']
+    bucket_name = json_body['inputs']['bucket_name']
+    upload_time = int(json_body['inputs']['upload_time'])
+    download_time = 0
     request_data = data[0]
     result, network_latency_time = predict(server_address, request_data)
-    create_log_event(log_group_name, log_stream_name, result['inference_time'], network_latency_time)
+    if (model_name == "yolo_v5"):
+        s3_resource = boto3.resource('s3')
+        download_start_time = time.time()
+        s3_resource.Bucket(bucket_name).download_file("predict_data.npy", "/tmp_file")
+        download_time = time.time() - download_start_time
+    create_log_event(log_group_name, log_stream_name, result['inference_time'], upload_time+network_latency_time+download_time)
     response = {
         'statusCode': 200,
         'body': "Success"
