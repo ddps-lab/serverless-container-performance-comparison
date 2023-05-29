@@ -29,8 +29,8 @@ class PredictionServiceServicer(prediction_service_pb2_grpc.PredictionServiceSer
 def serve():
     print("Starting grpc server...")
     server_options = [
-        ('grpc.max_send_message_length', 50*50*1024),
-        ('grpc.max_receive_message_length', 50*50*1024)
+        ('grpc.max_send_message_length', 50*1024*1024),
+        ('grpc.max_receive_message_length', 50*1024*1024)
     ]
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=1000), options=server_options)
     prediction_service_pb2_grpc.add_PredictionServiceServicer_to_server(PredictionServiceServicer(), server)
