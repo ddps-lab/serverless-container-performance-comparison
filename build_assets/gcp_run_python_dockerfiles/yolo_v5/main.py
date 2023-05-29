@@ -5,6 +5,7 @@ import grpc
 import numpy as np
 from tensorflow import make_ndarray
 from tensorflow import make_tensor_proto
+from tensorflow import convert_to_tensor
 from tensorflow.keras.models import load_model
 from tensorflow_serving.apis import predict_pb2
 from tensorflow_serving.apis import prediction_service_pb2_grpc
@@ -17,9 +18,10 @@ class PredictionServiceServicer(prediction_service_pb2_grpc.PredictionServiceSer
     def Predict(self, request, context):
         start_time = time.time()
         model_input = make_ndarray(request.inputs["x"])
-        model_output = self.model([model_input])
+        model_output = self.model(model_input)
         response = predict_pb2.PredictResponse()
-        response.outputs["output"].CopyFrom(make_tensor_proto(model_output, shape=list(model_output.shape)))
+        model_output_tensor = convert_to_tensor(model_output)
+        response.outputs["output"].CopyFrom(model_output_tensor)
         end_time = time.time()
         inference_time = end_time - start_time
         inference_time_numpy = np.array(inference_time)
