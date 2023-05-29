@@ -33,7 +33,7 @@ def start_bench(model_names, num_tasks, gcp_function_address, gcp_run_default_ad
             "request_data": request_data,
             "log_group_name": log_group_name,
             "log_stream_name": log_stream_name,
-            "server_address":  f"https://{model_name.replace('_','-')}.{gcp_run_default_address}/",
+            "server_address":  f"{model_name.replace('_','-')}-{gcp_run_default_address}",
             "use_https": use_https
          }
       })

@@ -1,7 +1,7 @@
 # GCP Run 추론 요청 서버의 주소, 모델 이름 설정
 # 추론 시, https://<region name>-<project name>.cloudfunctions.net/<function name>과 같은 형식으로 진행된다.
 gcp_function_address = ''
-# gcp_run bench default address
+# gcp_run bench default address ex) xxxxxxxxxx.du.a.run.app
 gcp_run_default_address = ''
 # grpc https options
 use_https = "1"
