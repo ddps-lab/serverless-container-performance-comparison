@@ -12,11 +12,11 @@ import time
 
 class PredictionServiceServicer(prediction_service_pb2_grpc.PredictionServiceServicer):
     def __init__(self):
-        self.model = load_model('./mobilenet_v1')
+        self.model = load_model('./mobilenet_v2')
 
     def Predict(self, request, context):
         start_time = time.time()
-        model_input = make_ndarray(request.inputs["input_1"])
+        model_input = make_ndarray(request.inputs["input_2"])
         model_output = self.model.predict([model_input])
         response = predict_pb2.PredictResponse()
         response.outputs["output"].CopyFrom(make_tensor_proto(model_output, shape=list(model_output.shape)))

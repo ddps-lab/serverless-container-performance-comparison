@@ -28,7 +28,7 @@ def predict(stub, data):
     request_time = time.time()
     response = stub.Predict(data, timeout=100.0)
     response_time = time.time()
-    inference_time = response.outputs['elapsed_time'].double_val[0]
+    inference_time = response.outputs['inference_time'].double_val[0]
     network_latency_time = response_time - request_time
     return response, inference_time, network_latency_time
 
