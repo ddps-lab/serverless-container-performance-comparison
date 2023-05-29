@@ -13,4 +13,6 @@ module "cloudrun" {
   noauth_policy   = data.google_iam_policy.noauth.policy_data
   APIS            = var.APIS
   concurrency     = var.concurrency
+  project_name    = var.project
+  prefix          = var.prefix
 }
