@@ -18,6 +18,7 @@ resource "google_cloudfunctions_function" "cloudfunctions_function" {
   }
   timeouts {
     create = "15m"
+    update = "15m"
   }
 }
 
