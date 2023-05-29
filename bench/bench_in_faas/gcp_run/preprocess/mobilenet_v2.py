@@ -5,7 +5,7 @@ from tensorflow_serving.apis import predict_pb2
 from tensorflow import make_tensor_proto
 import numpy as np
 from PIL import Image
-import json
+from google.protobuf.json_format import MessageToJson
 
 def get_file_path(filename):
     return os.path.join(os.path.dirname(__file__), filename)
@@ -25,4 +25,5 @@ def create_request_data(bucket_name=""):
     data.model_spec.name = 'mobilenet_v2'
     data.model_spec.signature_name = 'serving_default'
     data.inputs['input_2'].CopyFrom(make_tensor_proto(run_preprocessing(image_file_path)))
-    return data
+    json_data = MessageToJson(data)
+    return json_data

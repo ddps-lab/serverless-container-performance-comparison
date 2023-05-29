@@ -5,6 +5,7 @@ from tensorflow_serving.apis import predict_pb2
 from tensorflow import make_tensor_proto
 from keras.preprocessing.text import Tokenizer
 from keras.utils import pad_sequences
+from google.protobuf.json_format import MessageToJson
 
 def run_preprocessing(text):
     tokenizer = Tokenizer()
@@ -23,4 +24,5 @@ def create_request_data():
     data.model_spec.signature_name = 'serving_default'
     data.inputs['bert_input_ids'].CopyFrom(make_tensor_proto(bert_input_ids, shape=[1,128]))
     data.inputs['bert_input_masks'].CopyFrom(make_tensor_proto(bert_input_masks, shape=[1,128]))
-    return data
+    json_data = MessageToJson(data)
+    return json_data
