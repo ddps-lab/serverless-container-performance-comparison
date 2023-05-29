@@ -4,6 +4,7 @@ resource "google_cloud_run_service" "cloudrun_service" {
   location = var.region
   template {
     spec {
+      container_concurrency = var.concurrency
       containers {
         image = "${var.docker_registry}/gcp-run-${var.model_name}-${var.APIS[count.index]}"
         ports {

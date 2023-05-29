@@ -12,4 +12,5 @@ module "cloudrun" {
   max_instances   = var.model_resources[var.enabled_models[count.index]].max_instances
   noauth_policy   = data.google_iam_policy.noauth.policy_data
   APIS            = var.APIS
+  concurrency     = var.concurrency
 }

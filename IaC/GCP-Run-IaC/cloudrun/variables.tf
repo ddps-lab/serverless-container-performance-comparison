@@ -7,3 +7,4 @@ variable "min_instances" {}
 variable "max_instances" {}
 variable "noauth_policy" {}
 variable "APIS" {}
+variable "concurrency" {}

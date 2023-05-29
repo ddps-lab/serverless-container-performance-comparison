@@ -23,11 +23,15 @@ variable "APIS" {
   default = ["grpc", "rest"]
 }
 
+variable "concurrency" {
+  type    = number
+  default = 1
+}
+
 variable "enabled_models" {
   type = list(string)
   default = [ "mobilenet_v1", "mobilenet_v2", "inception_v3", "yolo_v5", "bert_imdb"]
 }
-
 
 variable "model_resources" {
   type = object({
