@@ -5,8 +5,6 @@ import time
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 from tensorflow_serving.apis import prediction_service_pb2_grpc
-
-import tensorflow as tf
 from google.protobuf.json_format import Parse
 import grpc
 
