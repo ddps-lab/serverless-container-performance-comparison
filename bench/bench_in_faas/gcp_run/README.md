@@ -1,0 +1,1 @@
+This is GCP Functions code to bench GCP Run.

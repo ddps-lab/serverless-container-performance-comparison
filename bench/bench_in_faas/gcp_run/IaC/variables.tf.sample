@@ -1,0 +1,31 @@
+variable "project" {
+  type = string
+  default = "change here!"
+}
+
+variable "region" {
+  type = string
+  default = "change here!"
+}
+
+variable "prefix" {
+  type = string
+  default = "change here!"
+}
+
+variable "bucket_name" {
+  type = string
+  default = "change here!"
+}
+
+variable "aws_access_key" {
+  type = string
+  sensitive = true
+  default = "change here!"
+}
+
+variable "aws_secret_access_key" {
+  type = string
+  sensitive = true
+  default = "change here!"
+}
