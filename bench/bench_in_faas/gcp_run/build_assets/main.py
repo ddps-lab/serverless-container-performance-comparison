@@ -10,8 +10,9 @@ import tensorflow as tf
 from google.protobuf.json_format import Parse
 import grpc
 
-access_key = os.environ['AWS_ACCESS_KEY_ID']
-secret_key = os.environ['AWS_SECRET_ACCESS_KEY']
+aws_access_key = os.environ['AWS_ACCESS_KEY_ID']
+aws_secret_key = os.environ['AWS_SECRET_ACCESS_KEY']
+aws_region = os.environ['AWS_REGION']
 
 def create_grpc_stub(server_address, use_https):
     # gRPC 채널 생성
@@ -32,7 +33,7 @@ def predict(stub, data):
     return response, network_latency_time
 
 def create_log_event(log_group_name, log_stream_name, inference_time, network_latency_time):
-    logs_client = boto3.client('logs', aws_access_key_id=access_key, aws_secret_access_key=secret_key)
+    logs_client = boto3.client('logs', aws_access_key_id=aws_access_key, aws_secret_access_key=aws_secret_key, region_name=aws_region)
     log_data = {
         'inference_time': inference_time,
         'network_latency_time': network_latency_time

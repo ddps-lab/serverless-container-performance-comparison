@@ -29,3 +29,8 @@ variable "aws_secret_access_key" {
   sensitive = true
   default = "change here!"
 }
+
+variable "aws_region" {
+  type = string
+  default = "change here!'
+}

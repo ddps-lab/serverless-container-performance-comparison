@@ -14,6 +14,7 @@ resource "google_cloudfunctions_function" "cloudfunctions_function" {
   environment_variables = {
     AWS_ACCESS_KEY_ID     = var.aws_access_key
     AWS_SECRET_ACCESS_KEY = var.aws_secret_access_key
+    AWS_REGION            = var.aws_region
   }
   timeouts {
     create = "15m"
