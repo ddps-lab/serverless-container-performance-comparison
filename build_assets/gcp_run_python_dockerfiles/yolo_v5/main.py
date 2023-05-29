@@ -21,7 +21,7 @@ class PredictionServiceServicer(prediction_service_pb2_grpc.PredictionServiceSer
         model_output = self.model(model_input)
         response = predict_pb2.PredictResponse()
         model_output_tensor = convert_to_tensor(model_output)
-        response.outputs["output"].CopyFrom(model_output_tensor)
+        response.outputs["output"].CopyFrom(make_tensor_proto(model_output_tensor))
         end_time = time.time()
         inference_time = end_time - start_time
         inference_time_numpy = np.array(inference_time)
