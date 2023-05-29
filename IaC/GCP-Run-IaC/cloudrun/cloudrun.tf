@@ -1,10 +1,5 @@
-variable "APIS" {
-  type    = list(string)
-  default = ["grpc", "rest"]
-}
-
 resource "google_cloud_run_service" "cloudrun_service" {
-  count    = 2
+  count    = length(var.APIS)
   name     = "${replace(var.model_name,"_","-")}-${var.APIS[count.index]}"
   location = var.region
   template {
@@ -48,7 +43,7 @@ resource "google_cloud_run_service" "cloudrun_service" {
 }
 
 resource "google_cloud_run_service_iam_policy" "cloudrun_noauth" {
-  count    = 2
+  count    = length(var.APIS)
   location = google_cloud_run_service.cloudrun_service[count.index].location
   project  = google_cloud_run_service.cloudrun_service[count.index].project
   service  = google_cloud_run_service.cloudrun_service[count.index].name

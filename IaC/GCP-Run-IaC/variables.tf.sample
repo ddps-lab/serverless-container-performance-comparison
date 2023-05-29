@@ -18,6 +18,11 @@ variable "docker_registry" {
   default = "change here!"
 }
 
+variable "APIS" {
+  type    = list(string)
+  default = ["grpc", "rest"]
+}
+
 variable "enabled_models" {
   type = list(string)
   default = [ "mobilenet_v1", "mobilenet_v2", "inception_v3", "yolo_v5", "bert_imdb"]
