@@ -1,0 +1,4 @@
+*
+!/models/bert_imdb
+!/build_assets/gcp_run_python_dockerfiles/requirements.txt
+!/build_assets/gcp_run_python_dockerfiles/bert_imdb/app.py

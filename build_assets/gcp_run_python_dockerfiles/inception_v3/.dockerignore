@@ -1,0 +1,4 @@
+*
+!/models/inception_v3
+!/build_assets/gcp_run_python_dockerfiles/requirements.txt
+!/build_assets/gcp_run_python_dockerfiles/inception_v3/app.py

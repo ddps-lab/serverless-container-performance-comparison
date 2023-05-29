@@ -1,0 +1,4 @@
+*
+!/models/yolo_v5
+!/build_assets/gcp_run_python_dockerfiles/requirements.txt
+!/build_assets/gcp_run_python_dockerfiles/yolo_v5/app.py
