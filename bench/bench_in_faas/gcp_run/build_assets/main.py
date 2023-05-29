@@ -53,7 +53,7 @@ def function_handler(request):
         use_https = json_body['inputs']['use_https']
         request_data = json_body['inputs']['request_data']
         protobuf_message = predict_pb2.PredictRequest()
-        ParseDict(request_data, protobuf_message)
+        ParseDict(json.loads(request_data), protobuf_message)
         stub = create_grpc_stub(server_address, use_https)
         response, network_latency_time = predict(stub, protobuf_message)
         create_log_event(log_group_name, log_stream_name, "null", network_latency_time)
