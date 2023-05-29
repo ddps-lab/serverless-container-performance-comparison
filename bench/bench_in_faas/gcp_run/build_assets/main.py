@@ -4,8 +4,9 @@ import boto3
 import time
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+from tensorflow_serving.apis import predict_pb2
 from tensorflow_serving.apis import prediction_service_pb2_grpc
-from google.protobuf.json_format import Parse
+from google.protobuf.json_format import ParseDict
 import grpc
 
 aws_access_key = os.environ['AWS_ACCESS_KEY_ID']
@@ -50,9 +51,11 @@ def function_handler(request):
         log_stream_name = json_body['inputs']['log_stream_name']
         server_address = json_body['inputs']['server_address']
         use_https = json_body['inputs']['use_https']
-        request_data = Parse(json_body['inputs']['request_data'])
+        request_data = json_body['inputs']['request_data']
+        protobuf_message = predict_pb2.PredictRequest()
+        ParseDict(request_data, protobuf_message)
         stub = create_grpc_stub(server_address, use_https)
-        response, network_latency_time = predict(stub, request_data)
+        response, network_latency_time = predict(stub, protobuf_message)
         create_log_event(log_group_name, log_stream_name, "null", network_latency_time)
         return json.dumps({'body': "Success"}), 200, {'Content-Type': 'application/json'}
     else:
