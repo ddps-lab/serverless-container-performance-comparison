@@ -6,3 +6,7 @@ variable "ram_mib" {}
 variable "min_instances" {}
 variable "max_instances" {}
 variable "noauth_policy" {}
+variable "APIS" {}
+variable "prefix" {}
+variable "concurrency" {}
+variable "project_name" {}

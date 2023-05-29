@@ -1,0 +1,4 @@
+*
+!/models/mobilenet_v1
+!/build_assets/gcp_run_python_dockerfiles/requirements.txt
+!/build_assets/gcp_run_python_dockerfiles/mobilenet_v1/app.py

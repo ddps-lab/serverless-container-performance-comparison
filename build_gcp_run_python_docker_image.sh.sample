@@ -1,0 +1,15 @@
+#!/bin/bash
+#you need to login Artifact Registry (docker login)
+DOCKER_REGISTRY=""
+model_names=( "mobilenet_v1" "mobilenet_v2" "inception_v3" "yolo_v5" "bert_imdb" )
+
+for model_name in "${model_names[@]}"
+do
+  sudo DOCKER_BUILDKIT=1 docker build -t $DOCKER_REGISTRY/gcp-run-$model_name-grpc:latest -f ./build_assets/gcp_run_python_dockerfiles/$model_name/Dockerfile . --build-arg DOCKERIGNORE_FILE=./build_assets/gcp_run_python_dockerfiles/$model_name/.dockerignore
+  sudo docker builder prune -f
+done
+
+for model_name in "${model_names[@]}"
+do
+  sudo docker push $DOCKER_REGISTRY/gcp-run-$model_name-grpc:latest
+done
