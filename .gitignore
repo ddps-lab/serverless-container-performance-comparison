@@ -7,6 +7,7 @@
 /build_aws_lambda_docker_image.sh
 /build_azure_function_docker_image.sh
 /build_gcp_run_docker_image.sh
+/build_gcp_run_python_docker_image.sh
 /create_gcp_functions_code_zip.sh
 
 ### Model files

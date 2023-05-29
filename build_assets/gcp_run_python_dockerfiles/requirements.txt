@@ -1,0 +1,4 @@
+tensorflow-cpu==2.11.1
+tensorflow-serving-api==2.11.1
+protobuf==3.19.6
+grpcio==1.54.2
