@@ -1,4 +1,0 @@
-#!/bin/bash
-bucket_name=""
-zip -j scpc_bench.zip ./requirements.txt ./main.py
-gsutil cp scpc_bench.zip gs://$bucket_name

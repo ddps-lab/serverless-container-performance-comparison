@@ -1,0 +1,3 @@
+*
+!/build_assets/gcp_run_python_dockerfiles/Dockerfile.grpc
+!/build_assets/gcp_run_python_dockerfiles/requirements.grpc.txt

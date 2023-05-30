@@ -1,0 +1,12 @@
+FROM gcp_run_python_grpc_docker_base
+
+WORKDIR /app
+
+COPY ./models/bert_imdb /app/bert_imdb
+
+COPY ./build_assets/gcp_run_python_dockerfiles/bert_imdb/grpc_main.py /app
+
+EXPOSE 8500
+
+CMD ["python", "grpc_main.py"]
+

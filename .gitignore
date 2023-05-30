@@ -3,7 +3,8 @@
 
 ### build sh
 /bench/bench_in_faas/aws_lambda/build_assets/build.sh
-/bench/bench_in_faas/gcp_run/build_assets/build.sh
+/bench/bench_in_faas/gcp_run/grpc/build_assets/build.sh
+/bench/bench_in_faas/gcp_run/rest/build_assets/build.sh
 /build_aws_lambda_docker_image.sh
 /build_azure_function_docker_image.sh
 /build_gcp_run_docker_image.sh
@@ -25,7 +26,8 @@
 /yolo_v5.zip
 /bert_imdb.zip
 /distilbert_sst2.zip
-/bench/bench_in_faas/gcp_run/build_assets/scpc_bench.zip
+/bench/bench_in_faas/gcp_run/grpc/build_assets/scpc_grpc_bench.zip
+/bench/bench_in_faas/gcp_run/rest/build_assets/scpc_rest_bench.zip
 
 ### Dataset files
 /dataset/imagenet
@@ -38,7 +40,8 @@ tmp_file
 
 ### Variables
 /bench/bench_in_faas/aws_lambda/variables.py
-/bench/bench_in_faas/gcp_run/variables.py
+/bench/bench_in_faas/gcp_run/grpc/variables.py
+/bench/bench_in_faas/gcp_run/rest/variables.py
 /bench/bench_in_instance/aws_lambda_variables.py
 /bench/bench_in_instance/azure_function_variables.py
 /bench/bench_in_instance/gcp_run_variables.py
@@ -48,7 +51,8 @@ tmp_file
 /bench/bench_in_instance/bench_azure_infra/variables.tf
 /bench/bench_in_instance/bench_gcp_infra/variables.tf
 /bench/bench_in_faas/aws_lambda/IaC/variables.tf
-/bench/bench_in_faas/gcp_run/IaC/variables.tf
+/bench/bench_in_faas/gcp_run/grpc/IaC/variables.tf
+/bench/bench_in_faas/gcp_run/rest/IaC/variables.tf
 /IaC/AWS-Lambda-IaC/variables.tf
 /IaC/Azure-Function-IaC/variables.tf
 /IaC/GCP-Run-IaC/variables.tf
