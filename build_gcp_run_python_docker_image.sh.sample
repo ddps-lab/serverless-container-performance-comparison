@@ -2,14 +2,26 @@
 #you need to login Artifact Registry (docker login)
 DOCKER_REGISTRY=""
 model_names=( "mobilenet_v1" "mobilenet_v2" "inception_v3" "yolo_v5" "bert_imdb" )
-sudo DOCKER_BUILDKIT=1 docker build -t gcp_run_python_docker_base -f ./build_assets/gcp_run_python_dockerfiles/Dockerfile . --build-arg DOCKERIGNORE_FILE=./build_assets/gcp_run_python_dockerfiles/.dockerignore
-for model_name in "${model_names[@]}"
+APIS=( "grpc" "rest" )
+
+for API in "${APIS[@]}"
 do
-  sudo DOCKER_BUILDKIT=1 docker build -t $DOCKER_REGISTRY/gcp-run-$model_name-grpc:latest -f ./build_assets/gcp_run_python_dockerfiles/$model_name/Dockerfile . --build-arg DOCKERIGNORE_FILE=./build_assets/gcp_run_python_dockerfiles/$model_name/.dockerignore
-  sudo docker builder prune -f
+  sudo DOCKER_BUILDKIT=1 docker build -t gcp_run_python_$API\_docker_base -f ./build_assets/gcp_run_python_dockerfiles/Dockerfile.$API . --build-arg DOCKERIGNORE_FILE=./build_assets/gcp_run_python_dockerfiles/.dockerignore.$API
 done
 
 for model_name in "${model_names[@]}"
 do
-  sudo docker push $DOCKER_REGISTRY/gcp-run-$model_name-grpc:latest
+  for API in "${APIS[@]}"
+  do
+    sudo DOCKER_BUILDKIT=1 docker build -t $DOCKER_REGISTRY/gcp-run-$model_name-$API:latest -f ./build_assets/gcp_run_python_dockerfiles/$model_name/Dockerfile.$API . --build-arg DOCKERIGNORE_FILE=./build_assets/gcp_run_python_dockerfiles/$model_name/.dockerignore.$API
+    sudo docker builder prune -f
+  done
+done
+
+for model_name in "${model_names[@]}"
+do
+  for API in "${APIS[@]}"
+  do
+    sudo docker push $DOCKER_REGISTRY/gcp-run-$model_name-$API:latest
+  done
 done

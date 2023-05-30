@@ -1,0 +1,3 @@
+*
+!/models/mobilenet_v1
+!/build_assets/gcp_run_python_dockerfiles/mobilenet_v1/grpc_main.py

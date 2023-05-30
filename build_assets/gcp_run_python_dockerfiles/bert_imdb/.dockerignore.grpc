@@ -1,0 +1,3 @@
+*
+!/models/bert_imdb
+!/build_assets/gcp_run_python_dockerfiles/bert_imdb/grpc_main.py

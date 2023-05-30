@@ -1,0 +1,12 @@
+FROM gcp_run_python_grpc_docker_base
+
+WORKDIR /app
+
+COPY ./models/inception_v3 /app/inception_v3
+
+COPY ./build_assets/gcp_run_python_dockerfiles/inception_v3/grpc_main.py /app
+
+EXPOSE 8500
+
+CMD ["python", "grpc_main.py"]
+
