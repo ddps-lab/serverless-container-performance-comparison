@@ -1,0 +1,12 @@
+FROM gcp_run_python_rest_docker_base
+
+WORKDIR /app
+
+COPY ./models/bert_imdb /app/bert_imdb
+
+COPY ./build_assets/gcp_run_python_dockerfiles/bert_imdb/rest_main.py /app
+
+EXPOSE 8501
+
+CMD ["uvicorn", "rest_main:app", "--port", "8501", "--host", "0.0.0.0"]
+
