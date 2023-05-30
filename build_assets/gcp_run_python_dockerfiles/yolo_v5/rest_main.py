@@ -18,6 +18,6 @@ async def predict(json_body: dict):
     response = {
         'loading_time': model_load_end_time - model_load_start_time,
         'inference_time': end_time - start_time,
-        'body': result.tolist(),
+        'body': result,
     }
     return response
