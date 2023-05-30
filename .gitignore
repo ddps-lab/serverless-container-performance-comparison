@@ -1,3 +1,7 @@
+### tmp
+/bench/bench_in_faas/gcp_run/grpc/backup
+/bench/bench_in_faas/gcp_run/rest/backup
+
 ### VSCode
 .vscode
 

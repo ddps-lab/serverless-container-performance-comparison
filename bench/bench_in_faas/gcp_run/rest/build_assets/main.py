@@ -1,9 +1,10 @@
-import functions_framework
-import json
-import requests
-import boto3
-import time
 import os
+import time
+import boto3
+import requests
+import json
+from fastapi import FastAPI
+app = FastAPI()
 
 aws_access_key = os.environ['AWS_ACCESS_KEY_ID']
 aws_secret_key = os.environ['AWS_SECRET_ACCESS_KEY']
@@ -31,18 +32,12 @@ def create_log_event(log_group_name, log_stream_name, inference_time, network_la
     }
     logs_client.put_log_events(logGroupName=log_group_name, logStreamName=log_stream_name, logEvents=[log_event])
 
-@functions_framework.http
-def function_handler(request):
-    if request.method == 'POST':
-        json_body = request.get_json(silent=True)
-        log_group_name = json_body['inputs']['log_group_name']
-        log_stream_name = json_body['inputs']['log_stream_name']
-        server_address = json_body['inputs']['server_address']
-        request_data = json_body['inputs']['request_data']
-        result, network_latency_time = predict(server_address, request_data)
-        create_log_event(log_group_name, log_stream_name, result['inference_time'], network_latency_time)
-        return json.dumps({'body': "Success"}), 200, {'Content-Type': 'application/json'}
-    else:
-        return json.dumps({
-            'body': "Please send POST request"
-        }), 403, {'Content-Type': 'application/json'}
+@app.post('/')
+async def main(json_body: dict):
+    log_group_name = json_body['inputs']['log_group_name']
+    log_stream_name = json_body['inputs']['log_stream_name']
+    server_address = json_body['inputs']['server_address']
+    request_data = json_body['inputs']['request_data']
+    result, network_latency_time = predict(server_address, request_data)
+    create_log_event(log_group_name, log_stream_name, result['inference_time'], network_latency_time)
+    return "Success"

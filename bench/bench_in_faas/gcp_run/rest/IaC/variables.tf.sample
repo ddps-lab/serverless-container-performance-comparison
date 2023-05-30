@@ -13,9 +13,14 @@ variable "prefix" {
   default = "change here!"
 }
 
-variable "bucket_name" {
-  type = string
+variable "docker_registry" {
+  type    = string
   default = "change here!"
+}
+
+variable "concurrency" {
+  type    = number
+  default = 1
 }
 
 variable "aws_access_key" {

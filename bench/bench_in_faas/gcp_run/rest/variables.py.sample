@@ -1,7 +1,7 @@
 # GCP Run 추론 요청 서버의 주소, 모델 이름 설정
-# ex) <region name>-<project name>.cloudfunctions.net/<function name>
-# 추론 시, https://<region name>-<project name>.cloudfunctions.net/<function name>과 같은 형식으로 진행된다.
-gcp_function_address = ''
+# ex) xxxxxxxxxx.du.a.run.app
+# 추론 시, https://xxxxxxxxxx.du.a.run.app/과 같은 형식으로 진행된다.
+gcp_run_address = ''
 # gcp_run bench default address ex) xxxxxxxxxx.du.a.run.app
 gcp_run_default_address = ''
 # 추론을 테스트할 모델 이름들

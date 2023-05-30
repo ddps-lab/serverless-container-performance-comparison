@@ -1,4 +1,6 @@
 #!/bin/bash
-bucket_name=""
-zip -j scpc_rest_bench.zip ./requirements.txt ./main.py
-gsutil cp scpc_rest_bench.zip gs://$bucket_name
+#you need to login Artifact Registry (docker login)
+DOCKER_REGISTRY=""
+sudo DOCKER_BUILDKIT=1 docker build -t $DOCKER_REGISTRY/scpc_rest_bench:latest -f ./Dockerfile . --build-arg DOCKERIGNORE_FILE=./.dockerignore
+sudo docker builder prune -f
+sudo docker push $DOCKER_REGISTRY/scpc_rest_bench:latest

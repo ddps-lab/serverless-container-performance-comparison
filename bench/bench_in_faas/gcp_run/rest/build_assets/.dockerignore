@@ -1,0 +1,4 @@
+*
+!/bench/bench_in_faas/gcp_run/rest/build_assets/main.py
+!/bench/bench_in_faas/gcp_run/rest/build_assets/Dockerfile
+!/bench/bench_in_faas/gcp_run/rest/build_assets/requirements.txt
