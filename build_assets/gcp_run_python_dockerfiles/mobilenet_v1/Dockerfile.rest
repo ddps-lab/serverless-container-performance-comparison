@@ -8,5 +8,5 @@ COPY ./build_assets/gcp_run_python_dockerfiles/mobilenet_v1/rest_main.py /app
 
 EXPOSE 8501
 
-CMD ["uvicorn", "rest_main:app"]
+CMD ["uvicorn", "rest_main:app", "--port", "8501"]
 
