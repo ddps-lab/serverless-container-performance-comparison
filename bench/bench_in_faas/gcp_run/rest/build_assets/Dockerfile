@@ -2,11 +2,11 @@ FROM python:3.10.11
 
 WORKDIR /app
 
-COPY ./bench/bench_in_faas/gcp_run/rest/build_assets/requirements.txt /app
+COPY ./requirements.txt /app
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ./bench/bench_in_faas/gcp_run/rest/build_assets/main.py /app
+COPY ./main.py /app
 
 EXPOSE 8501
 
