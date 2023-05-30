@@ -1,3 +1,3 @@
-output "cloud_run_url_output" {
-  value = module.cloudrun.cloudrun_url
+output "cloudfunction_url" {
+  value = google_cloudfunctions_function.cloudfunctions_function.https_trigger_url
 }

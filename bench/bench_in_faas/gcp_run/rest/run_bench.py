@@ -19,7 +19,7 @@ def request_predict(server_address, data):
     result = response.text
     return result
 
-def start_bench(model_names, num_tasks, gcp_run_address, gcp_run_default_address, log_group_name):
+def start_bench(model_names, num_tasks, gcp_function_address, gcp_run_default_address, log_group_name):
   for i, model_name in enumerate(model_names):
     global faas_bench
     faas_bench = importlib.import_module(f"preprocess.{model_name}")
@@ -37,13 +37,13 @@ def start_bench(model_names, num_tasks, gcp_run_address, gcp_run_default_address
       })
       create_log_stream(log_group_name, log_stream_name)
       with concurrent.futures.ThreadPoolExecutor(max_workers=num_task) as executor:
-        futures = [executor.submit(lambda: request_predict(gcp_run_address, data)) for _ in range(num_task)]
+        futures = [executor.submit(lambda: request_predict(gcp_function_address, data)) for _ in range(num_task)]
       for future in concurrent.futures.as_completed(futures):
         result = future.result()
       time.sleep(5)
 
 start_bench(variables.model_names,
             variables.num_tasks,
-            variables.gcp_run_address,
+            variables.gcp_function_address,
             variables.gcp_run_default_address,
             variables.log_group_name)
