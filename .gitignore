@@ -14,6 +14,7 @@
 /build_gcp_run_docker_image.sh
 /build_gcp_run_python_docker_image.sh
 /create_gcp_functions_code_zip.sh
+/CPU_check/gcp_run/build.sh
 
 ### Model files
 /models/mobilenet_v1

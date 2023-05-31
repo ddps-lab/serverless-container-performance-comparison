@@ -1,0 +1,6 @@
+#!/bin/bash
+#you need to login Artifact Registry (docker login)
+DOCKER_REGISTRY=""
+sudo DOCKER_BUILDKIT=1 docker build -t $DOCKER_REGISTRY/scpc_run_cpu_check:latest -f ./Dockerfile . --build-arg DOCKERIGNORE_FILE=./.dockerignore
+sudo docker builder prune -f
+sudo docker push $DOCKER_REGISTRY/scpc_run_cpu_check:latest
