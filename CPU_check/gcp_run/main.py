@@ -5,7 +5,7 @@ from fastapi import FastAPI
 app = FastAPI()
 
 @app.get('/')
-def main():
+async def main():
     mem_bytes = os.sysconf('SC_PAGE_SIZE') * os.sysconf('SC_PHYS_PAGES')
     mem_gib = mem_bytes/(1024.**3)
     num_cores = multiprocessing.cpu_count()
