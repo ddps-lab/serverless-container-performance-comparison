@@ -36,12 +36,14 @@
 
 ### Dataset files
 /dataset/imagenet
+/dataset/coco_2017
 
 ### Credentials
 /bench/bench_in_instance/module/sheet_credential.json
 
 ### tmp file
 tmp_file
+preprocessed_data.npy
 
 ### Variables
 /bench/bench_in_faas/aws_lambda/variables.py
