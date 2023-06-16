@@ -2,7 +2,6 @@
 aws_region = ''
 # AWS Lambda 추론 요청 서버의 주소, 모델 이름 설정
 # ex) inference.com
-# 추론 시, https://<model_name>.inference.com/ 과 같은 형식으로 진행된다.
 aws_lambda_address = ''
 # aws_lambda bench default address
 # https://runtime.sagemaker.{aws_region}.amazonaws.com/endpoints/{aws_sagemaker_endpoint_prefix}-{model_name(with replaced "_" to "-")}-endpoint/invocations 와 같은 형태로 지정됨.
