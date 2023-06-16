@@ -10,7 +10,7 @@ def predict(server_address, data):
     response = requests.post(url, data=data, headers=headers)
     response_time = time.time()
     network_latency_time = response_time - request_time
-    result = response.json()
+    result = response.text
     return result, network_latency_time
 
 def create_log_event(log_group_name, log_stream_name, network_latency_time):
