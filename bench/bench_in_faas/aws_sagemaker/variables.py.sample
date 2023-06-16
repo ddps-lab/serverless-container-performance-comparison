@@ -1,10 +1,11 @@
+# AWS Sagemaker Region
+aws_region = ''
 # AWS Lambda 추론 요청 서버의 주소, 모델 이름 설정
 # ex) inference.com
 aws_lambda_address = ''
 # aws_lambda bench default address
-aws_lambda_default_address = ''
-# yolo_v5 추론 시 사용할 S3 Bucket name
-bucket_name = ''
+# https://runtime.sagemaker.{aws_region}.amazonaws.com/endpoints/{aws_sagemaker_endpoint_prefix}-{model_name(with replaced "_" to "-")}-endpoint/invocations 와 같은 형태로 지정됨.
+aws_sagemaker_endpoint_prefix = ''
 # 추론을 테스트할 모델 이름들
 model_names = ["mobilenet_v1","mobilenet_v2","inception_v3","yolo_v5","bert_imdb"]
 # 테스트 추론 횟수들 지정 (병렬로 한번에 처리됩니다.)

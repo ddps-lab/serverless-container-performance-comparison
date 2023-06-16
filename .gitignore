@@ -1,8 +1,13 @@
+### tmp
+/bench/bench_in_faas/gcp_run/grpc/backup
+/bench/bench_in_faas/gcp_run/rest/backup
+
 ### VSCode
 .vscode
 
 ### build sh
 /bench/bench_in_faas/aws_lambda/build_assets/build.sh
+/bench/bench_in_faas/aws_sagemaker/build_assets/build.sh
 /bench/bench_in_faas/gcp_run/grpc/build_assets/build.sh
 /bench/bench_in_faas/gcp_run/rest/build_assets/build.sh
 /build_aws_lambda_docker_image.sh
@@ -10,6 +15,7 @@
 /build_gcp_run_docker_image.sh
 /build_gcp_run_python_docker_image.sh
 /create_gcp_functions_code_zip.sh
+/CPU_check/gcp_run/build.sh
 
 ### Model files
 /models/mobilenet_v1
@@ -31,15 +37,18 @@
 
 ### Dataset files
 /dataset/imagenet
+/dataset/coco_2017
 
 ### Credentials
 /bench/bench_in_instance/module/sheet_credential.json
 
 ### tmp file
 tmp_file
+preprocessed_data.npy
 
 ### Variables
 /bench/bench_in_faas/aws_lambda/variables.py
+/bench/bench_in_faas/aws_sagemaker/variables.py
 /bench/bench_in_faas/gcp_run/grpc/variables.py
 /bench/bench_in_faas/gcp_run/rest/variables.py
 /bench/bench_in_instance/aws_lambda_variables.py
@@ -51,9 +60,11 @@ tmp_file
 /bench/bench_in_instance/bench_azure_infra/variables.tf
 /bench/bench_in_instance/bench_gcp_infra/variables.tf
 /bench/bench_in_faas/aws_lambda/IaC/variables.tf
+/bench/bench_in_faas/aws_sagemaker/IaC/variables.tf
 /bench/bench_in_faas/gcp_run/grpc/IaC/variables.tf
 /bench/bench_in_faas/gcp_run/rest/IaC/variables.tf
 /IaC/AWS-Lambda-IaC/variables.tf
+/IaC/AWS-Sagemaker-IaC/variables.tf
 /IaC/Azure-Function-IaC/variables.tf
 /IaC/GCP-Run-IaC/variables.tf
 /IaC/GCP-Functions-IaC/variables.tf

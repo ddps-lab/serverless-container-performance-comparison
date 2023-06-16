@@ -1,0 +1,77 @@
+variable "region" {
+  type = string
+  default = "change here!"
+}
+
+variable "awscli_profile" {
+  type = string
+  default = "change here!"
+}
+
+variable "prefix" {
+  type = string
+  default = "change here!"
+}
+
+variable "model_bucket" {
+  type    = string
+  default = "change here!"
+}
+
+variable "max_concurrency" {
+  type    = number
+  default = 1
+}
+
+variable "provisioned_concurrency" {
+  type    = number
+  default = 0
+}
+
+variable "enabled_models" {
+  type    = list(string)
+  default = [ "mobilenet_v1", "mobilenet_v2", "inception_v3", "yolo_v5", "bert_imdb" ]
+}
+
+variable "model_resources" {
+  type = object({
+    mobilenet_v1 = object({
+      ram_mib       = number
+    })
+    mobilenet_v2 = object({
+      ram_mib       = number
+    })
+    inception_v3 = object({
+      ram_mib       = number
+    })
+    yolo_v5 = object({
+      ram_mib       = number
+    })
+    bert_imdb = object({
+      ram_mib       = number
+    })
+    distilbert_sst2 = object({
+      ram_mib       = number
+    })
+  })
+  default = {
+    mobilenet_v1 = {
+      ram_mib       = 4096
+    }
+    mobilenet_v2 = {
+      ram_mib       = 4096
+    }
+    inception_v3 = {
+      ram_mib       = 4096
+    }
+    yolo_v5 = {
+      ram_mib       = 4096
+    }
+    bert_imdb = {
+      ram_mib       = 4096
+    }
+    distilbert_sst2 = {
+      ram_mib       = 4096
+    }
+  }
+}
