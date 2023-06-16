@@ -32,7 +32,7 @@ def lambda_handler(event,context):
     log_stream_name = json_body['inputs']['log_stream_name']
     aws_sagemaker_endpoint_prefix = json_body['inputs']['sagemaker_endpoint_prefix']
     request_data = json_body['inputs']['request_data']
-    server_address = f"https://runtime.sagemaker.{aws_region}.amazonaws.com/endpoints/{aws_sagemaker_endpoint_prefix}-{model_name.replace('_','-')}-endpoint/invocations",
+    server_address = f"https://runtime.sagemaker.{aws_region}.amazonaws.com/endpoints/{aws_sagemaker_endpoint_prefix}-{model_name.replace('_','-')}-endpoint/invocations"
     result, network_latency_time = predict(server_address, request_data)
     create_log_event(log_group_name, log_stream_name, network_latency_time)
     response = {
