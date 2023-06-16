@@ -7,6 +7,7 @@
 
 ### build sh
 /bench/bench_in_faas/aws_lambda/build_assets/build.sh
+/bench/bench_in_faas/aws_sagemaker/build_assets/build.sh
 /bench/bench_in_faas/gcp_run/grpc/build_assets/build.sh
 /bench/bench_in_faas/gcp_run/rest/build_assets/build.sh
 /build_aws_lambda_docker_image.sh
@@ -47,6 +48,7 @@ preprocessed_data.npy
 
 ### Variables
 /bench/bench_in_faas/aws_lambda/variables.py
+/bench/bench_in_faas/aws_sagemaker/variables.py
 /bench/bench_in_faas/gcp_run/grpc/variables.py
 /bench/bench_in_faas/gcp_run/rest/variables.py
 /bench/bench_in_instance/aws_lambda_variables.py
@@ -58,6 +60,7 @@ preprocessed_data.npy
 /bench/bench_in_instance/bench_azure_infra/variables.tf
 /bench/bench_in_instance/bench_gcp_infra/variables.tf
 /bench/bench_in_faas/aws_lambda/IaC/variables.tf
+/bench/bench_in_faas/aws_sagemaker/IaC/variables.tf
 /bench/bench_in_faas/gcp_run/grpc/IaC/variables.tf
 /bench/bench_in_faas/gcp_run/rest/IaC/variables.tf
 /IaC/AWS-Lambda-IaC/variables.tf
