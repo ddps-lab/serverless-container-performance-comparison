@@ -64,6 +64,7 @@ preprocessed_data.npy
 /bench/bench_in_faas/gcp_run/grpc/IaC/variables.tf
 /bench/bench_in_faas/gcp_run/rest/IaC/variables.tf
 /IaC/AWS-Lambda-IaC/variables.tf
+/IaC/AWS-Sagemaker-IaC/variables.tf
 /IaC/Azure-Function-IaC/variables.tf
 /IaC/GCP-Run-IaC/variables.tf
 /IaC/GCP-Functions-IaC/variables.tf
