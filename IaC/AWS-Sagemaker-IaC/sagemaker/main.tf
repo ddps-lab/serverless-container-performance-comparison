@@ -25,4 +25,7 @@ resource "aws_sagemaker_endpoint_configuration" "endpoint_configuration" {
 resource "aws_sagemaker_endpoint" "endpoint" {
   name                 = "${var.prefix}-${replace(var.model_name, "_", "-")}-endpoint"
   endpoint_config_name = aws_sagemaker_endpoint_configuration.endpoint_configuration.name
+  lifecycle {
+    replace_triggered_by = [ aws_sagemaker_endpoint_configuration.endpoint_configuration ]
+  }
 }
