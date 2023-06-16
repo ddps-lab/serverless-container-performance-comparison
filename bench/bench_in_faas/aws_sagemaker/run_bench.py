@@ -19,11 +19,11 @@ def request_predict(server_address, data):
     result = response.text
     return result
 
-def start_bench(model_names, num_tasks, aws_region, aws_lambda_address, aws_sagemaker_endpoint_prefix, bucket_name, log_group_name):
+def start_bench(model_names, num_tasks, aws_region, aws_lambda_address, aws_sagemaker_endpoint_prefix, log_group_name):
   for i, model_name in enumerate(model_names):
     global faas_bench
     faas_bench = importlib.import_module(f"preprocess.{model_name}")
-    request_data = faas_bench.create_request_data(bucket_name)
+    request_data = faas_bench.create_request_data()
     for k, num_task in enumerate(num_tasks):
       current_timestamp = time.strftime("%Y-%m-%d-%H_%M_%S", time.localtime())
       log_stream_name = f"{current_timestamp}-{model_name}-{num_task}tasks"
