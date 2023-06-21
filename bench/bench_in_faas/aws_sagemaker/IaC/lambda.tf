@@ -25,6 +25,11 @@ resource "aws_iam_role_policy_attachment" "lambda_S3_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
 
+resource "aws_iam_role_policy_attachment" "lambda_sagemaker_policy" {
+  role       = aws_iam_role.lambda-role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSageMakerFullAccess"
+}
+
 resource "aws_lambda_function" "lambda" {
   function_name = "${var.prefix}-aws-sagemaker-scpc-bench"
   package_type  = "Image"
