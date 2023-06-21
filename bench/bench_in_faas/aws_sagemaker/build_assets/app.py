@@ -18,13 +18,13 @@ def create_log_event(log_group_name, log_stream_name, result, network_latency_ti
     result_json = json.loads(result)
     logs_client = boto3.client('logs')
     log_data = {
-        'inference_time': result['inference_time'],
+        'inference_time': result_json['inference_time'],
         'network_latency_time': network_latency_time,
-        'cpu_info': result['cpu_info'],
-        'mem_info': result['mem_info'],
-        'num_cores': result['num_cores'],
-        'mem_bytes': result['mem_bytes'],
-        'mem_gib': result['mem_gib']
+        'cpu_info': result_json['cpu_info'],
+        'mem_info': result_json['mem_info'],
+        'num_cores': result_json['num_cores'],
+        'mem_bytes': result_json['mem_bytes'],
+        'mem_gib': result_json['mem_gib']
     }
     log_event = {
         'timestamp':int (time.time() * 1000),
