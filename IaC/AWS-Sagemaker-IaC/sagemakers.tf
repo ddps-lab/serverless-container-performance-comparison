@@ -1,3 +1,8 @@
+resource "aws_s3_bucket" "bucket" {
+  bucket = "${var.prefix}-scpc-sagemaker-bucket"
+  force_destroy = true
+}
+
 module "sagemaker" {
   count                    = length(var.enabled_models)
   source                   = "./sagemaker"

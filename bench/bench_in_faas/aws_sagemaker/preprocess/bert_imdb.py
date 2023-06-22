@@ -14,8 +14,8 @@ def run_preprocessing(text):
     segment_ids = [[0] * len(input_ids[0])]
     return input_ids, input_masks, segment_ids 
 
-def create_request_data():
+def create_request_data(bucket_name=""):
     text = "This is a sample sentence to test the BERT model."
     input_ids, input_masks, segment_ids = run_preprocessing(text)
     data = json.dumps({"inputs": { "segment_ids": segment_ids, "input_masks": input_masks, "input_ids": input_ids.tolist()}})
-    return data
+    return data, 0

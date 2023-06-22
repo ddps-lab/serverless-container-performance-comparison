@@ -5,7 +5,7 @@ import time
 from sagemaker import Session
 from sagemaker.predictor import Predictor
 
-def predict(sagemaker_endpoint, data):
+def predict(sagemaker_endpoint, data, bucket_name):
     session = Session()
     predictor = Predictor(endpoint_name=sagemaker_endpoint, sagemaker_session=session)    
     request_time = time.time()
@@ -40,9 +40,17 @@ def lambda_handler(event,context):
     log_stream_name = json_body['inputs']['log_stream_name']
     aws_sagemaker_endpoint_prefix = json_body['inputs']['sagemaker_endpoint_prefix']
     request_data = json_body['inputs']['request_data']
+    upload_time = json_body['inputs']['upload_time']
+    bucket_name = json_body['inputs']['bucket_name']
     sagemaker_endpoint = f"{aws_sagemaker_endpoint_prefix}-{model_name.replace('_','-')}-endpoint"
-    result, network_latency_time = predict(sagemaker_endpoint, request_data)
-    create_log_event(log_group_name, log_stream_name, result, network_latency_time)
+    result, network_latency_time = predict(sagemaker_endpoint, request_data, bucket_name)
+    download_time = 0
+    if (model_name == "yolo_v5" or model_name == "inception_v3"):
+        s3_resource = boto3.resource('s3')
+        download_start_time = time.time()
+        s3_resource.Bucket(bucket_name).download_file("predict_data.npy", "/tmp/tmp_file")
+        download_time = time.time() - download_start_time
+    create_log_event(log_group_name, log_stream_name, result, upload_time+network_latency_time+download_time)
     response = {
         'statusCode': 200,
         'body': "Success"

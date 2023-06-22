@@ -16,7 +16,7 @@ def run_preprocessing(image_file_path):
     img_array = np.expand_dims(img_array, axis=0)
     return img_array
 
-def create_request_data():
+def create_request_data(bucket_name=""):
     image_file_path = "../../../../dataset/imagenet/imagenet_1000_raw/n01843383_1.JPEG"
     data = json.dumps({"inputs": { "input_2": run_preprocessing(image_file_path).tolist()}})
-    return data
+    return data, 0
