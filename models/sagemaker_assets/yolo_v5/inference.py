@@ -6,23 +6,28 @@ import os
 import subprocess
 import multiprocessing
 import numpy as np
-import boto3
 
 Context = namedtuple('Context',
                      'model_name, model_version, method, rest_uri, grpc_uri, '
                      'custom_attributes, request_content_type, accept_header')
 
 def handler(data, context):
-    s3 = boto3.resource('s3')
-    s3_bucket_name = data['inputs']['s3_bucket_name']
-    s3_object_name = data['inputs']['s3_object_name']
+    http_body_bytes = data.read()
+    http_body_str = http_body_bytes.decode('utf-8')
+    json_body = json.loads(http_body_str)
+    s3_bucket_name = json_body['inputs']['s3_bucket_name']
+    s3_object_name = json_body['inputs']['s3_object_name']
     start_time = time.time()
-    s3.Bucket(s3_bucket_name).download_file(s3_object_name, "/tmp/preprocessed_data.npy")
-    data = json.dumps({"inputs": { "x": np.load("/tmp/preprocessed_data.npy")}})
+    subprocess.call(f"/usr/local/bin/aws s3 cp s3://{s3_bucket_name}/{s3_object_name} /tmp/preprocessed_data.npy", shell=True)
+    print("download")
+    data = json.dumps({"inputs": { "x": np.load("/tmp/preprocessed_data.npy").tolist()}})
     response = requests.post(context.rest_uri, data=data)
+    print("response")
     with open("/tmp/predict_data.npy", "wb") as f:
         f.write(response.content)
-    s3.Bucket(s3_bucket_name).upload_file("/tmp/predict_data.npy", "predict_data.npy")
+    print("create file")
+    subprocess.call(f"/usr/local/bin/aws s3 cp /tmp/predict_data.npy s3://{s3_bucket_name}/predict_data.npy", shell=True)
+    print("upload")
     end_time = time.time()
     inference_time = end_time - start_time
     mem_bytes = os.sysconf('SC_PAGE_SIZE') * os.sysconf('SC_PHYS_PAGES')
