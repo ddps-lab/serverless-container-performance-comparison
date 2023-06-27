@@ -19,11 +19,11 @@ def request_predict(server_address, data):
     result = response.text
     return result
 
-def start_bench(model_names, num_tasks, aws_region, aws_lambda_address, aws_sagemaker_endpoint_prefix, log_group_name):
+def start_bench(model_names, num_tasks, aws_region, aws_lambda_address, aws_sagemaker_endpoint_prefix, log_group_name, bucket_name):
   for i, model_name in enumerate(model_names):
     global faas_bench
     faas_bench = importlib.import_module(f"preprocess.{model_name}")
-    request_data = faas_bench.create_request_data()
+    request_data, upload_time = faas_bench.create_request_data(bucket_name)
     for k, num_task in enumerate(num_tasks):
       current_timestamp = time.strftime("%Y-%m-%d-%H_%M_%S", time.localtime())
       log_stream_name = f"{current_timestamp}-{model_name}-{num_task}tasks"
@@ -34,7 +34,9 @@ def start_bench(model_names, num_tasks, aws_region, aws_lambda_address, aws_sage
             "log_group_name": log_group_name,
             "log_stream_name": log_stream_name,
             "aws_region": aws_region,
-            "sagemaker_endpoint_prefix": aws_sagemaker_endpoint_prefix
+            "sagemaker_endpoint_prefix": aws_sagemaker_endpoint_prefix,
+            "upload_time": upload_time,
+            "bucket_name": bucket_name
          }
       })
       create_log_stream(log_group_name, log_stream_name)
@@ -49,4 +51,5 @@ start_bench(variables.model_names,
             variables.aws_region,
             variables.aws_lambda_address,
             variables.aws_sagemaker_endpoint_prefix,
-            variables.log_group_name)
+            variables.log_group_name,
+            variables.bucket_name)
