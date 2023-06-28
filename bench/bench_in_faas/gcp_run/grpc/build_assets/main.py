@@ -29,12 +29,14 @@ def predict(stub, data):
     response = stub.Predict(data, timeout=100.0)
     response_time = time.time()
     inference_time = response.outputs['inference_time'].double_val[0]
+    start_time = response.outputs['start_time'].double_val[0]
     network_latency_time = response_time - request_time
-    return response, inference_time, network_latency_time
+    return response, start_time, inference_time, network_latency_time
 
-def create_log_event(log_group_name, log_stream_name, inference_time, network_latency_time):
+def create_log_event(log_group_name, log_stream_name, start_latency_time, inference_time, network_latency_time):
     logs_client = boto3.client('logs', aws_access_key_id=aws_access_key, aws_secret_access_key=aws_secret_key, region_name=aws_region)
     log_data = {
+        'start_latency_time': start_latency_time,
         'inference_time': inference_time,
         'network_latency_time': network_latency_time
     }
@@ -55,9 +57,10 @@ def function_handler(request):
         request_data = json_body['inputs']['request_data']
         protobuf_message = predict_pb2.PredictRequest()
         ParseDict(json.loads(request_data), protobuf_message)
+        request_time = time.time()
         stub = create_grpc_stub(server_address, use_https)
-        response, inference_time, network_latency_time = predict(stub, protobuf_message)
-        create_log_event(log_group_name, log_stream_name, inference_time, network_latency_time)
+        response, start_time, inference_time, network_latency_time = predict(stub, protobuf_message)
+        create_log_event(log_group_name, log_stream_name, start_time - request_time, inference_time, network_latency_time)
         return json.dumps({'body': "Success"}), 200, {'Content-Type': 'application/json'}
     else:
         return json.dumps({
