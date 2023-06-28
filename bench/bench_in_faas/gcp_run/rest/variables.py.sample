@@ -2,7 +2,9 @@
 # ex) <region name>-<project name>.cloudfunctions.net/<function name>
 # 추론 시, https://<region name>-<project name>.cloudfunctions.net/<function name>과 같은 형식으로 진행된다.
 gcp_function_address = ''
-# gcp_run bench default address ex) xxxxxxxxxx.du.a.run.app
+# gcp_run prefix
+gcp_run_prefix = ''
+# gcp_run bench default address ex) $prefix-xxxxxxxxxx.du.a.run.app
 gcp_run_default_address = ''
 # 추론을 테스트할 모델 이름들
 model_names = ["mobilenet_v1","mobilenet_v2","inception_v3","yolo_v5","bert_imdb"]

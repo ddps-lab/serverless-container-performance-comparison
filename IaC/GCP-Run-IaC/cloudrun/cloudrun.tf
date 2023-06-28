@@ -1,6 +1,6 @@
 resource "google_cloud_run_service" "cloudrun_service" {
   count    = length(var.APIS)
-  name     = "${replace(var.model_name, "_", "-")}-${var.APIS[count.index]}"
+  name     = "${var.prefix}-${replace(var.model_name, "_", "-")}-${var.APIS[count.index]}"
   location = var.region
   template {
     spec {

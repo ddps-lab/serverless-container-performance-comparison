@@ -19,7 +19,7 @@ def request_predict(server_address, data):
     result = response.text
     return result
 
-def start_bench(model_names, num_tasks, gcp_function_address, gcp_run_default_address, use_https, log_group_name):
+def start_bench(model_names, num_tasks, gcp_function_address, gcp_run_prefix, gcp_run_default_address, use_https, log_group_name):
   for i, model_name in enumerate(model_names):
     global faas_bench
     faas_bench = importlib.import_module(f"preprocess.{model_name}")
@@ -33,7 +33,7 @@ def start_bench(model_names, num_tasks, gcp_function_address, gcp_run_default_ad
             "request_data": request_data,
             "log_group_name": log_group_name,
             "log_stream_name": log_stream_name,
-            "server_address":  f"{model_name.replace('_','-')}-grpc-{gcp_run_default_address}",
+            "server_address":  f"{gcp_run_prefix}-{model_name.replace('_','-')}-grpc-{gcp_run_default_address}",
             "use_https": use_https
          }
       })
@@ -47,6 +47,7 @@ def start_bench(model_names, num_tasks, gcp_function_address, gcp_run_default_ad
 start_bench(variables.model_names,
             variables.num_tasks,
             variables.gcp_function_address,
+            variables.gcp_run_prefix,
             variables.gcp_run_default_address,
             variables.use_https,
             variables.log_group_name)
