@@ -19,6 +19,7 @@ def lambda_handler(event, context):
     response = {
         'statusCode': 200,
         'body': json.dumps({
+            'start_time': start_time,
             'loading_time': model_load_end_time - model_load_start_time,
             'inference_time': end_time - start_time,
             'body': result.tolist()

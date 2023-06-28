@@ -23,7 +23,9 @@ class PredictionServiceServicer(prediction_service_pb2_grpc.PredictionServiceSer
         end_time = time.time()
         inference_time = end_time - start_time
         inference_time_numpy = np.array(inference_time)
+        start_time_numpy = np.array(start_time)
         response.outputs["inference_time"].CopyFrom(make_tensor_proto(inference_time_numpy, shape=list(inference_time_numpy.shape)))
+        response.outputs["start_time"].CopyFrom(make_tensor_proto(start_time_numpy, shape=list(start_time_numpy.shape)))
         return response
 
 def serve():
