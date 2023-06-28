@@ -38,10 +38,10 @@ def create_log_event(log_group_name, log_stream_name, start_latency_time, respon
         'start_latency_time': start_latency_time,
         'inference_time': response.outputs['inference_time'].double_val[0],
         'network_latency_time': network_latency_time,
-        'cpu_info': json.loads(response.outputs['cpu_info'].double_val[0]),
-        'mem_info': json.loads(response.outputs['mem_info'].double_val[0]),
-        'num_cores': response.outputs['num_cores'].double_val[0],
-        'mem_bytes': response.outputs['mem_bytes'].double_val[0],
+        'cpu_info': json.loads(response.outputs['cpu_info'].string_val[0]),
+        'mem_info': json.loads(response.outputs['mem_info'].string_val[0]),
+        'num_cores': response.outputs['num_cores'].int64_val[0],
+        'mem_bytes': response.outputs['mem_bytes'].int64_val[0],
         'mem_gib': response.outputs['mem_gib'].double_val[0]
     }
     log_event = {
