@@ -28,17 +28,21 @@ def predict(stub, data):
     request_time = time.time()
     response = stub.Predict(data, timeout=100.0)
     response_time = time.time()
-    inference_time = response.outputs['inference_time'].double_val[0]
     start_time = response.outputs['start_time'].double_val[0]
     network_latency_time = response_time - request_time
-    return response, start_time, inference_time, network_latency_time
+    return response, start_time, network_latency_time
 
-def create_log_event(log_group_name, log_stream_name, start_latency_time, inference_time, network_latency_time):
+def create_log_event(log_group_name, log_stream_name, start_latency_time, response, network_latency_time):
     logs_client = boto3.client('logs', aws_access_key_id=aws_access_key, aws_secret_access_key=aws_secret_key, region_name=aws_region)
     log_data = {
         'start_latency_time': start_latency_time,
-        'inference_time': inference_time,
-        'network_latency_time': network_latency_time
+        'inference_time': response.outputs['inference_time'].double_val[0],
+        'network_latency_time': network_latency_time,
+        'cpu_info': json.loads(response.outputs['cpu_info'].double_val[0]),
+        'mem_info': json.loads(response.outputs['mem_info'].double_val[0]),
+        'num_cores': response.outputs['num_cores'].double_val[0],
+        'mem_bytes': response.outputs['mem_bytes'].double_val[0],
+        'mem_gib': response.outputs['mem_gib'].double_val[0]
     }
     log_event = {
         'timestamp':int (time.time() * 1000),
@@ -59,8 +63,8 @@ def function_handler(request):
         ParseDict(json.loads(request_data), protobuf_message)
         request_time = time.time()
         stub = create_grpc_stub(server_address, use_https)
-        response, start_time, inference_time, network_latency_time = predict(stub, protobuf_message)
-        create_log_event(log_group_name, log_stream_name, start_time - request_time, inference_time, network_latency_time)
+        response, start_time, network_latency_time = predict(stub, protobuf_message)
+        create_log_event(log_group_name, log_stream_name, start_time - request_time, response, network_latency_time)
         return json.dumps({'body': "Success"}), 200, {'Content-Type': 'application/json'}
     else:
         return json.dumps({

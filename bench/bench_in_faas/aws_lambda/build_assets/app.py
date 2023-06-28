@@ -13,12 +13,17 @@ def predict(server_address, data):
     result = response.json()
     return result, network_latency_time
 
-def create_log_event(log_group_name, log_stream_name, start_latency_time, inference_time, network_latency_time):
+def create_log_event(log_group_name, log_stream_name, start_latency_time, result, network_latency_time):
     logs_client = boto3.client('logs')
     log_data = {
         'start_latency_time': start_latency_time,
-        'inference_time': inference_time,
-        'network_latency_time': network_latency_time
+        'inference_time': result['inference_time'],
+        'network_latency_time': network_latency_time,
+        'cpu_info': result['cpu_info'],
+        'mem_info': result['mem_info'],
+        'num_cores': result['num_cores'],
+        'mem_bytes': result['mem_bytes'],
+        'mem_gib': result['mem_gib']
     }
     log_event = {
         'timestamp':int (time.time() * 1000),
@@ -43,7 +48,7 @@ def lambda_handler(event,context):
         download_start_time = time.time()
         s3_resource.Bucket(bucket_name).download_file("predict_data.npy", "/tmp/tmp_file")
         download_time = time.time() - download_start_time
-    create_log_event(log_group_name, log_stream_name, result['start_time'] - request_time, result['inference_time'], upload_time+network_latency_time+download_time)
+    create_log_event(log_group_name, log_stream_name, result['start_time'] - request_time, result, upload_time+network_latency_time+download_time)
     response = {
         'statusCode': 200,
         'body': "Success"
