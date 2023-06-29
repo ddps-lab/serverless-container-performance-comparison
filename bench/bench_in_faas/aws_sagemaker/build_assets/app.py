@@ -52,7 +52,7 @@ def lambda_handler(event,context):
         download_start_time = time.time()
         s3_resource.Bucket(bucket_name).download_file("predict_data.npy", "/tmp/tmp_file")
         download_time = time.time() - download_start_time
-    create_log_event(log_group_name, log_stream_name, float(result['start_time']) - request_time, result, upload_time+network_latency_time+download_time)
+    create_log_event(log_group_name, log_stream_name, request_time - float(result['start_time']), result, upload_time+network_latency_time+download_time)
     response = {
         'statusCode': 200,
         'body': "Success"

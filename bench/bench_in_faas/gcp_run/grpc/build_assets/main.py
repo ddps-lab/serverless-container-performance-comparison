@@ -64,7 +64,7 @@ def function_handler(request):
         request_time = time.time()
         stub = create_grpc_stub(server_address, use_https)
         response, start_time, network_latency_time = predict(stub, protobuf_message)
-        create_log_event(log_group_name, log_stream_name, start_time - request_time, response, network_latency_time)
+        create_log_event(log_group_name, log_stream_name, request_time - start_time, response, network_latency_time)
         return json.dumps({'body': "Success"}), 200, {'Content-Type': 'application/json'}
     else:
         return json.dumps({
