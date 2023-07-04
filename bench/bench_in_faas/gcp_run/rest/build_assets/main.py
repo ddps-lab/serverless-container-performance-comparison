@@ -19,9 +19,11 @@ def predict(server_address, data):
     result = response.json()
     return result, network_latency_time
 
-def create_log_event(log_group_name, log_stream_name, start_latency_time, result, network_latency_time):
+def create_log_event(log_group_name, log_stream_name, start_latency_time, result, network_latency_time, bench_execute_latency_time):
     logs_client = boto3.client('logs', aws_access_key_id=aws_access_key, aws_secret_access_key=aws_secret_key, region_name=aws_region)
     log_data = {
+        'container_instance_id': (result['container_instance_id'])[-20:],
+        'bench_execute_latency_time': bench_execute_latency_time,
         'start_latency_time': start_latency_time,
         'inference_time': result['inference_time'],
         'network_latency_time': network_latency_time,
@@ -40,14 +42,16 @@ def create_log_event(log_group_name, log_stream_name, start_latency_time, result
 @functions_framework.http
 def function_handler(request):
     if request.method == 'POST':
+        bench_execute_time = time.time()
         json_body = request.get_json(silent=True)
         log_group_name = json_body['inputs']['log_group_name']
         log_stream_name = json_body['inputs']['log_stream_name']
         server_address = json_body['inputs']['server_address']
         request_data = json_body['inputs']['request_data']
+        bench_execute_request_time = json_body['inputs']['bench_execute_request_time']
         request_time = time.time()
         result, network_latency_time = predict(server_address, request_data)
-        create_log_event(log_group_name, log_stream_name, result['start_time'] - request_time, result, network_latency_time)
+        create_log_event(log_group_name, log_stream_name, result['start_time'] - request_time, result, network_latency_time, bench_execute_time - bench_execute_request_time)
         return json.dumps({'body': "Success"}), 200, {'Content-Type': 'application/json'}
     else:
         return json.dumps({

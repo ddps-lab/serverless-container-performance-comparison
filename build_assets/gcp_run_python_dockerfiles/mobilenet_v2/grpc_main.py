@@ -12,7 +12,7 @@ from tensorflow_serving.apis import predict_pb2
 from tensorflow_serving.apis import prediction_service_pb2_grpc
 import time
 import json
-
+import requests
 
 class PredictionServiceServicer(prediction_service_pb2_grpc.PredictionServiceServicer):
     def __init__(self):
@@ -60,6 +60,11 @@ class PredictionServiceServicer(prediction_service_pb2_grpc.PredictionServiceSer
         num_cores_numpy = np.array(num_cores)
         cpu_info_numpy = np.array(json.dumps(cpu_info).encode('utf-8'))
         mem_info_numpy = np.array(json.dumps(mem_info).encode('utf-8'))
+        metadata_url = "http://metadata.google.internal/computeMetadata/v1/instance/id"
+        metadata_headers = {'Metadata-Flavor': 'Google'}
+        container_instance_id = requests.get(metadata_url, headers=metadata_headers)
+        string_container_instance_id = container_instance_id.text
+        container_instance_id_numpy = np.array(string_container_instance_id)
         response.outputs["inference_time"].CopyFrom(make_tensor_proto(inference_time_numpy, shape=list(inference_time_numpy.shape)))
         response.outputs["start_time"].CopyFrom(make_tensor_proto(start_time_numpy, shape=list(start_time_numpy.shape)))
         response.outputs["mem_bytes"].CopyFrom(make_tensor_proto(mem_bytes_numpy, shape=list(mem_bytes_numpy.shape)))
@@ -67,6 +72,7 @@ class PredictionServiceServicer(prediction_service_pb2_grpc.PredictionServiceSer
         response.outputs["num_cores"].CopyFrom(make_tensor_proto(num_cores_numpy, shape=list(num_cores_numpy.shape)))
         response.outputs["cpu_info"].CopyFrom(make_tensor_proto(cpu_info_numpy, shape=list(cpu_info_numpy.shape)))
         response.outputs["mem_info"].CopyFrom(make_tensor_proto(mem_info_numpy, shape=list(mem_info_numpy.shape)))
+        response.outputs["container_instance_id"].CopyFrom(make_tensor_proto(container_instance_id_numpy, shape=list(container_instance_id_numpy.shape)))
         return response
 
 def serve():

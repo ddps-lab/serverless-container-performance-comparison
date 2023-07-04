@@ -4,6 +4,7 @@ import subprocess
 import multiprocessing
 import numpy as np
 import time
+import requests
 from fastapi import FastAPI
 app = FastAPI()
 model_load_start_time = time.time()
@@ -44,6 +45,10 @@ async def predict(json_body: dict):
             mem_info.append(current_mem)
             current_mem = {}
     mem_info.append(current_mem)
+    metadata_url = "http://metadata.google.internal/computeMetadata/v1/instance/id"
+    metadata_headers = {'Metadata-Flavor': 'Google'}
+    container_instance_id = requests.get(metadata_url, headers=metadata_headers)
+    string_container_instance_id = container_instance_id.text
     response = {
         'start_time': start_time,
         'loading_time': model_load_end_time - model_load_start_time,
@@ -53,6 +58,7 @@ async def predict(json_body: dict):
         'num_cores': num_cores,
         'cpu_info': cpu_info,
         'mem_info': mem_info,
+        'container_instance_id': string_container_instance_id,
         'body': result,
     }
     return response
