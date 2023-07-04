@@ -58,6 +58,7 @@ def handler(data, context):
             current_mem = {}
     mem_info.append(current_mem)
     response_json = {
+        "start_time": start_time,
         "inference_time": inference_time,
         "mem_bytes": mem_bytes,
         "mem_gib": mem_gib,

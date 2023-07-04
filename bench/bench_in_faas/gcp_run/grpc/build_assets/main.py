@@ -28,15 +28,24 @@ def predict(stub, data):
     request_time = time.time()
     response = stub.Predict(data, timeout=100.0)
     response_time = time.time()
-    inference_time = response.outputs['inference_time'].double_val[0]
+    start_time = response.outputs['start_time'].double_val[0]
     network_latency_time = response_time - request_time
-    return response, inference_time, network_latency_time
+    return response, start_time, network_latency_time
 
-def create_log_event(log_group_name, log_stream_name, inference_time, network_latency_time):
+def create_log_event(log_group_name, log_stream_name, start_latency_time, response, network_latency_time, bench_execute_latency_time):
     logs_client = boto3.client('logs', aws_access_key_id=aws_access_key, aws_secret_access_key=aws_secret_key, region_name=aws_region)
+    container_instance_id = (response.outputs['container_instance_id'].string_val[0]).decode('utf-8')
     log_data = {
-        'inference_time': inference_time,
-        'network_latency_time': network_latency_time
+        'container_instance_id': container_instance_id[-20:],
+        'bench_execute_latency_time': bench_execute_latency_time,
+        'start_latency_time': start_latency_time,
+        'inference_time': response.outputs['inference_time'].double_val[0],
+        'network_latency_time': network_latency_time,
+        'cpu_info': json.loads(response.outputs['cpu_info'].string_val[0]),
+        'mem_info': json.loads(response.outputs['mem_info'].string_val[0]),
+        'num_cores': response.outputs['num_cores'].int64_val[0],
+        'mem_bytes': response.outputs['mem_bytes'].int64_val[0],
+        'mem_gib': response.outputs['mem_gib'].double_val[0],
     }
     log_event = {
         'timestamp':int (time.time() * 1000),
@@ -47,17 +56,20 @@ def create_log_event(log_group_name, log_stream_name, inference_time, network_la
 @functions_framework.http
 def function_handler(request):
     if request.method == 'POST':
+        bench_execute_time = time.time()
         json_body = request.get_json(silent=True)
         log_group_name = json_body['inputs']['log_group_name']
         log_stream_name = json_body['inputs']['log_stream_name']
         server_address = json_body['inputs']['server_address']
         use_https = json_body['inputs']['use_https']
         request_data = json_body['inputs']['request_data']
+        bench_execute_request_time = json_body['inputs']['bench_execute_request_time']
         protobuf_message = predict_pb2.PredictRequest()
         ParseDict(json.loads(request_data), protobuf_message)
+        request_time = time.time()
         stub = create_grpc_stub(server_address, use_https)
-        response, inference_time, network_latency_time = predict(stub, protobuf_message)
-        create_log_event(log_group_name, log_stream_name, inference_time, network_latency_time)
+        response, start_time, network_latency_time = predict(stub, protobuf_message)
+        create_log_event(log_group_name, log_stream_name, start_time - request_time, response, network_latency_time, bench_execute_time - bench_execute_request_time)
         return json.dumps({'body': "Success"}), 200, {'Content-Type': 'application/json'}
     else:
         return json.dumps({
