@@ -19,7 +19,7 @@ def request_predict(server_address, data):
     result = response.text
     return result
 
-def start_bench(model_names, num_tasks, aws_lambda_address, gcp_run_prefix, gcp_run_default_address, log_group_name):
+def start_bench(model_names, num_tasks, aws_lambda_address, gcp_run_prefix, gcp_run_default_address, use_https, log_group_name):
   for i, model_name in enumerate(model_names):
     global faas_bench
     faas_bench = importlib.import_module(f"preprocess.{model_name}")
@@ -31,10 +31,12 @@ def start_bench(model_names, num_tasks, aws_lambda_address, gcp_run_prefix, gcp_
       data = json.dumps({
          "inputs": {
             "bench_execute_request_time": bench_execute_request_time,
+            "model_name": model_name,
             "request_data": request_data,
             "log_group_name": log_group_name,
             "log_stream_name": log_stream_name,
-            "server_address":  f"https://{gcp_run_prefix}-{model_name.replace('_','-')}-rest-{gcp_run_default_address}/",
+            "server_address":  f"{gcp_run_prefix}-{model_name.replace('_','-')}-grpc-{gcp_run_default_address}",
+            "use_https": use_https
          }
       })
       create_log_stream(log_group_name, log_stream_name)
@@ -49,4 +51,5 @@ start_bench(variables.model_names,
             variables.aws_lambda_address,
             variables.gcp_run_prefix,
             variables.gcp_run_default_address,
+            variables.use_https,
             variables.log_group_name)
