@@ -1,12 +1,14 @@
 #image 전처리 library
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-import tensorflow as tf
+from tensorflow_serving.apis import predict_pb2
+from tensorflow import make_tensor_proto
+from keras.preprocessing.text import Tokenizer
 from keras.utils import pad_sequences
-import json
+from google.protobuf.json_format import MessageToJson
 
 def run_preprocessing(text):
-    tokenizer = tf.keras.preprocessing.text.Tokenizer()
+    tokenizer = Tokenizer()
     tokenizer.fit_on_texts([text])
     input_ids = tokenizer.texts_to_sequences([text])
     input_ids = pad_sequences(input_ids, maxlen=500, padding='post', truncating='post')
@@ -17,5 +19,11 @@ def run_preprocessing(text):
 def create_request_data():
     text = "This is a sample sentence to test the BERT model."
     input_ids, input_masks, segment_ids = run_preprocessing(text)
-    data = json.dumps({"inputs": { "segment_ids": segment_ids, "input_masks": input_masks, "input_ids": input_ids.tolist()}})
-    return data
+    data = predict_pb2.PredictRequest()
+    data.model_spec.name = 'bert_imdb'
+    data.model_spec.signature_name = 'serving_default'
+    data.inputs['input_ids'].CopyFrom(make_tensor_proto(input_ids, shape=[1, len(input_ids[0])]))
+    data.inputs['input_masks'].CopyFrom(make_tensor_proto(input_masks, shape=[1, len(input_masks[0])]))
+    data.inputs['segment_ids'].CopyFrom(make_tensor_proto(segment_ids, shape=[1, len(segment_ids[0])]))
+    json_data = MessageToJson(data)
+    return json_data

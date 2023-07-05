@@ -1,8 +1,11 @@
 #image 전처리 library
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+from tensorflow_serving.apis import predict_pb2
+from tensorflow import make_tensor_proto
 import numpy as np
 from PIL import Image
-import json
+from google.protobuf.json_format import MessageToJson
 
 def get_file_path(filename):
     return os.path.join(os.path.dirname(__file__), filename)
@@ -18,6 +21,10 @@ def run_preprocessing(image_file_path):
     return img_array
 
 def create_request_data():
-    image_file_path = "../../../../../../dataset/imagenet/imagenet_1000_raw/n01843383_1.JPEG"
-    data = json.dumps({"inputs": { "input_3": run_preprocessing(image_file_path).tolist()}})
-    return data
+    image_file_path = "../../../../../dataset/imagenet/imagenet_1000_raw/n01843383_1.JPEG"
+    data = predict_pb2.PredictRequest()
+    data.model_spec.name = 'inception_v3'
+    data.model_spec.signature_name = 'serving_default'
+    data.inputs['input_3'].CopyFrom(make_tensor_proto(run_preprocessing(image_file_path)))
+    json_data = MessageToJson(data)
+    return json_data
