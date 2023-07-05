@@ -43,7 +43,7 @@ def lambda_handler(event,context):
     bench_execute_request_time = json_body['inputs']['bench_execute_request_time']
     request_time = time.time()
     result, network_latency_time = predict(server_address, request_data)
-    create_log_event(log_group_name, log_stream_name, request_time - result['start_time'], result, network_latency_time, bench_execute_time - bench_execute_request_time)
+    create_log_event(log_group_name, log_stream_name, result['start_time'] - request_time, result, network_latency_time, bench_execute_time - bench_execute_request_time)
     response = {
         'statusCode': 200,
         'body': "Success"
