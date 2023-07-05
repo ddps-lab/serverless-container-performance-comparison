@@ -20,7 +20,7 @@ def run_preprocessing(image_file_path):
     return img
 
 def create_request_data():
-    image_file_path = "../../../../../dataset/coco_2017/coco/images/val2017/000000000139.jpg"
+    image_file_path = "../../../../../../dataset/coco_2017/coco/images/val2017/000000000139.jpg"
     data = predict_pb2.PredictRequest()
     data.model_spec.name = 'yolo_v5'
     data.model_spec.signature_name = 'serving_default'
