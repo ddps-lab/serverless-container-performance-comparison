@@ -73,7 +73,7 @@ func main() {
 
 	client := cloudwatchlogs.NewFromConfig(cfg)
 
-	logStreamName = (time.Now()).Format("2006-01-02-15_04_05") + "-" + modelName + "-" + taskNum
+	logStreamName = (time.Now()).Format("2006-01-02-15_04_05") + "-" + modelName + "-" + taskNum + "tasks"
 	createLogStreamInput := &cloudwatchlogs.CreateLogStreamInput{
 		LogGroupName:  &logGroupName,
 		LogStreamName: &logStreamName,
