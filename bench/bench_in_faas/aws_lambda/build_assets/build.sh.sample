@@ -1,6 +1,14 @@
 #!/bin/bash
 #ex) xxxxxxxxxxx.dkr.ecr.ap-northeast-2.amazonaws.com/bench-lambda
 #you need to create ECR repo and ecr login in instnace
+model_names=( "mobilenet_v1" "mobilenet_v2" "inception_v3" "yolo_v5" "bert_imdb" "distilbert_sst2" )
+for model_name in "${model_names[@]}"
+do
+  if [ ! -e "${model_name}.json" ]; then
+    curl -o "${model_name}.json" https://ddps-lab-scpc-bucket.s3.ap-northeast-2.amazonaws.com/$model_name.json
+  fi
+done
+
 DOCKER_REPOSITORY_NAME=""
 
 sudo DOCKER_BUILDKIT=1 docker build -t $DOCKER_REPOSITORY_NAME:latest -f ./Dockerfile . --build-arg DOCKERIGNORE_FILE=./dockerignore

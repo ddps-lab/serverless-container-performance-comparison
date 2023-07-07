@@ -23,7 +23,7 @@ def start_bench(model_names, num_tasks, aws_lambda_address, aws_lambda_default_a
   for i, model_name in enumerate(model_names):
     global faas_bench
     faas_bench = importlib.import_module(f"preprocess.{model_name}")
-    request_data, upload_time = faas_bench.create_request_data(bucket_name)
+    # request_data, upload_time = faas_bench.create_request_data(bucket_name)
     for k, num_task in enumerate(num_tasks):
       current_timestamp = time.strftime("%Y-%m-%d-%H_%M_%S", time.localtime())
       log_stream_name = f"{current_timestamp}-{model_name}-{num_task}tasks"
@@ -32,12 +32,12 @@ def start_bench(model_names, num_tasks, aws_lambda_address, aws_lambda_default_a
          "inputs": {
             "bench_execute_request_time": bench_execute_request_time,
             "model_name": model_name,
-            "request_data": request_data,
+            # "request_data": request_data,
             "log_group_name": log_group_name,
             "log_stream_name": log_stream_name,
             "server_address":  f"https://{model_name.replace('_','-')}.{aws_lambda_default_address}/",
-            "bucket_name": bucket_name,
-            "upload_time": upload_time
+            # "bucket_name": bucket_name,
+            # "upload_time": upload_time
          }
       })
       create_log_stream(log_group_name, log_stream_name)
