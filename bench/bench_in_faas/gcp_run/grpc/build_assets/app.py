@@ -27,12 +27,13 @@ def predict(stub, data):
     network_latency_time = response_time - request_time
     return response, start_time, network_latency_time
 
-def create_log_event(log_group_name, log_stream_name, start_latency_time, response, network_latency_time, bench_execute_latency_time):
+def create_log_event(log_group_name, log_stream_name, start_latency_time, to_start_request_latency_time, response, network_latency_time, bench_execute_latency_time):
     logs_client = boto3.client('logs')
     container_instance_id = (response.outputs['container_instance_id'].string_val[0]).decode('utf-8')
     log_data = {
         'container_instance_id': container_instance_id[-20:],
         'bench_execute_latency_time': bench_execute_latency_time,
+        'to_start_request_latency_time': to_start_request_latency_time,
         'start_latency_time': start_latency_time,
         'inference_time': response.outputs['inference_time'].double_val[0],
         'network_latency_time': network_latency_time,
@@ -56,7 +57,6 @@ def lambda_handler(event,context):
     log_stream_name = json_body['inputs']['log_stream_name']
     server_address = json_body['inputs']['server_address']
     use_https = json_body['inputs']['use_https']
-    # request_data = json_body['inputs']['request_data']
     with open(f"./{model_name}.json", "r", encoding="utf-8") as f:
         request_data = json.dumps(json.load(f))
     bench_execute_request_time = json_body['inputs']['bench_execute_request_time']
@@ -65,7 +65,7 @@ def lambda_handler(event,context):
     request_time = time.time()
     stub = create_grpc_stub(server_address, use_https)
     response, start_time, network_latency_time = predict(stub, protobuf_message)
-    create_log_event(log_group_name, log_stream_name, start_time - request_time, response, network_latency_time, bench_execute_time - bench_execute_request_time)
+    create_log_event(log_group_name, log_stream_name, start_time - request_time, request_time - bench_execute_time, response, network_latency_time, bench_execute_time - bench_execute_request_time)
     response = {
         'statusCode': 200,
         'body': "Success"

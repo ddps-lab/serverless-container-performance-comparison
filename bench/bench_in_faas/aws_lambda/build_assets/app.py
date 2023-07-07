@@ -13,10 +13,11 @@ def predict(server_address, data):
     result = response.json()
     return result, network_latency_time
 
-def create_log_event(log_group_name, log_stream_name, start_latency_time, result, network_latency_time, bench_execute_latency_time):
+def create_log_event(log_group_name, log_stream_name, start_latency_time, to_start_request_latency_time, result, network_latency_time, bench_execute_latency_time):
     logs_client = boto3.client('logs')
     log_data = {
         'bench_execute_latency_time': bench_execute_latency_time,
+        'to_start_request_latency_time': to_start_request_latency_time,
         'start_latency_time': start_latency_time,
         'inference_time': result['inference_time'],
         'network_latency_time': network_latency_time,
@@ -39,22 +40,12 @@ def lambda_handler(event,context):
     log_group_name = json_body['inputs']['log_group_name']
     log_stream_name = json_body['inputs']['log_stream_name']
     server_address = json_body['inputs']['server_address']
-    # request_data = json_body['inputs']['request_data']
-    # bucket_name = json_body['inputs']['bucket_name']
-    # upload_time = int(json_body['inputs']['upload_time'])
     bench_execute_request_time = json_body['inputs']['bench_execute_request_time']
     with open(f"./{model_name}.json", "r", encoding="utf-8") as f:
         request_data = json.dumps(json.load(f))
-    # download_time = 0
     request_time = time.time()
     result, network_latency_time = predict(server_address, request_data)
-    # if (model_name == "yolo_v5"):
-    #     s3_resource = boto3.resource('s3')
-    #     download_start_time = time.time()
-    #     s3_resource.Bucket(bucket_name).download_file("predict_data.npy", "/tmp/tmp_file")
-    #     download_time = time.time() - download_start_time
-    # create_log_event(log_group_name, log_stream_name, result['start_time'] - request_time, result, upload_time+network_latency_time+download_time, bench_execute_time - bench_execute_request_time)
-    create_log_event(log_group_name, log_stream_name, result['start_time'] - request_time, result, network_latency_time, bench_execute_time - bench_execute_request_time)
+    create_log_event(log_group_name, log_stream_name, result['start_time'] - request_time, request_time - bench_execute_time, result, network_latency_time, bench_execute_time - bench_execute_request_time)
     response = {
         'statusCode': 200,
         'body': "Success"
