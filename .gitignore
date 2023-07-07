@@ -40,8 +40,8 @@
 /yolo_v5.zip
 /bert_imdb.zip
 /distilbert_sst2.zip
-/bench/bench_in_faas/gcp_run/grpc/gcp_functions_backup/build_assets/scpc_grpc_bench.zip
-/bench/bench_in_faas/gcp_run/rest/gcp_functions_backup/build_assets/scpc_rest_bench.zip
+/bench/bench_in_faas/gcp_run/gcp_functions_backup/rest/build_assets/scpc_grpc_bench.zip
+/bench/bench_in_faas/gcp_run/gcp_functions_backup/grpc/build_assets/scpc_rest_bench.zip
 
 ### Dataset files
 /dataset/imagenet
@@ -59,6 +59,8 @@ preprocessed_data.npy
 /bench/bench_in_faas/aws_sagemaker/python_backup/variables.py
 /bench/bench_in_faas/gcp_run/grpc/python_backup/variables.py
 /bench/bench_in_faas/gcp_run/rest/python_backup/variables.py
+/bench/bench_in_faas/gcp_run/lambda/grpc/variables.py
+/bench/bench_in_faas/gcp_run/lambda/rest/variables.py
 /bench/bench_in_faas/aws_lambda/variables.sh
 /bench/bench_in_faas/aws_sagemaker/variables.sh
 /bench/bench_in_faas/gcp_run/grpc/variables.sh
