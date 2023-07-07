@@ -1,0 +1,13 @@
+# AWS Lambda 추론 요청 서버의 주소, 모델 이름 설정
+# ex) inference.com
+server_address=""
+# gcp_run prefix
+gcp_run_prefix=""
+# gcp_run bench default address ex) xxxxxxxxxx.du.a.run.app
+gcp_run_default_address=""
+# 추론을 테스트할 모델 이름들
+model_names=( "mobilenet_v1" "mobilenet_v2" "inception_v3" "yolo_v5" "bert_imdb" )
+# 테스트 추론 횟수들 지정 (각 요쳥 횟수별 병렬로 한번에 처리됩니다.)
+task_nums=( 10 20 30 )
+# CloudWatch Logs Log Group Name
+log_group_name=""

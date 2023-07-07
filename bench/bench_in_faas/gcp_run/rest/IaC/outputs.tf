@@ -1,3 +1,3 @@
-output "cloudfunction_url" {
-  value = google_cloudfunctions_function.cloudfunctions_function.https_trigger_url
+output "api_gateway_url" {
+  value = aws_apigatewayv2_domain_name.api_domain_name.domain_name
 }

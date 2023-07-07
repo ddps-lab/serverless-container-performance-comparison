@@ -1,8 +1,0 @@
-#!/bin/bash
-#ex) xxxxxxxxxxx.dkr.ecr.ap-northeast-2.amazonaws.com/bench-lambda
-#you need to create ECR repo and ecr login in instnace
-DOCKER_REPOSITORY_NAME=""
-
-sudo DOCKER_BUILDKIT=1 docker build -t $DOCKER_REPOSITORY_NAME:latest -f ./Dockerfile . --build-arg DOCKERIGNORE_FILE=./dockerignore
-sudo docker builder prune -f
-sudo docker push $DOCKER_REPOSITORY_NAME:latest

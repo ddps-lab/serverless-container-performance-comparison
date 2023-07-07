@@ -36,11 +36,14 @@ def create_log_event(log_group_name, log_stream_name, start_latency_time, result
 def lambda_handler(event,context):
     bench_execute_time = time.time()
     json_body = json.loads(event['body'])
+    model_name = json_body['inputs']['model_name']
     log_group_name = json_body['inputs']['log_group_name']
     log_stream_name = json_body['inputs']['log_stream_name']
     server_address = json_body['inputs']['server_address']
-    request_data = json_body['inputs']['request_data']
+    # request_data = json_body['inputs']['request_data']
     bench_execute_request_time = json_body['inputs']['bench_execute_request_time']
+    with open(f"./{model_name}.json", "r", encoding="utf-8") as f:
+        request_data = json.dumps(json.load(f))
     request_time = time.time()
     result, network_latency_time = predict(server_address, request_data)
     create_log_event(log_group_name, log_stream_name, result['start_time'] - request_time, result, network_latency_time, bench_execute_time - bench_execute_request_time)

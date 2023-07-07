@@ -1,4 +1,5 @@
 *
 !./app.py
 !./requirements.txt
-!//Dockerfile
+!./Dockerfile
+!./*.json
