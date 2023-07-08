@@ -18,11 +18,13 @@ import (
 
 type RequestData struct {
 	Inputs struct {
-		BenchExecuteRequestTime int    `json:"bench_execute_request_time"`
-		ModelName               string `json:"model_name"`
-		LogGroupName            string `json:"log_group_name"`
-		LogStreamName           string `json:"log_stream_name"`
-		ServerAddress           string `json:"server_address"`
+		BenchExecuteRequestTime   int    `json:"bench_execute_request_time"`
+		ModelName                 string `json:"model_name"`
+		LogGroupName              string `json:"log_group_name"`
+		LogStreamName             string `json:"log_stream_name"`
+		ServerAddress             string `json:"server_address"`
+		S3BucketName              string `json:"s3_bucket_name"`
+		S3PreprocessedDataKeyPath string `json:"s3_preprocessed_data_key_path"`
 	} `json:"inputs"`
 }
 
@@ -43,6 +45,8 @@ func main() {
 	var serverAddress string
 	var awsLambdaDefaultAddress string
 	var taskNum string
+	var s3BucketName string
+	var s3PreprocessedDataKeyPath string
 	args := os.Args
 	for i := 1; i < len(args); i += 2 {
 		option := args[i]
@@ -59,6 +63,10 @@ func main() {
 			awsLambdaDefaultAddress = value
 		case "--task_num":
 			taskNum = value
+		case "--s3_bucket_name":
+			s3BucketName = value
+		case "--s3_preprocessed_data_key_path":
+			s3PreprocessedDataKeyPath = value
 		default:
 			fmt.Println("Error: unknown option")
 			os.Exit(1)
@@ -91,6 +99,8 @@ func main() {
 	data.Inputs.ModelName = modelName
 	data.Inputs.LogGroupName = logGroupName
 	data.Inputs.LogStreamName = logStreamName
+	data.Inputs.S3BucketName = s3BucketName
+	data.Inputs.S3PreprocessedDataKeyPath = s3PreprocessedDataKeyPath
 	data.Inputs.ServerAddress = "https://" + strings.Replace(modelName, "_", "-", -1) + "." + awsLambdaDefaultAddress + "/"
 	jsonData, err := json.Marshal(data)
 	if err != nil {
