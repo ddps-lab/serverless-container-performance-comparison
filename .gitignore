@@ -1,3 +1,6 @@
+#deprecated codes
+**/backup
+
 ### VSCode
 .vscode
 
@@ -7,6 +10,7 @@
 ### build sh
 **/build.sh
 **/*_image.sh
+**/*_zip.sh
 
 ### Model files
 /models/mobilenet_v1
@@ -34,8 +38,8 @@
 
 ### Variables
 **/variables.tf
-**/variables.py
 **/variables.sh
+**/*variables.py
 
 ### Terraform .gitignore
 # Local .terraform directories
