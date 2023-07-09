@@ -1,36 +1,29 @@
-variable "project" {
-  type = string
+variable "region" {
+  type    = string
   default = "change here!"
 }
 
-variable "region" {
-  type = string
+variable "awscli_profile" {
+  type    = string
   default = "change here!"
 }
 
 variable "prefix" {
-  type = string
+  type    = string
   default = "change here!"
 }
 
-variable "bucket_name" {
-  type = string
+variable "route53_domain" {
+  type    = string
   default = "change here!"
 }
 
-variable "aws_access_key" {
-  type = string
-  sensitive = true
+variable "docker_registry" {
+  type    = string
   default = "change here!"
 }
 
-variable "aws_secret_access_key" {
-  type = string
-  sensitive = true
+variable "docker_image_tag" {
+  type    = string
   default = "change here!"
-}
-
-variable "aws_region" {
-  type = string
-  default = "change here!'
 }

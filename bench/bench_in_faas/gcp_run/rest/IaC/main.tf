@@ -1,4 +1,4 @@
-provider "google" {
-  project = var.project
-  region  = var.region
+provider "aws" {
+  region = var.region
+  profile = var.awscli_profile  
 }

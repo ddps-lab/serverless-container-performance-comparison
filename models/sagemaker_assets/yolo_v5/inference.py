@@ -5,7 +5,6 @@ import requests
 import os
 import subprocess
 import multiprocessing
-import numpy as np
 
 Context = namedtuple('Context',
                      'model_name, model_version, method, rest_uri, grpc_uri, '
@@ -16,20 +15,20 @@ def handler(data, context):
     http_body_str = http_body_bytes.decode('utf-8')
     json_body = json.loads(http_body_str)
     s3_bucket_name = json_body['inputs']['s3_bucket_name']
-    s3_object_name = json_body['inputs']['s3_object_name']
+    s3_preprocessed_data_key_path = json_body['inputs']['s3_preprocessed_data_key_path']
     start_time = time.time()
-    subprocess.call(f"/usr/local/bin/aws s3 cp s3://{s3_bucket_name}/{s3_object_name} /tmp/preprocessed_data.npy", shell=True)
-    print("download")
-    data = json.dumps({"inputs": { "x": np.load("/tmp/preprocessed_data.npy").tolist()}})
-    response = requests.post(context.rest_uri, data=data)
-    print("response")
+    start_network_latency_1 = time.time()
+    subprocess.call(f"/usr/local/bin/aws s3 cp s3://{s3_bucket_name}/{s3_preprocessed_data_key_path}yolo_v5.json /tmp/preprocessed_data.json", shell=True)
+    end_network_latency_1 = time.time()
+    start_inference_time = time.time()
+    with open("/tmp/preprocessed_data.json", "r") as f:
+        response = requests.post(context.rest_uri, data=json.load(f))
+    end_inference_time = time.time()
     with open("/tmp/predict_data.npy", "wb") as f:
         f.write(response.content)
-    print("create file")
+    start_network_latency_2 = time.time()
     subprocess.call(f"/usr/local/bin/aws s3 cp /tmp/predict_data.npy s3://{s3_bucket_name}/predict_data.npy", shell=True)
-    print("upload")
-    end_time = time.time()
-    inference_time = end_time - start_time
+    end_network_latency_2 = time.time()
     mem_bytes = os.sysconf('SC_PAGE_SIZE') * os.sysconf('SC_PHYS_PAGES')
     mem_gib = mem_bytes/(1024.**3)
     num_cores = multiprocessing.cpu_count()
@@ -59,7 +58,8 @@ def handler(data, context):
     mem_info.append(current_mem)
     response_json = {
         "start_time": start_time,
-        "inference_time": inference_time,
+        "inference_time": end_inference_time - start_inference_time,
+        "network_latency_time": (end_network_latency_1 - start_network_latency_1) + (end_network_latency_2 - start_network_latency_2),
         "mem_bytes": mem_bytes,
         "mem_gib": mem_gib,
         "num_cores": num_cores,

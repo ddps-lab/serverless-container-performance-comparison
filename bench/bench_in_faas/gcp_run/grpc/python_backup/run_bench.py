@@ -19,23 +19,24 @@ def request_predict(server_address, data):
     result = response.text
     return result
 
-def start_bench(model_names, num_tasks, aws_lambda_address, aws_lambda_default_address, bucket_name, log_group_name):
+def start_bench(model_names, num_tasks, aws_lambda_address, gcp_run_prefix, gcp_run_default_address, use_https, log_group_name):
   for i, model_name in enumerate(model_names):
     global faas_bench
     faas_bench = importlib.import_module(f"preprocess.{model_name}")
-    request_data, upload_time = faas_bench.create_request_data(bucket_name)
+    request_data = faas_bench.create_request_data()
     for k, num_task in enumerate(num_tasks):
       current_timestamp = time.strftime("%Y-%m-%d-%H_%M_%S", time.localtime())
       log_stream_name = f"{current_timestamp}-{model_name}-{num_task}tasks"
+      bench_execute_request_time = time.time()
       data = json.dumps({
          "inputs": {
+            "bench_execute_request_time": bench_execute_request_time,
             "model_name": model_name,
             "request_data": request_data,
             "log_group_name": log_group_name,
             "log_stream_name": log_stream_name,
-            "server_address":  f"https://{model_name.replace('_','-')}.{aws_lambda_default_address}/",
-            "bucket_name": bucket_name,
-            "upload_time": upload_time
+            "server_address":  f"{gcp_run_prefix}-{model_name.replace('_','-')}-grpc-{gcp_run_default_address}",
+            "use_https": use_https
          }
       })
       create_log_stream(log_group_name, log_stream_name)
@@ -48,6 +49,7 @@ def start_bench(model_names, num_tasks, aws_lambda_address, aws_lambda_default_a
 start_bench(variables.model_names,
             variables.num_tasks,
             variables.aws_lambda_address,
-            variables.aws_lambda_default_address,
-            variables.bucket_name,
+            variables.gcp_run_prefix,
+            variables.gcp_run_default_address,
+            variables.use_https,
             variables.log_group_name)

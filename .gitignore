@@ -1,21 +1,16 @@
-### tmp
-/bench/bench_in_faas/gcp_run/grpc/backup
-/bench/bench_in_faas/gcp_run/rest/backup
+#deprecated codes
+**/backup
 
 ### VSCode
 .vscode
 
+### preprocessed data
+**/build_assets/*.json
+
 ### build sh
-/bench/bench_in_faas/aws_lambda/build_assets/build.sh
-/bench/bench_in_faas/aws_sagemaker/build_assets/build.sh
-/bench/bench_in_faas/gcp_run/grpc/build_assets/build.sh
-/bench/bench_in_faas/gcp_run/rest/build_assets/build.sh
-/build_aws_lambda_docker_image.sh
-/build_azure_function_docker_image.sh
-/build_gcp_run_docker_image.sh
-/build_gcp_run_python_docker_image.sh
-/create_gcp_functions_code_zip.sh
-/CPU_check/gcp_run/build.sh
+**/build.sh
+**/*_image.sh
+**/*_zip.sh
 
 ### Model files
 /models/mobilenet_v1
@@ -26,48 +21,25 @@
 /models/distilbert_sst2
 
 ### Cloud Functions zip file
-/mobilenet_v1.zip
-/mobilenet_v2.zip
-/inception_v3.zip
-/yolo_v5.zip
-/bert_imdb.zip
-/distilbert_sst2.zip
-/bench/bench_in_faas/gcp_run/grpc/build_assets/scpc_grpc_bench.zip
-/bench/bench_in_faas/gcp_run/rest/build_assets/scpc_rest_bench.zip
+/*.zip
+**/scpc_grpc_bench.zip
+**/scpc_rest_bench.zip
 
 ### Dataset files
 /dataset/imagenet
 /dataset/coco_2017
 
 ### Credentials
-/bench/bench_in_instance/module/sheet_credential.json
+**/sheet_credential.json
 
 ### tmp file
-tmp_file
-preprocessed_data.npy
+**/tmp_file
+**/preprocessed_data.npy
 
 ### Variables
-/bench/bench_in_faas/aws_lambda/variables.py
-/bench/bench_in_faas/aws_sagemaker/variables.py
-/bench/bench_in_faas/gcp_run/grpc/variables.py
-/bench/bench_in_faas/gcp_run/rest/variables.py
-/bench/bench_in_instance/aws_lambda_variables.py
-/bench/bench_in_instance/azure_function_variables.py
-/bench/bench_in_instance/gcp_run_variables.py
-/bench/bench_in_instance/gcp_functions_variables.py
-/bench/bench_in_instance/logs_variables.py
-/bench/bench_in_instance/bench_aws_infra/variables.tf
-/bench/bench_in_instance/bench_azure_infra/variables.tf
-/bench/bench_in_instance/bench_gcp_infra/variables.tf
-/bench/bench_in_faas/aws_lambda/IaC/variables.tf
-/bench/bench_in_faas/aws_sagemaker/IaC/variables.tf
-/bench/bench_in_faas/gcp_run/grpc/IaC/variables.tf
-/bench/bench_in_faas/gcp_run/rest/IaC/variables.tf
-/IaC/AWS-Lambda-IaC/variables.tf
-/IaC/AWS-Sagemaker-IaC/variables.tf
-/IaC/Azure-Function-IaC/variables.tf
-/IaC/GCP-Run-IaC/variables.tf
-/IaC/GCP-Functions-IaC/variables.tf
+**/variables.tf
+**/variables.sh
+**/*variables.py
 
 ### Terraform .gitignore
 # Local .terraform directories
