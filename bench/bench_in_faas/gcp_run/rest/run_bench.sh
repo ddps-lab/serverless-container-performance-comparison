@@ -11,6 +11,6 @@ do
   for task_num in "${task_nums[@]}"
   do
     go run run_bench.go --model_name $model_name --task_num $task_num --log_group_name $log_group_name --server_address $server_address --gcp_run_prefix $gcp_run_prefix --gcp_run_default_address $gcp_run_default_address
-    sleep 5
+    sleep 30
   done
 done
