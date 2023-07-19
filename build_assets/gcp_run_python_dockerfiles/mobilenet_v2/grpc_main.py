@@ -1,8 +1,4 @@
 import time
-global cold_start_begin
-global cold_start_end
-global model_load_start_time
-global model_load_end_time
 cold_start_begin = time.time()
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -21,6 +17,8 @@ import requests
 
 class PredictionServiceServicer(prediction_service_pb2_grpc.PredictionServiceServicer):
     def __init__(self):
+        global model_load_end_time
+        global model_load_start_time
         model_load_start_time = time.time()
         self.model = load_model('./mobilenet_v2')
         model_load_end_time = time.time()
@@ -33,7 +31,6 @@ class PredictionServiceServicer(prediction_service_pb2_grpc.PredictionServiceSer
         response = predict_pb2.PredictResponse()
         inference_end_time = time.time()
         response.outputs["output"].CopyFrom(make_tensor_proto(model_output, shape=list(model_output.shape)))
-        inference_time = end_time - start_time
         mem_bytes = os.sysconf('SC_PAGE_SIZE') * os.sysconf('SC_PHYS_PAGES')
         mem_gib = mem_bytes/(1024.**3)
         num_cores = multiprocessing.cpu_count()
@@ -101,6 +98,7 @@ def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=1000), options=server_options)
     prediction_service_pb2_grpc.add_PredictionServiceServicer_to_server(PredictionServiceServicer(), server)
     server.add_insecure_port('[::]:8500')
+    global cold_start_end
     cold_start_end = time.time()
     server.start()
     server.wait_for_termination()
