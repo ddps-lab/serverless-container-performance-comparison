@@ -26,10 +26,10 @@ class PredictionServiceServicer(prediction_service_pb2_grpc.PredictionServiceSer
     def Predict(self, request, context):
         execution_start_time = time.time()
         model_input = make_ndarray(request.inputs["input_3"])
-        model_output = self.model.predict([model_input])
         inference_start_time = time.time()
-        response = predict_pb2.PredictResponse()
+        model_output = self.model.predict([model_input])
         inference_end_time = time.time()
+        response = predict_pb2.PredictResponse()
         response.outputs["output"].CopyFrom(make_tensor_proto(model_output, shape=list(model_output.shape)))
         mem_bytes = os.sysconf('SC_PAGE_SIZE') * os.sysconf('SC_PHYS_PAGES')
         mem_gib = mem_bytes/(1024.**3)
