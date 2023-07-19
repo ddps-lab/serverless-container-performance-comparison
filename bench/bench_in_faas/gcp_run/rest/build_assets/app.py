@@ -22,6 +22,11 @@ def create_log_event(log_group_name, log_stream_name, start_latency_time, to_sta
         'start_latency_time': start_latency_time,
         'inference_time': result['inference_time'],
         'network_latency_time': network_latency_time,
+        'cold_start_time': result['cold_start_time'],
+        'execution_start_time': result['execution_start_time'],
+        'execution_end_time': result['execution_end_time'],
+        'execution_time': result['execution_time'],
+        'model_load_time': result['model_load_time'],
         'cpu_info': result['cpu_info'],
         'mem_info': result['mem_info'],
         'num_cores': result['num_cores'],
@@ -46,7 +51,7 @@ def lambda_handler(event,context):
         request_data = json.dumps(json.load(f))
     request_time = time.time()
     result, network_latency_time = predict(server_address, request_data)
-    create_log_event(log_group_name, log_stream_name, result['start_time'] - request_time, request_time - bench_execute_time, result, network_latency_time, bench_execute_time - bench_execute_request_time)
+    create_log_event(log_group_name, log_stream_name, result['execution_start_time'] - request_time, request_time - bench_execute_time, result, network_latency_time, bench_execute_time - bench_execute_request_time)
     response = {
         'statusCode': 200,
         'body': "Success"
