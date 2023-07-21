@@ -26,7 +26,7 @@ def lambda_handler(event,context):
         input_data = json.load(f)
         inference_start_time = time.time()
         result = model(input_data['inputs']['x'])
-    inference_end_time = time.time()
+        inference_end_time = time.time()
     np.save('/tmp/predict_data', result)
     s3.Bucket(s3_bucket_name).upload_file("/tmp/predict_data.npy", "predict_data.npy")
     mem_bytes = os.sysconf('SC_PAGE_SIZE') * os.sysconf('SC_PHYS_PAGES')

@@ -26,7 +26,7 @@ def handler(data, context):
     with open("/tmp/preprocessed_data.json", "r") as f:
         inference_start_time = time.time()
         response = requests.post(context.rest_uri, data=json.load(f))
-    inference_end_time = time.time()
+        inference_end_time = time.time()
     with open("/tmp/predict_data.npy", "wb") as f:
         f.write(response.content)
     subprocess.call(f"/usr/local/bin/aws s3 cp /tmp/predict_data.npy s3://{s3_bucket_name}/predict_data.npy", shell=True)
