@@ -23,7 +23,7 @@ def predict(stub, data):
     request_time = time.time()
     response = stub.Predict(data, timeout=100.0)
     response_time = time.time()
-    start_time = response.outputs['start_time'].double_val[0]
+    start_time = response.outputs['execution_start_time'].double_val[0]
     network_latency_time = response_time - request_time
     return response, start_time, network_latency_time
 
@@ -37,6 +37,11 @@ def create_log_event(log_group_name, log_stream_name, start_latency_time, to_sta
         'start_latency_time': start_latency_time,
         'inference_time': response.outputs['inference_time'].double_val[0],
         'network_latency_time': network_latency_time,
+        'cold_start_time': response.outputs['cold_start_time'].double_val[0],
+        'execution_start_time': response.outputs['execution_start_time'].double_val[0],
+        'execution_end_time': response.outputs['execution_end_time'].double_val[0],
+        'execution_time': response.outputs['execution_time'].double_val[0],
+        'model_load_time': response.outputs['model_load_time'].double_val[0],
         'cpu_info': json.loads(response.outputs['cpu_info'].string_val[0]),
         'mem_info': json.loads(response.outputs['mem_info'].string_val[0]),
         'num_cores': response.outputs['num_cores'].int64_val[0],

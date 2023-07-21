@@ -1,5 +1,8 @@
-import json
 import time
+global cold_start_begin
+global cold_start_end
+cold_start_begin = time.time()
+import json
 from collections import namedtuple
 import requests
 import os
@@ -10,11 +13,13 @@ Context = namedtuple('Context',
                      'model_name, model_version, method, rest_uri, grpc_uri, '
                      'custom_attributes, request_content_type, accept_header')
 
+cold_start_end = time.time()
+
 def handler(data, context):
-    start_time = time.time()
+    execution_start_time = time.time()
+    inference_start_time = time.time()
     response = requests.post(context.rest_uri, data=data)
-    end_time = time.time()
-    inference_time = end_time - start_time
+    inference_end_time = time.time()
     mem_bytes = os.sysconf('SC_PAGE_SIZE') * os.sysconf('SC_PHYS_PAGES')
     mem_gib = mem_bytes/(1024.**3)
     num_cores = multiprocessing.cpu_count()
@@ -42,9 +47,13 @@ def handler(data, context):
             mem_info.append(current_mem)
             current_mem = {}
     mem_info.append(current_mem)
+    execution_end_time = time.time()
     response_json = json.loads(response.content)
-    response_json['start_time'] = start_time
-    response_json['inference_time'] = inference_time
+    response_json['cold_start_time'] = cold_start_end - cold_start_begin
+    response_json['execution_start_time'] = execution_start_time
+    response_json['execution_end_time'] = execution_end_time
+    response_json['execution_time'] = execution_end_time - execution_start_time
+    response_json['inference_time'] = inference_end_time - inference_start_time
     response_json['mem_bytes'] = mem_bytes
     response_json['mem_gib'] = mem_gib
     response_json['num_cores'] = num_cores

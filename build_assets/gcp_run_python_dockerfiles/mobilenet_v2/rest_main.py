@@ -1,9 +1,12 @@
+import time
+global cold_start_begin
+global cold_start_end
+cold_start_begin = time.time()
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import subprocess
 import multiprocessing
 import numpy as np
-import time
 import requests
 from fastapi import FastAPI
 app = FastAPI()
@@ -11,13 +14,15 @@ model_load_start_time = time.time()
 from tensorflow.keras.models import load_model
 model = load_model('./mobilenet_v2')
 model_load_end_time = time.time()
+cold_start_end = time.time()
 
 @app.post('/')
 async def predict(json_body: dict):
-    start_time = time.time()
+    execution_start_time = time.time()
     input_2 = json_body['inputs']['input_2']
+    inference_start_time = time.time()
     result = model.predict(np.array(input_2))
-    end_time = time.time()
+    inference_end_time = time.time()
     mem_bytes = os.sysconf('SC_PAGE_SIZE') * os.sysconf('SC_PHYS_PAGES')
     mem_gib = mem_bytes/(1024.**3)
     num_cores = multiprocessing.cpu_count()
@@ -49,10 +54,14 @@ async def predict(json_body: dict):
     metadata_headers = {'Metadata-Flavor': 'Google'}
     container_instance_id = requests.get(metadata_url, headers=metadata_headers)
     string_container_instance_id = container_instance_id.text
+    execution_end_time = time.time()
     response = {
-        'start_time': start_time,
-        'loading_time': model_load_end_time - model_load_start_time,
-        'inference_time': end_time - start_time,
+        'cold_start_time': cold_start_end - cold_start_begin,
+        'execution_start_time': execution_start_time,
+        'execution_end_time': execution_end_time,
+        'execution_time': execution_end_time - execution_start_time,
+        'model_load_time': model_load_end_time - model_load_start_time,
+        'inference_time': inference_end_time - inference_start_time,
         'mem_bytes': mem_bytes,
         'mem_gib': mem_gib,
         'num_cores': num_cores,
