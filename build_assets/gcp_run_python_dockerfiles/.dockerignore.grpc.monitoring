@@ -1,0 +1,5 @@
+*
+!/build_assets/gcp_run_python_dockerfiles/Dockerfile.grpc
+!/build_assets/gcp_run_python_dockerfiles/requirements.grpc.monitoring.txt
+!/build_assets/gcp_run_python_dockerfiles/grpc_start.sh
+!/build_assets/gcp_run_python_dockerfiles/push_metrics.py

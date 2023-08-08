@@ -1,0 +1,12 @@
+FROM gcp_run_python_grpc_docker_base
+
+WORKDIR /app
+
+COPY ./models/yolo_v5 /app/yolo_v5
+
+COPY ./build_assets/gcp_run_python_dockerfiles/yolo_v5/grpc_main.py /app
+
+EXPOSE 8500
+
+CMD ["./grpc_start.sh"]
+

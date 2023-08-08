@@ -3,17 +3,26 @@
 DOCKER_REGISTRY=""
 model_names=( "mobilenet_v1" "mobilenet_v2" "inception_v3" "yolo_v5" "bert_imdb" )
 APIS=( "grpc" "rest" )
+GRPC_MONITORING_ENABLE=1
 
 for API in "${APIS[@]}"
 do
-  sudo DOCKER_BUILDKIT=1 docker build -t gcp_run_python_$API\_docker_base -f ./build_assets/gcp_run_python_dockerfiles/Dockerfile.$API . --build-arg DOCKERIGNORE_FILE=./build_assets/gcp_run_python_dockerfiles/.dockerignore.$API
+  if [ $API == "grpc"] && [ $GRPC_MONITORING_ENABLE == 1 ]; then
+    sudo DOCKER_BUILDKIT=1 docker build -t gcp_run_python_$API\_docker_base -f ./build_assets/gcp_run_python_dockerfiles/Dockerfile.$API.monitoring . --build-arg DOCKERIGNORE_FILE=./build_assets/gcp_run_python_dockerfiles/.dockerignore.$API.monitoring
+  else
+    sudo DOCKER_BUILDKIT=1 docker build -t gcp_run_python_$API\_docker_base -f ./build_assets/gcp_run_python_dockerfiles/Dockerfile.$API . --build-arg DOCKERIGNORE_FILE=./build_assets/gcp_run_python_dockerfiles/.dockerignore.$API
+  fi
 done
 
 for model_name in "${model_names[@]}"
 do
   for API in "${APIS[@]}"
   do
-    sudo DOCKER_BUILDKIT=1 docker build -t $DOCKER_REGISTRY/gcp-run-$model_name-$API:latest -f ./build_assets/gcp_run_python_dockerfiles/$model_name/Dockerfile.$API . --build-arg DOCKERIGNORE_FILE=./build_assets/gcp_run_python_dockerfiles/$model_name/.dockerignore.$API
+    if [ $API == "grpc"] && [ $GRPC_MONITORING_ENABLE == 1 ]; then
+      sudo DOCKER_BUILDKIT=1 docker build -t $DOCKER_REGISTRY/gcp-run-$model_name-$API:latest -f ./build_assets/gcp_run_python_dockerfiles/$model_name/Dockerfile.$API.monitoring . --build-arg DOCKERIGNORE_FILE=./build_assets/gcp_run_python_dockerfiles/$model_name/.dockerignore.$API
+    else
+      sudo DOCKER_BUILDKIT=1 docker build -t $DOCKER_REGISTRY/gcp-run-$model_name-$API:latest -f ./build_assets/gcp_run_python_dockerfiles/$model_name/Dockerfile.$API . --build-arg DOCKERIGNORE_FILE=./build_assets/gcp_run_python_dockerfiles/$model_name/.dockerignore.$API
+    fi
     sudo docker builder prune -f
   done
 done
