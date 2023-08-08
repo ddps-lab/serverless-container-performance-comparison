@@ -26,6 +26,8 @@ def get_process_cpu_utilization():
 
 if __name__ == "__main__":
     pushgateway_address = os.environ['PUSHGATEWAY_ADDRESS']
+    model_name = os.environ['MODEL_NAME']
+    ram_size = os.environ['RAM_SIZE']
     metadata_url = "http://metadata.google.internal/computeMetadata/v1/instance/id"
     metadata_headers = {'Metadata-Flavor': 'Google'}
     container_instance_id = (requests.get(metadata_url, headers=metadata_headers)).text
@@ -46,7 +48,7 @@ if __name__ == "__main__":
             for index, (process_cpu_usage, process_command) in enumerate(zip(process_cpu_usages, process_commands)):
                 process_cpu_usage_gauge.set(process_cpu_usage)
                 try:
-                    push_to_gateway(pushgateway_address, job='cloud_run', registry=registry2, grouping_key={'container_instance_id': container_instance_id[-20:], 'process_command': process_command})
+                    push_to_gateway(pushgateway_address, job='cloud_run', registry=registry2, grouping_key={'container_instance_id': container_instance_id[-20:], 'process_command': process_command, 'model_name': model_name, 'ram_size': ram_size})
                 except Exception as e:
                     print("connection refused")
                     time.sleep(1)

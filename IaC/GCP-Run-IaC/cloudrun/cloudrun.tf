@@ -24,6 +24,16 @@ resource "google_cloud_run_service" "cloudrun_service" {
           value = var.pushgateway_address
         }
 
+        env {
+          name = "MODEL_NAME"
+          value = var.model_name
+        }
+
+        env {
+          name = "RAM_SIZE"
+          value = var.ram_mib
+        }
+
         startup_probe {
           initial_delay_seconds = 10
           timeout_seconds       = 1
