@@ -41,7 +41,7 @@ if __name__ == "__main__":
         if (all_cpu_usage != None):
             cpu_usage_gauge.set(all_cpu_usage)
             try:
-                push_to_gateway(pushgateway_address, job='cloud_run', registry=registry1, grouping_key={'container_instance_id': container_instance_id[-20:]})
+                push_to_gateway(pushgateway_address, job='cloud_run', registry=registry1, grouping_key={'container_instance_id': container_instance_id[-20:], 'model_name': model_name, 'ram_size': ram_size})
             except Exception as e:
                 print("connection refused")
                 time.sleep(1)
