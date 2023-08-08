@@ -26,7 +26,7 @@ def get_process_cpu_utilization():
 
 if __name__ == "__main__":
     pushgateway_address = os.environ['PUSHGATEWAY_ADDRESS']
-    metadata_url = "terrv1/instance/id"
+    metadata_url = "http://metadata.google.internal/computeMetadata/v1/instance/id"
     metadata_headers = {'Metadata-Flavor': 'Google'}
     container_instance_id = (requests.get(metadata_url, headers=metadata_headers)).text
     num_cores = multiprocessing.cpu_count()
