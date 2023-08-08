@@ -19,6 +19,11 @@ resource "google_cloud_run_service" "cloudrun_service" {
           }
         }
 
+        env {
+          name = "PUSHGATEWAY_ADDRESS"
+          value = var.pushgateway_address
+        }
+
         startup_probe {
           initial_delay_seconds = 10
           timeout_seconds       = 1

@@ -10,3 +10,4 @@ variable "APIS" {}
 variable "prefix" {}
 variable "concurrency" {}
 variable "project_name" {}
+variable "pushgateway_address" {}

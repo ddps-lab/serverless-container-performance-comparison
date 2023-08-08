@@ -28,6 +28,11 @@ variable "concurrency" {
   default = 1
 }
 
+variable "pushgateway_address" {
+  type = string
+  default = ""
+}
+
 variable "enabled_models" {
   type = list(string)
   default = [ "mobilenet_v1", "mobilenet_v2", "inception_v3", "yolo_v5", "bert_imdb"]
