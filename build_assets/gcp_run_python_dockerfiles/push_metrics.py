@@ -41,14 +41,14 @@ if __name__ == "__main__":
         if (all_cpu_usage != None):
             cpu_usage_gauge.set(all_cpu_usage)
             try:
-                push_to_gateway(pushgateway_address, job='cloud_run', registry=registry1, grouping_key={'container_instance_id': container_instance_id[-20:], 'model_name': model_name, 'ram_size': ram_size})
+                push_to_gateway(pushgateway_address, job='cloud_run', registry=registry1, grouping_key={'container_instance_id': container_instance_id[-20:], 'model_name': model_name, 'ram_size': ram_size, 'num_cores': num_cores})
             except Exception as e:
                 print("connection refused")
                 time.sleep(1)
             for index, (process_cpu_usage, process_command) in enumerate(zip(process_cpu_usages, process_commands)):
                 process_cpu_usage_gauge.set(process_cpu_usage)
                 try:
-                    push_to_gateway(pushgateway_address, job='cloud_run', registry=registry2, grouping_key={'container_instance_id': container_instance_id[-20:], 'process_command': process_command, 'model_name': model_name, 'ram_size': ram_size})
+                    push_to_gateway(pushgateway_address, job='cloud_run', registry=registry2, grouping_key={'container_instance_id': container_instance_id[-20:], 'process_command': process_command, 'model_name': model_name, 'ram_size': ram_size, 'num_cores': num_cores})
                 except Exception as e:
                     print("connection refused")
                     time.sleep(1)
