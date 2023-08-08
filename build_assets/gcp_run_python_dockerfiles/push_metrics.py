@@ -1,3 +1,4 @@
+import os
 import requests
 import subprocess
 import multiprocessing
@@ -24,7 +25,8 @@ def get_process_cpu_utilization():
 
 
 if __name__ == "__main__":
-    metadata_url = "http://metadata.google.internal/computeMetadata/v1/instance/id"
+    pushgateway_address = os.environ['PUSHGATEWAY_ADDRESS']
+    metadata_url = "terrv1/instance/id"
     metadata_headers = {'Metadata-Flavor': 'Google'}
     container_instance_id = (requests.get(metadata_url, headers=metadata_headers)).text
     num_cores = multiprocessing.cpu_count()
@@ -37,14 +39,14 @@ if __name__ == "__main__":
         if (all_cpu_usage != None):
             cpu_usage_gauge.set(all_cpu_usage)
             try:
-                push_to_gateway('3.37.227.251:9091', job='cloud_run', registry=registry1, grouping_key={'container_instance_id': container_instance_id[-20:]})
+                push_to_gateway(pushgateway_address, job='cloud_run', registry=registry1, grouping_key={'container_instance_id': container_instance_id[-20:]})
             except Exception as e:
                 print("connection refused")
                 time.sleep(1)
             for index, (process_cpu_usage, process_command) in enumerate(zip(process_cpu_usages, process_commands)):
                 process_cpu_usage_gauge.set(process_cpu_usage)
                 try:
-                    push_to_gateway('3.37.227.251:9091', job='cloud_run', registry=registry2, grouping_key={'container_instance_id': container_instance_id[-20:], 'process_command': process_command})
+                    push_to_gateway(pushgateway_address, job='cloud_run', registry=registry2, grouping_key={'container_instance_id': container_instance_id[-20:], 'process_command': process_command})
                 except Exception as e:
                     print("connection refused")
                     time.sleep(1)
