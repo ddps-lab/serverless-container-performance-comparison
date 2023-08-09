@@ -5,7 +5,7 @@ import multiprocessing
 import time
 from prometheus_client import CollectorRegistry, Gauge, push_to_gateway
 
-def get_process_cpu_utilization():
+def get_process_cpu_utilization(num_cores):
     command = """top -b -n1 -c | awk 'NR>7 {printf $9" "; for (i=12; i<=NF; i++) printf $i " "; print ""}'"""
     ps_output = subprocess.check_output(command, shell=True).decode('utf-8')
 
@@ -19,7 +19,7 @@ def get_process_cpu_utilization():
         cpu_values.append(float(cpu))
         all_cpu_usage += float(cpu)
         command_values.append(command.strip())
-    all_cpu_usage = all_cpu_usage / 2
+    all_cpu_usage = all_cpu_usage / num_cores
     
     return all_cpu_usage, cpu_values, command_values
 
@@ -37,7 +37,7 @@ if __name__ == "__main__":
     cpu_usage_gauge = Gauge('cpu_usage', 'CPU usage from ps command', registry=registry1)
     process_cpu_usage_gauge = Gauge('process_cpu_usage', 'Process CPU usage from ps command', registry=registry2)
     while True:
-        all_cpu_usage, process_cpu_usages, process_commands = get_process_cpu_utilization()
+        all_cpu_usage, process_cpu_usages, process_commands = get_process_cpu_utilization(num_cores)
         if (all_cpu_usage != None):
             cpu_usage_gauge.set(all_cpu_usage)
             try:
