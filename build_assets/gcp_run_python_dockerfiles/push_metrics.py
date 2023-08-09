@@ -20,7 +20,7 @@ def get_process_cpu_utilization(num_cores):
         command = quote(command.strip())
         cpu_values.append(float(cpu))
         all_cpu_usage += float(cpu)
-        command_values.append(command.strip())
+        command_values.append(command)
     all_cpu_usage = all_cpu_usage / num_cores
     
     return all_cpu_usage, cpu_values, command_values
