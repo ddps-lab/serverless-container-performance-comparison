@@ -4,6 +4,7 @@ import subprocess
 import multiprocessing
 import time
 from prometheus_client import CollectorRegistry, Gauge, push_to_gateway
+from urllib.parse import quote
 
 def get_process_cpu_utilization(num_cores):
     command = """top -b -n1 -c | awk 'NR>7 {printf $9" "; for (i=12; i<=NF; i++) printf $i " "; print ""}'"""
@@ -16,6 +17,7 @@ def get_process_cpu_utilization(num_cores):
     command_values = []
     for line in lines:
         cpu, command = line.split(None, 1)
+        command = quote(command.strip())
         cpu_values.append(float(cpu))
         all_cpu_usage += float(cpu)
         command_values.append(command.strip())
