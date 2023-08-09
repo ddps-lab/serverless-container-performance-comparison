@@ -1,0 +1,12 @@
+FROM gcp_run_python_grpc_docker_base
+
+WORKDIR /app
+
+COPY ./models/mobilenet_v1 /app/mobilenet_v1
+
+COPY ./build_assets/gcp_run_python_dockerfiles/mobilenet_v1/grpc_main.py /app
+
+EXPOSE 8500
+
+CMD ["./grpc_start.sh"]
+
