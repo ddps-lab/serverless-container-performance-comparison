@@ -1,0 +1,6 @@
+#!/bin/bash
+#ex) xxxxxxxxxxx.dkr.ecr.ap-northeast-2.amazonaws.com
+DOCKER_REGISTRY=""
+
+sudo DOCKER_BUILDKIT=1 docker build -t $DOCKER_REGISTRY/aws-sagemaker-prebuilt-image:latest -f ./build_assets/aws_sagemaker_dockerfiles/Dockerfile .
+sudo docker push $DOCKER_REGISTRY/aws-sagemaker-prebuilt-image:latest
