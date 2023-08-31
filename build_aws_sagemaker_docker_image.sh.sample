@@ -1,7 +1,0 @@
-#!/bin/bash
-#ex) xxxxxxxxxxx.dkr.ecr.ap-northeast-2.amazonaws.com
-#you need to create ECR repo and ecr login in instnace
-DEFAULT_DOCKER_REPOSITORY_NAME=""
-
-sudo DOCKER_BUILDKIT=1 docker build -t $DEFAULT_DOCKER_REPOSITORY_NAME/aws-sagemaker-prebuilt-image:latest -f ./build_assets/aws_sagemaker_dockerfiles/Dockerfile .
-sudo docker push $DEFAULT_DOCKER_REPOSITORY_NAME/aws-sagemaker-prebuilt-image:latest
