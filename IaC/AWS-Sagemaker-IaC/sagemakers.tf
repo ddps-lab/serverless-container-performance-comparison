@@ -11,7 +11,7 @@ module "sagemaker" {
   provisioned_concurrency  = var.provisioned_concurrency
   model_bucket             = var.model_bucket
   model_name               = var.enabled_models[count.index]
-  sagemaker_prebuilt_image = data.aws_sagemaker_prebuilt_ecr_image.tensorflow-inference
+  sagemaker_prebuilt_image = var.sagemaker_prebuilt_image
   ram_mib                  = var.model_resources[var.enabled_models[count.index]].ram_mib
   iam_role                 = aws_iam_role.sagemaker-role.arn
 }
