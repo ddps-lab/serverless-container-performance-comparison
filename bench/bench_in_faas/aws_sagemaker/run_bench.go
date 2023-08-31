@@ -24,6 +24,7 @@ type RequestData struct {
 		SagemakerEndpointPrefix   string `json:"sagemaker_endpoint_prefix"`
 		S3BucketName              string `json:"s3_bucket_name"`
 		S3PreprocessedDataKeyPath string `json:"s3_preprocessed_data_key_path"`
+		TfservingProtocol         string `json:"tfserving_protocol"`
 	} `json:"inputs"`
 }
 
@@ -46,6 +47,7 @@ func main() {
 	var taskNum string
 	var s3BucketName string
 	var s3PreprocessedDataKeyPath string
+	var tfservingProtocol string
 	args := os.Args
 	for i := 1; i < len(args); i += 2 {
 		option := args[i]
@@ -66,6 +68,8 @@ func main() {
 			s3BucketName = value
 		case "--s3_preprocessed_data_key_path":
 			s3PreprocessedDataKeyPath = value
+		case "--tfserving_protocol":
+			tfservingProtocol = value
 		default:
 			fmt.Println("Error: unknown option")
 			os.Exit(1)
@@ -101,6 +105,7 @@ func main() {
 	data.Inputs.S3BucketName = s3BucketName
 	data.Inputs.S3PreprocessedDataKeyPath = s3PreprocessedDataKeyPath
 	data.Inputs.SagemakerEndpointPrefix = sagemakerEndpointPrefix
+	data.Inputs.TfservingProtocol = tfservingProtocol
 	jsonData, err := json.Marshal(data)
 	if err != nil {
 		fmt.Printf("JSON 인코딩 에러: %v", err)
