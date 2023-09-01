@@ -10,8 +10,9 @@ import multiprocessing
 from tensorflow_serving.apis import predict_pb2
 from tensorflow_serving.apis import prediction_service_pb2_grpc
 from google.protobuf.json_format import ParseDict
-from google.protobuf.json_format import MessageToJson
+from google.protobuf.json_format import MessageToDict
 import grpc
+import requests
 
 Context = namedtuple('Context',
                      'model_name, model_version, method, rest_uri, grpc_uri, '
@@ -39,19 +40,14 @@ def handler(data, context):
     http_body_bytes = data.read()
     http_body_str = http_body_bytes.decode('utf-8')
     json_body = json.loads(http_body_str)
-    s3_bucket_name = json_body['inputs']['s3_bucket_name']
-    s3_preprocessed_data_key_path = json_body['inputs']['s3_preprocessed_data_key_path']
-    subprocess.call(f"/usr/local/bin/aws s3 cp s3://{s3_bucket_name}/{s3_preprocessed_data_key_path}yolo_v5.json /tmp/preprocessed_data.json", shell=True)
+    get_url = json_body['inputs']['get_url']
+    put_url = json_body['inputs']['put_url']
     protobuf_message = predict_pb2.PredictRequest()
     stub = create_grpc_stub(f"0.0.0.0:{context.grpc_port}")
-    with open("/tmp/preprocessed_data.json", "r") as f:
-        request_data = json.dumps(json.load(f))
-    ParseDict(json.loads(request_data), protobuf_message)
+    request_data = requests.get(get_url)
+    ParseDict(json.loads(request_data.content), protobuf_message)
     response, inference_time = predict(stub, protobuf_message)
-    response_to_json = MessageToJson(response)
-    with open("/tmp/predict_data.json", "wb") as f:
-        f.write(json.dumps(response_to_json).encode('utf-8'))
-    subprocess.call(f"/usr/local/bin/aws s3 cp /tmp/predict_data.json s3://{s3_bucket_name}/predict_data.json", shell=True)
+    requests.put(put_url, data=response.SerializeToString())
     mem_bytes = os.sysconf('SC_PAGE_SIZE') * os.sysconf('SC_PHYS_PAGES')
     mem_gib = mem_bytes/(1024.**3)
     num_cores = multiprocessing.cpu_count()

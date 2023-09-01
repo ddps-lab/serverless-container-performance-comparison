@@ -20,16 +20,13 @@ def handler(data, context):
     http_body_bytes = data.read()
     http_body_str = http_body_bytes.decode('utf-8')
     json_body = json.loads(http_body_str)
-    s3_bucket_name = json_body['inputs']['s3_bucket_name']
-    s3_preprocessed_data_key_path = json_body['inputs']['s3_preprocessed_data_key_path']
-    subprocess.call(f"/usr/local/bin/aws s3 cp s3://{s3_bucket_name}/{s3_preprocessed_data_key_path}yolo_v5.json /tmp/preprocessed_data.json", shell=True)
-    with open("/tmp/preprocessed_data.json", "r") as f:
-        inference_start_time = time.time()
-        response = requests.post(context.rest_uri, data=json.load(f))
-        inference_end_time = time.time()
-    with open("/tmp/predict_data.npy", "wb") as f:
-        f.write(response.content)
-    subprocess.call(f"/usr/local/bin/aws s3 cp /tmp/predict_data.npy s3://{s3_bucket_name}/predict_data.npy", shell=True)
+    get_url = json_body['inputs']['get_url']
+    put_url = json_body['inputs']['put_url']
+    request_data = requests.get(get_url)
+    inference_start_time = time.time()
+    response = requests.post(context.rest_uri, data=json.load(request_data.content))
+    inference_end_time = time.time()
+    requests.put(put_url, data=response.content)
     mem_bytes = os.sysconf('SC_PAGE_SIZE') * os.sysconf('SC_PHYS_PAGES')
     mem_gib = mem_bytes/(1024.**3)
     num_cores = multiprocessing.cpu_count()
