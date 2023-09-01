@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 
@@ -121,25 +122,30 @@ func main() {
 	data.Inputs.SagemakerEndpointPrefix = sagemakerEndpointPrefix
 	data.Inputs.TfservingProtocol = tfservingProtocol
 	putUrl, err := presigner.PutObject(s3BucketName, "predict_data.json", 600)
-	data.Inputs.PresignedURLS.Put.Url = putUrl.URL
+	http_putUrl := strings.Replace(putUrl.URL, "https://", "http://", -1)
+	data.Inputs.PresignedURLS.Put.Url = http_putUrl
 	if tfservingProtocol == "rest" {
 		inceptionv3, err := presigner.GetObject(s3BucketName, "rest/inception_v3.json", 600)
+		http_inception_v3 := strings.Replace(inceptionv3.URL, "https://", "http://", -1)
 		if err != nil {
 			fmt.Println("Error: Can not create Presigned URL")
 			os.Exit(1)
 		}
 		yolov5, err := presigner.GetObject(s3BucketName, "rest/yolo_v5.json", 600)
-		data.Inputs.PresignedURLS.Get.InceptionV3 = inceptionv3.URL
-		data.Inputs.PresignedURLS.Get.YoloV5 = yolov5.URL
+		http_yolo_v5 := strings.Replace(yolov5.URL, "https://", "http://", -1)
+		data.Inputs.PresignedURLS.Get.InceptionV3 = http_inception_v3
+		data.Inputs.PresignedURLS.Get.YoloV5 = http_yolo_v5
 	} else {
 		inceptionv3, err := presigner.GetObject(s3BucketName, "sagemaker-grpc/inception_v3.json", 600)
+		http_inception_v3 := strings.Replace(inceptionv3.URL, "https://", "http://", -1)
 		if err != nil {
 			fmt.Println("Error: Can not create Presigned URL")
 			os.Exit(1)
 		}
 		yolov5, err := presigner.GetObject(s3BucketName, "sagemaker-grpc/yolo_v5.json", 600)
-		data.Inputs.PresignedURLS.Get.InceptionV3 = inceptionv3.URL
-		data.Inputs.PresignedURLS.Get.YoloV5 = yolov5.URL
+		http_yolo_v5 := strings.Replace(yolov5.URL, "https://", "http://", -1)
+		data.Inputs.PresignedURLS.Get.InceptionV3 = http_inception_v3
+		data.Inputs.PresignedURLS.Get.YoloV5 = http_yolo_v5
 	}
 
 	jsonData, err := json.Marshal(data)
