@@ -13,6 +13,8 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs"
+	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/awsdocs/aws-doc-sdk-examples/gov2/s3/actions"
 )
 
 type RequestData struct {
@@ -25,6 +27,15 @@ type RequestData struct {
 		S3BucketName              string `json:"s3_bucket_name"`
 		S3PreprocessedDataKeyPath string `json:"s3_preprocessed_data_key_path"`
 		TfservingProtocol         string `json:"tfserving_protocol"`
+		PresignedURLS             struct {
+			Get struct {
+				InceptionV3 string `json:"inception_v3"`
+				YoloV5      string `json:"yolo_v5"`
+			} `json:"get"`
+			Put struct {
+				Url string `json:"url"`
+			} `json:"put"`
+		} `json:"presigned_urls"`
 	} `json:"inputs"`
 }
 
@@ -83,6 +94,9 @@ func main() {
 	}
 
 	client := cloudwatchlogs.NewFromConfig(cfg)
+	s3Client := s3.NewFromConfig(cfg)
+	presignClient := s3.NewPresignClient(s3Client)
+	presigner := actions.Presigner{PresignClient: presignClient}
 
 	logStreamName = (time.Now()).Format("2006-01-02-15_04_05") + "-" + modelName + "-" + taskNum + "tasks"
 	createLogStreamInput := &cloudwatchlogs.CreateLogStreamInput{
@@ -106,6 +120,28 @@ func main() {
 	data.Inputs.S3PreprocessedDataKeyPath = s3PreprocessedDataKeyPath
 	data.Inputs.SagemakerEndpointPrefix = sagemakerEndpointPrefix
 	data.Inputs.TfservingProtocol = tfservingProtocol
+	putUrl, err := presigner.PutObject(s3BucketName, "predict_data.json", 600)
+	data.Inputs.PresignedURLS.Put.Url = putUrl.URL
+	if tfservingProtocol == "rest" {
+		inceptionv3, err := presigner.GetObject(s3BucketName, "rest/inception_v3.json", 600)
+		if err != nil {
+			fmt.Println("Error: Can not create Presigned URL")
+			os.Exit(1)
+		}
+		yolov5, err := presigner.GetObject(s3BucketName, "rest/yolo_v5.json", 600)
+		data.Inputs.PresignedURLS.Get.InceptionV3 = inceptionv3.URL
+		data.Inputs.PresignedURLS.Get.YoloV5 = yolov5.URL
+	} else {
+		inceptionv3, err := presigner.GetObject(s3BucketName, "sagemaker-grpc/inception_v3.json", 600)
+		if err != nil {
+			fmt.Println("Error: Can not create Presigned URL")
+			os.Exit(1)
+		}
+		yolov5, err := presigner.GetObject(s3BucketName, "sagemaker-grpc/yolo_v5.json", 600)
+		data.Inputs.PresignedURLS.Get.InceptionV3 = inceptionv3.URL
+		data.Inputs.PresignedURLS.Get.YoloV5 = yolov5.URL
+	}
+
 	jsonData, err := json.Marshal(data)
 	if err != nil {
 		fmt.Printf("JSON 인코딩 에러: %v", err)
