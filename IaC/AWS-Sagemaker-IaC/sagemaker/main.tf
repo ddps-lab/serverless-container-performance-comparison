@@ -3,7 +3,7 @@ resource "aws_sagemaker_model" "model" {
   execution_role_arn = var.iam_role
 
   primary_container {
-    image          = var.sagemaker_prebuilt_image.registry_path
+    image          = var.sagemaker_prebuilt_image
     model_data_url = "s3://${var.model_bucket}/${var.model_name}.tgz"
   }
 }

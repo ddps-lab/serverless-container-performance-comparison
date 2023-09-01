@@ -34,6 +34,16 @@ resource "google_cloud_run_service" "cloudrun_service" {
           value = var.ram_mib
         }
 
+        env {
+          name = "CONCURRENCY"
+          value = var.concurrency
+        }
+
+        env {
+          name = "MAX_INSTANCE_NUM"
+          value = var.max_instances
+        }
+
         startup_probe {
           initial_delay_seconds = 10
           timeout_seconds       = 1

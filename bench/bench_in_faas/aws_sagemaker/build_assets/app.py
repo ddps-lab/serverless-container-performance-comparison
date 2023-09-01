@@ -49,10 +49,14 @@ def lambda_handler(event,context):
     s3_preprocessed_data_key_path = json_body['inputs']['s3_preprocessed_data_key_path']
     aws_sagemaker_endpoint_prefix = json_body['inputs']['sagemaker_endpoint_prefix']
     bench_execute_request_time = json_body['inputs']['bench_execute_request_time']
-    if (model_name == "yolo_v5" or model_name == "inception_v3"):
-        request_data = json.dumps({"inputs": {"s3_bucket_name": s3_bucket_name, "s3_preprocessed_data_key_path": s3_preprocessed_data_key_path}})
+    tfserving_protocol = json_body['inputs']['tfserving_protocol']
+    presigned_urls = json_body['inputs']['presigned_urls']
+    if (model_name == "inception_v3"):
+        request_data = json.dumps({"inputs": {"get_url": presigned_urls['get']['inception_v3'], "put_url": presigned_urls['put']['url']}})
+    elif (model_name == "yolo_v5"):
+        request_data = json.dumps({"inputs": {"get_url": presigned_urls['get']['yolo_v5'], "put_url": presigned_urls['put']['url']}})
     else:
-        with open(f"./{model_name}.json", "r", encoding="utf-8") as f:
+        with open(f"./{model_name}-{tfserving_protocol}.json", "r", encoding="utf-8") as f:
             request_data = json.dumps(json.load(f))
     sagemaker_endpoint = f"{aws_sagemaker_endpoint_prefix}-{model_name.replace('_','-')}-endpoint"
     request_time = time.time()

@@ -4,10 +4,15 @@ global cold_start_end
 cold_start_begin = time.time()
 import json
 from collections import namedtuple
-import requests
 import os
 import subprocess
 import multiprocessing
+from tensorflow_serving.apis import predict_pb2
+from tensorflow_serving.apis import prediction_service_pb2_grpc
+from google.protobuf.json_format import ParseDict
+from google.protobuf.json_format import MessageToDict
+import grpc
+import requests
 
 Context = namedtuple('Context',
                      'model_name, model_version, method, rest_uri, grpc_uri, '
@@ -15,21 +20,34 @@ Context = namedtuple('Context',
 
 cold_start_end = time.time()
 
+def create_grpc_stub(server_address):
+    # gRPC 채널 생성
+    channel = grpc.insecure_channel(server_address,options=[('grpc.max_send_message_length', 50 * 1024 * 1024), ('grpc.max_receive_message_length', 50 * 1024 * 1024)])
+
+    # gRPC 스텁 생성
+    stub = prediction_service_pb2_grpc.PredictionServiceStub(channel)
+    return stub
+
+def predict(stub, data):
+    request_time = time.time()
+    response = stub.Predict(data, timeout=100.0)
+    response_time = time.time()
+    inference_time = response_time - request_time
+    return response, inference_time
+
 def handler(data, context):
     execution_start_time = time.time()
     http_body_bytes = data.read()
     http_body_str = http_body_bytes.decode('utf-8')
     json_body = json.loads(http_body_str)
-    s3_bucket_name = json_body['inputs']['s3_bucket_name']
-    s3_preprocessed_data_key_path = json_body['inputs']['s3_preprocessed_data_key_path']
-    subprocess.call(f"/usr/local/bin/aws s3 cp s3://{s3_bucket_name}/{s3_preprocessed_data_key_path}yolo_v5.json /tmp/preprocessed_data.json", shell=True)
-    with open("/tmp/preprocessed_data.json", "r") as f:
-        inference_start_time = time.time()
-        response = requests.post(context.rest_uri, data=json.load(f))
-        inference_end_time = time.time()
-    with open("/tmp/predict_data.npy", "wb") as f:
-        f.write(response.content)
-    subprocess.call(f"/usr/local/bin/aws s3 cp /tmp/predict_data.npy s3://{s3_bucket_name}/predict_data.npy", shell=True)
+    get_url = json_body['inputs']['get_url']
+    put_url = json_body['inputs']['put_url']
+    protobuf_message = predict_pb2.PredictRequest()
+    stub = create_grpc_stub(f"0.0.0.0:{context.grpc_port}")
+    request_data = requests.get(get_url)
+    ParseDict(json.loads(request_data.content), protobuf_message)
+    response, inference_time = predict(stub, protobuf_message)
+    requests.put(put_url, data=response.SerializeToString())
     mem_bytes = os.sysconf('SC_PAGE_SIZE') * os.sysconf('SC_PHYS_PAGES')
     mem_gib = mem_bytes/(1024.**3)
     num_cores = multiprocessing.cpu_count()
@@ -63,7 +81,7 @@ def handler(data, context):
         "execution_start_time": execution_start_time,
         "execution_end_time": execution_end_time,
         "execution_time": execution_end_time - execution_start_time,
-        "inference_time": inference_end_time - inference_start_time,
+        "inference_time": inference_time,
         "mem_bytes": mem_bytes,
         "mem_gib": mem_gib,
         "num_cores": num_cores,
