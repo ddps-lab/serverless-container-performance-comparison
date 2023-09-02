@@ -14,6 +14,8 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs"
+	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/awsdocs/aws-doc-sdk-examples/gov2/s3/actions"
 )
 
 type RequestData struct {
@@ -25,6 +27,14 @@ type RequestData struct {
 		ServerAddress             string `json:"server_address"`
 		S3BucketName              string `json:"s3_bucket_name"`
 		S3PreprocessedDataKeyPath string `json:"s3_preprocessed_data_key_path"`
+		PresignedURLS             struct {
+			Get struct {
+				YoloV5 string `json:"yolo_v5"`
+			} `json:"get"`
+			Put struct {
+				Url string `json:"url"`
+			} `json:"put"`
+		} `json:"presigned_urls"`
 	} `json:"inputs"`
 }
 
@@ -80,6 +90,9 @@ func main() {
 	}
 
 	client := cloudwatchlogs.NewFromConfig(cfg)
+	s3Client := s3.NewFromConfig(cfg)
+	presignClient := s3.NewPresignClient(s3Client)
+	presigner := actions.Presigner{PresignClient: presignClient}
 
 	logStreamName = (time.Now()).Format("2006-01-02-15_04_05") + "-" + modelName + "-" + taskNum + "tasks"
 	createLogStreamInput := &cloudwatchlogs.CreateLogStreamInput{
@@ -102,6 +115,12 @@ func main() {
 	data.Inputs.S3BucketName = s3BucketName
 	data.Inputs.S3PreprocessedDataKeyPath = s3PreprocessedDataKeyPath
 	data.Inputs.ServerAddress = "https://" + strings.Replace(modelName, "_", "-", -1) + "." + awsLambdaDefaultAddress + "/"
+	putUrl, err := presigner.PutObject(s3BucketName, "predict_data.json", 600)
+	http_putUrl := strings.Replace(putUrl.URL, "https://", "http://", -1)
+	data.Inputs.PresignedURLS.Put.Url = http_putUrl
+	yolov5, err := presigner.GetObject(s3BucketName, "rest/yolo_v5.json", 600)
+	http_yolo_v5 := strings.Replace(yolov5.URL, "https://", "http://", -1)
+	data.Inputs.PresignedURLS.Get.YoloV5 = http_yolo_v5
 	jsonData, err := json.Marshal(data)
 	if err != nil {
 		fmt.Printf("JSON 인코딩 에러: %v", err)

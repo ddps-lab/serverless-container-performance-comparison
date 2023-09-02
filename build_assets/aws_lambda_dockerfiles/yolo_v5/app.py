@@ -3,12 +3,12 @@ global cold_start_begin
 global cold_start_end
 cold_start_begin = time.time()
 import json
-import boto3
 import numpy as np
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import subprocess
 import multiprocessing
+import requests
 model_load_start_time = time.time()
 from tensorflow.keras.models import load_model
 model = load_model('./yolo_v5')
@@ -18,17 +18,14 @@ cold_start_end = time.time()
 def lambda_handler(event,context):
     execution_start_time = time.time()
     json_body = json.loads(event['body'])
-    s3_bucket_name = json_body['inputs']['s3_bucket_name']
-    s3_preprocessed_data_key_path = json_body['inputs']['s3_preprocessed_data_key_path']
-    s3 = boto3.resource('s3')
-    s3.Bucket(s3_bucket_name).download_file(s3_preprocessed_data_key_path+"yolo_v5.json", "/tmp/yolo_v5.json")
-    with open("/tmp/yolo_v5.json", "r") as f:
-        input_data = json.load(f)
-        inference_start_time = time.time()
-        result = model(input_data['inputs']['x'])
-        inference_end_time = time.time()
-    np.save('/tmp/predict_data', result)
-    s3.Bucket(s3_bucket_name).upload_file("/tmp/predict_data.npy", "predict_data.npy")
+    get_url = json_body['inputs']['get_url']
+    put_url = json_body['inputs']['put_url']
+    request_data = requests.get(get_url)
+    input_data = json.load(request_data.content)
+    inference_start_time = time.time()
+    result = model(input_data['inputs']['x'])
+    inference_end_time = time.time()
+    requests.put(put_url, data=json.dumps(result.tolist()))
     mem_bytes = os.sysconf('SC_PAGE_SIZE') * os.sysconf('SC_PHYS_PAGES')
     mem_gib = mem_bytes/(1024.**3)
     num_cores = multiprocessing.cpu_count()
