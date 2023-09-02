@@ -18,8 +18,9 @@ def lambda_handler(event,context):
     execution_start_time = time.time()
     json_body = json.loads(event['body'])
     input_1 = json_body['inputs']['input_1']
+    data = np.array(input_1)
     inference_start_time = time.time()
-    result = model.predict(np.array(input_1))
+    result = model.predict(data)
     inference_end_time = time.time()
     end_time = time.time()
     mem_bytes = os.sysconf('SC_PAGE_SIZE') * os.sysconf('SC_PHYS_PAGES')
