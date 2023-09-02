@@ -3,6 +3,7 @@ global cold_start_begin
 global cold_start_end
 cold_start_begin = time.time()
 import json
+import io
 import numpy as np
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -25,7 +26,7 @@ def lambda_handler(event,context):
     inference_start_time = time.time()
     result = model(input_data['inputs']['x'])
     inference_end_time = time.time()
-    requests.put(put_url, data=json.dumps(result.tolist()))
+    requests.put(put_url, data=(np.array(result)).tobytes())
     mem_bytes = os.sysconf('SC_PAGE_SIZE') * os.sysconf('SC_PHYS_PAGES')
     mem_gib = mem_bytes/(1024.**3)
     num_cores = multiprocessing.cpu_count()
