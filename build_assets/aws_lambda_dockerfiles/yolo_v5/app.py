@@ -22,7 +22,7 @@ def lambda_handler(event,context):
     get_url = json_body['inputs']['get_url']
     put_url = json_body['inputs']['put_url']
     request_data = requests.get(get_url)
-    input_data = json.loads(request_data.content)
+    input_data = request_data.json()
     inference_start_time = time.time()
     result = model(input_data['inputs']['x'])
     inference_end_time = time.time()
