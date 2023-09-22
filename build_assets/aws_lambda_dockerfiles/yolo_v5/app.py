@@ -23,8 +23,9 @@ def lambda_handler(event,context):
     put_url = json_body['inputs']['put_url']
     request_data = requests.get(get_url)
     input_data = request_data.json()
+    data = np.array(input_data['inputs']['x'])
     inference_start_time = time.time()
-    result = model(input_data['inputs']['x'])
+    result = model(data)
     inference_end_time = time.time()
     requests.put(put_url, data=(np.array(result)).tobytes())
     mem_bytes = os.sysconf('SC_PAGE_SIZE') * os.sysconf('SC_PHYS_PAGES')
