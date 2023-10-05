@@ -20,8 +20,9 @@ cold_start_end = time.time()
 async def predict(json_body: dict):
     execution_start_time = time.time()
     input_1 = json_body['inputs']['input_1']
+    nparray = np.array(input_1)
     inference_start_time = time.time()
-    result = model.predict(np.array(input_1))
+    result = model.predict(nparray)
     inference_end_time = time.time()
     mem_bytes = os.sysconf('SC_PAGE_SIZE') * os.sysconf('SC_PHYS_PAGES')
     mem_gib = mem_bytes/(1024.**3)
