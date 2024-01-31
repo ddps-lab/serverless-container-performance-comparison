@@ -8,8 +8,10 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import subprocess
 import multiprocessing
-model_load_start_time = time.time()
+tf_module_load_start_time = time.time()
 from tensorflow.keras.models import load_model
+tf_module_load_end_time = time.time()
+model_load_start_time = time.time()
 model = load_model('./distilbert_sst2')
 model_load_end_time = time.time()
 cold_start_end = time.time()
@@ -56,6 +58,7 @@ def lambda_handler(event, context):
             'execution_start_time': execution_start_time,
             'execution_end_time': execution_end_time,
             'execution_time': execution_end_time - execution_start_time,
+            'tf_module_load_time': tf_module_load_end_time - tf_module_load_start_time,
             'model_load_time': model_load_end_time - model_load_start_time,
             'inference_time': inference_end_time - inference_start_time,
             'mem_bytes': mem_bytes,
