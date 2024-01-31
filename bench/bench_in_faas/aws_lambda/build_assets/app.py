@@ -25,6 +25,7 @@ def create_log_event(model_name, log_group_name, log_stream_name, start_latency_
         'execution_start_time': result['execution_start_time'],
         'execution_end_time': result['execution_end_time'],
         'execution_time': result['execution_time'],
+        'tf_module_load_time': result['tf_module_load_time'],
         'model_load_time': result['model_load_time'],
         'cpu_info': result['cpu_info'],
         'mem_info': result['mem_info'],
